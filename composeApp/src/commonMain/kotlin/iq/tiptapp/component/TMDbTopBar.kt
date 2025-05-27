@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.app_name
@@ -31,6 +32,32 @@ fun TiptappAppBar(content: @Composable (PaddingValues) -> Unit) {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(Res.string.app_name)) },
                 modifier = Modifier.shadow(4.dp)
+            )
+        }, content = { padding ->
+            content(padding)
+        })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TiptappAppBarWithNavigation(
+    title: StringResource,
+    onBackClick: () -> Unit,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(title)) },
+                modifier = Modifier.shadow(4.dp),
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
             )
         }, content = { padding ->
             content(padding)

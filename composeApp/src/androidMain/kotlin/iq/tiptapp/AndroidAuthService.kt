@@ -6,9 +6,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import io.github.aakira.napier.Napier
 import java.util.concurrent.TimeUnit
 
-class AndroidPhoneAuthService(
+class AndroidAuthService(
     private val activity: Activity
 ) : PhoneAuthService {
 
@@ -18,7 +19,7 @@ class AndroidPhoneAuthService(
         onError: (Throwable) -> Unit
     ) {
         val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
-            .setPhoneNumber("+13322767084")
+            .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
             .setActivity(activity) // ✅ required
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -35,6 +36,7 @@ class AndroidPhoneAuthService(
                 }
 
                 override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                    Napier.d("code sent with verification id :$verificationId")
                     onCodeSent(verificationId)
                 }
             })

@@ -6,4 +6,5 @@
     <string name="vote_count">Vote Count</string>
     <string name="phone_number">Phone number</string>
     <string name="continue_text">Continue</string>
+    <string name="enter_code">Enter Code</string>
 </resources>
