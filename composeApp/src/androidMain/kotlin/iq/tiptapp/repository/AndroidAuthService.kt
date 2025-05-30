@@ -1,4 +1,4 @@
-package iq.tiptapp
+package iq.tiptapp.repository
 
 import android.app.Activity
 import com.google.firebase.FirebaseException
@@ -7,6 +7,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import io.github.aakira.napier.Napier
+import iq.tiptapp.PhoneAuthService
 import java.util.concurrent.TimeUnit
 
 class AndroidAuthService(

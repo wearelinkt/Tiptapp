@@ -1,4 +1,4 @@
-package iq.tiptapp
+package iq.tiptapp.ui.verification
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -16,16 +16,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import component.TiptappAppBar
+import iq.tiptapp.LightGray
+import iq.tiptapp.Turquoise
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.continue_text
@@ -33,16 +31,12 @@ import tiptapp.composeapp.generated.resources.phone_number
 
 @Composable
 fun PhoneNumberInputScreen(
-    phoneAuthService: PhoneAuthService,
-    onContinueClicked: (String) -> Unit
+    viewModel: VerificationViewModel,
+    onContinueClicked: () -> Unit
 ) {
-    val prefix = "+98"
-    var phoneNumber by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
-
-    val fullPhoneNumber = prefix + phoneNumber
-    val isValidPhone = phoneNumber.length in 9..10
+    val phoneNumber = viewModel.phoneNumber
+    val isLoading = viewModel.isLoading
 
     TiptappAppBar { padding ->
         Box(
@@ -54,23 +48,18 @@ fun PhoneNumberInputScreen(
         ) {
             OutlinedTextField(
                 value = phoneNumber,
-                onValueChange = {
-                    phoneNumber = it.filter(Char::isDigit).take(10)
-                },
+                onValueChange = viewModel::onPhoneNumberChange,
                 label = {
-                    Text(
-                        stringResource(Res.string.phone_number)
-                    )
+                    Text(stringResource(Res.string.phone_number))
                 },
                 textStyle = MaterialTheme.typography.bodyLarge,
-                // visualTransformation = PhoneNumberVisualTransformation(phoneNumberUtil),
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopStart),
                 leadingIcon = {
                     Text(
-                        text = prefix,
+                        text = "+98",
                         modifier = Modifier.padding(start = 8.dp),
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -82,24 +71,17 @@ fun PhoneNumberInputScreen(
 
             Button(
                 onClick = {
-                    isLoading = true
-                    phoneAuthService.sendVerificationCode(
-                        fullPhoneNumber,
-                        onCodeSent = {
-                            isLoading = false
-                            onContinueClicked.invoke(it)
-                        },
+                    viewModel.sendVerificationCode(
+                        onSuccess = { onContinueClicked() },
                         onError = {
-                            isLoading = false
                             Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                            println("Error sending code: ${it.message}")
                         }
                     )
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Turquoise
                 ),
-                enabled = isValidPhone,
+                enabled = viewModel.isValidPhone(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
@@ -112,7 +94,7 @@ fun PhoneNumberInputScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clickable(enabled = false) {}, // Prevent clicks behind the dialog
+                        .clickable(enabled = false) {},
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator(color = Turquoise)

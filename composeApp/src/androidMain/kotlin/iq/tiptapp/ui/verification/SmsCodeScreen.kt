@@ -1,5 +1,6 @@
-package iq.tiptapp
+package iq.tiptapp.ui.verification
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,50 +17,78 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import component.TiptappAppBarWithNavigation
+import iq.tiptapp.Turquoise
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.enter_code
 
 @Composable
 fun SmsCodeScreen(
+    viewModel: VerificationViewModel,
     onBackClick: () -> Unit,
-    onCodeComplete: (String, setLoading: (Boolean) -> Unit) -> Unit
+    onCodeVerified: (String) -> Unit
 ) {
-    val codeDigits = remember { List(6) { mutableStateOf("") } }
-    val focusRequesters = remember { List(6) { FocusRequester() } }
+    val isLoading = viewModel.isLoading
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
-    var isLoading by remember { mutableStateOf(false) }
+
+    val focusRequesters = remember { List(6) { FocusRequester() } }
+
+    val codeDigits = rememberSaveable(
+        saver = listSaver(
+            save = { it.toList() },
+            restore = { it.toMutableStateList() }
+        )
+    ) {
+        mutableStateListOf(*Array(6) { "" })
+    }
+
+    var focusedIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    // Automatically focus first box on load
+    LaunchedEffect(Unit) {
+        focusRequesters[focusedIndex].requestFocus()
+    }
 
     TiptappAppBarWithNavigation(
-        Res.string.enter_code, onBackClick, content =
-        { padding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                if (isLoading) {
-                    CircularProgressIndicator(color = Turquoise)
-                }
+        title = Res.string.enter_code,
+        onBackClick = onBackClick
+    ) { padding ->
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    color = Turquoise,
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
                     .padding(horizontal = 24.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -70,31 +99,34 @@ fun SmsCodeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    codeDigits.forEachIndexed { index, state ->
+                    codeDigits.forEachIndexed { index, value ->
                         OutlinedTextField(
-                            value = state.value,
+                            value = value,
                             onValueChange = { input ->
-                                if (input.length <= 1 && (input.isEmpty() || input[0].isDigit())) {
-                                    state.value = input
+                                val digit = input.lastOrNull()?.takeIf { it.isDigit() }?.toString() ?: ""
+                                codeDigits[index] = digit
+                                focusedIndex = index
 
-                                    // Move focus forward on input
-                                    if (input.isNotEmpty() && index < 5) {
-                                        focusRequesters[index + 1].requestFocus()
-                                    }
+                                // Auto-move forward or back
+                                if (digit.isNotEmpty() && index < 5) {
+                                    focusRequesters[index + 1].requestFocus()
+                                    focusedIndex = index + 1
+                                } else if (digit.isEmpty() && index > 0) {
+                                    focusRequesters[index - 1].requestFocus()
+                                    focusedIndex = index - 1
+                                }
 
-                                    // Move focus back on delete
-                                    if (input.isEmpty() && index > 0) {
-                                        focusRequesters[index - 1].requestFocus()
-                                    }
-
-                                    // Check for complete code
-                                    val fullCode = codeDigits.joinToString("") { it.value }
-                                    if (fullCode.length == 6 && fullCode.all { it.isDigit() }) {
-                                        keyboardController?.hide()
-                                        onCodeComplete(fullCode) { loading ->
-                                            isLoading = loading
+                                // Combine and check for 6-digit code
+                                val fullCode = codeDigits.joinToString("")
+                                if (fullCode.length == 6 && fullCode.all { it.isDigit() }) {
+                                    keyboardController?.hide()
+                                    viewModel.updateSmsCode(fullCode)
+                                    viewModel.verifyCode { success, result ->
+                                        if (success) {
+                                            onCodeVerified(result)
+                                        } else {
+                                            Toast.makeText(context, result, Toast.LENGTH_LONG).show()
                                         }
-                                        isLoading = true
                                     }
                                 }
                             },
@@ -119,5 +151,5 @@ fun SmsCodeScreen(
                 }
             }
         }
-    )
+    }
 }
