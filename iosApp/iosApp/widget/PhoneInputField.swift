@@ -18,7 +18,7 @@ struct PhoneInputField: View {
                 .padding(.leading, 12)
                 .foregroundColor(.gray)
 
-            TextField("912 345 6789", text: $phoneNumber)
+            TextField("Phone number", text: $phoneNumber)
                 .keyboardType(.numberPad)
                 .padding(12)
         }

@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "localId": "uid1",
+      "phoneNumber": "+989122270318",
+      "email": "test@example.com",
+      "emailVerified": false,
+      "passwordHash": "fakeHash",
+      "salt": "fakeSalt"
+    }
+  ]
+}
