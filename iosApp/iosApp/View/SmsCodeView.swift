@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct SMSCodeView: View {
-    @State private var showComposeView = false
+    @State private var showCompose = false
     @State private var code: [String] = Array(repeating: "", count: 6)
     @FocusState private var focusedIndex: Int?
     @ObservedObject var viewModel: PhoneAuthViewModel
     
     var body: some View {
-        if showComposeView {
+        if showCompose {
             ComposeView()
         } else {
             ZStack {
@@ -68,7 +68,7 @@ struct SMSCodeView: View {
             }
             .onChange(of: viewModel.viewState) { newState in
                 if newState == .completed {
-                    showComposeView = true
+                    showCompose = true
                 }
             }
             .errorAlert(for: viewModel)

@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 struct LoginView: View {
-    @State private var showCompose = false
     @ObservedObject var viewModel: PhoneAuthViewModel
     @State private var phoneNumber: String = ""
     @Binding var navigationPath: [NavigationPath]
