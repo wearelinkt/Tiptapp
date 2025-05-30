@@ -52,7 +52,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
-            implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
+            implementation(libs.firebase.auth)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -82,10 +82,6 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.napier)
             implementation(libs.url.encoder)
-
-            //implementation(libs.lib.phone.number)
-
-            //implementation(libs.firebase.auth)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

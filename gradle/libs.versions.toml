@@ -26,8 +26,8 @@ coil = "3.0.0-alpha09"
 url-encoder = "1.5.0"
 ksp = "2.1.20-1.0.31"
 lib-phone-number = "0.1.5"
-firebaseAuth = "1.12.0"
 gservices = "4.4.2"
+firebase-auth = "22.1.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -67,7 +67,7 @@ url-encoder = { module = "net.thauvin.erik.urlencoder:urlencoder-lib", version.r
 
 lib-phone-number = { group = "io.github.luca992.libphonenumber-kotlin", name = "libphonenumber", version.ref = "lib-phone-number" }
 
-firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth" }
 
 
 [plugins]
