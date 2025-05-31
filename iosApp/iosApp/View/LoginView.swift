@@ -14,6 +14,10 @@ struct LoginView: View {
     @State private var phoneNumber: String = ""
     @Binding var navigationPath: [NavigationPath]
     
+    var isValidPhone: Bool {
+        phoneNumber.count >= 9 && phoneNumber.count <= 10
+    }
+    
     var body: some View {
         ZStack {
             VStack {
@@ -22,7 +26,6 @@ struct LoginView: View {
                 Spacer()
                 
                 Button(action: {
-                    //viewModel.testCurlToEmulator()
                     viewModel.sendSmsVerification(phoneNumber: "+98\(phoneNumber)")
                 }) {
                     Text("Continue")
@@ -34,6 +37,8 @@ struct LoginView: View {
                         .cornerRadius(36)
                         .shadow(radius: 2)
                 }
+                .disabled(!isValidPhone)
+                .opacity(isValidPhone ? 1 : 0.5)
                 .padding(.horizontal)
                 .padding(.bottom, 20)
             }

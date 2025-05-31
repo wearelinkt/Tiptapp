@@ -52,7 +52,10 @@ fun LoginScreen() {
                         navController.navigateUp()
                     },
                     onCodeVerified = {
-                        navController.navigate(HOME_ROUTE)
+                        navController.navigate(HOME_ROUTE) {
+                            popUpTo(0)
+                            launchSingleTop = true
+                        }
                     }
                 )
             }

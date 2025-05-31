@@ -13,7 +13,9 @@ class PhoneAuthViewModel: BaseViewModel {
     
     private let verificationIDKey = "authVerificationID"
     
-    func testCurlToEmulator() {
+    var lastSubmittedCode: String = ""
+    
+    /*func testCurlToEmulator() {
         let url = URL(string: "http://127.0.0.1:9099")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
@@ -23,12 +25,10 @@ class PhoneAuthViewModel: BaseViewModel {
             }
         }
         task.resume()
-    }
+    }*/
     
     func sendSmsVerification(phoneNumber: String)  {
         self.viewState = .loading
-        print(phoneNumber)
-        Auth.auth().useEmulator(withHost: "127.0.0.1", port: 9099)
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
             if let error = error {
                 self.viewState = .failure(error: error)
@@ -42,7 +42,6 @@ class PhoneAuthViewModel: BaseViewModel {
             UserDefaults.standard.set(verificationID, forKey: self.verificationIDKey)
             self.viewState = .completed
         }
-        self.viewState = .completed
     }
     
     func verifySms(verificationCode: String) {
@@ -52,6 +51,7 @@ class PhoneAuthViewModel: BaseViewModel {
             self.viewState = .failure(error: error)
             return
         }
+        print("verificationId: ", verificationID)
         
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: verificationID,
