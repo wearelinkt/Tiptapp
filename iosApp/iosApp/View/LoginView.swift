@@ -19,7 +19,7 @@ struct LoginView: View {
     }
     
     var body: some View {
-        ZStack {
+        AsyncContentView2(viewModel: viewModel) {
             VStack {
                 PhoneInputField(phoneNumber: $phoneNumber)
                 
@@ -44,15 +44,9 @@ struct LoginView: View {
             }
             .padding()
             .navigationBarTitle("Tiptapp", displayMode: .inline)
-            
-            if viewModel.viewState == .loading {
-                LoadingOverlayView()
-            }
-        }.onChange(of: viewModel.viewState) { newState in
-            if newState == .completed {
-                navigationPath.append(.smsVerify)
-            }
-        }.errorAlert(for: viewModel)
+        } navigate: {
+            navigationPath.append(.smsVerify)
+        }
     }
 }
 

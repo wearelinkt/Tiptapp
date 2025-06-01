@@ -54,3 +54,23 @@ struct AsyncContentView<Content: View>: View {
         }
     }
 }
+
+struct AsyncContentView2<Content: View>: View {
+    
+    let viewModel: BaseViewModel
+    let content: () -> Content
+    let navigate: ()  -> Void
+    
+    var body: some View {
+        ZStack {
+            AnyView(content())
+            if viewModel.viewState == .loading {
+                LoadingOverlayView()
+            }
+        }.onChange(of: viewModel.viewState) { newState in
+            if newState == .completed {
+                navigate()
+            }
+        }.errorAlert(for: viewModel)
+    }
+}

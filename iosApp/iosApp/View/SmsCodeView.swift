@@ -15,7 +15,7 @@ struct SMSCodeView: View {
     @Binding var navigationPath: [NavigationPath]
     
     var body: some View {
-        ZStack {
+        AsyncContentView2(viewModel: viewModel) {
             VStack {
                 VStack {
                     HStack(spacing: 12) {
@@ -60,17 +60,9 @@ struct SMSCodeView: View {
                 Spacer()
             }
             .navigationBarTitle("Enter Code", displayMode: .inline)
-            
-            if viewModel.viewState == .loading {
-                LoadingOverlayView()
-            }
+        } navigate: {
+            navigationPath.append(.composeView)
         }
-        .onChange(of: viewModel.viewState) { newState in
-            if newState == .completed {
-                navigationPath.append(.composeView)
-            }
-        }
-        .errorAlert(for: viewModel)
     }
     
     private var isCodeComplete: Bool {
