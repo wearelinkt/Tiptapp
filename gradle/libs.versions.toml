@@ -27,7 +27,7 @@ url-encoder = "1.5.0"
 ksp = "2.1.20-1.0.31"
 lib-phone-number = "0.1.5"
 gservices = "4.4.2"
-firebase-auth = "22.1.2"
+firebase-auth = "22.0.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

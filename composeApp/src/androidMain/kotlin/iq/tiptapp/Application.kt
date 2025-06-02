@@ -1,5 +1,6 @@
 package iq.tiptapp
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import iq.tiptapp.di.initKoin
@@ -14,6 +15,6 @@ class Application : android.app.Application() {
             androidContext(this@Application)
         }
         initializeNapier()
-        Firebase.auth.useEmulator("10.0.2.2", 9099)
+        //Firebase.auth.useEmulator("10.0.2.2", 9099)
     }
 }

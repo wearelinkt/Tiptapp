@@ -4,6 +4,7 @@ interface PhoneAuthService {
     fun sendVerificationCode(
         phoneNumber: String,
         onCodeSent: (verificationId: String) -> Unit,
+        onAutoRetrievedCode: (code: String) -> Unit,
         onError: (Throwable) -> Unit
     )
 

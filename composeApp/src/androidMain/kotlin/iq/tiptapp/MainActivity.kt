@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.github.aakira.napier.Napier
 import iq.tiptapp.ui.verification.PhoneNumberInputScreen
 import iq.tiptapp.ui.verification.SmsCodeScreen
 import iq.tiptapp.ui.verification.VerificationViewModel
@@ -52,6 +53,7 @@ fun LoginScreen() {
                         navController.navigateUp()
                     },
                     onCodeVerified = {
+                        Napier.d("UserId: $it")
                         navController.navigate(HOME_ROUTE) {
                             popUpTo(0)
                             launchSingleTop = true

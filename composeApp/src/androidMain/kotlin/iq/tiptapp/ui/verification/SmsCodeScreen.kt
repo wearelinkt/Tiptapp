@@ -18,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import component.TiptappAppBarWithNavigation
 import iq.tiptapp.Turquoise
+import kotlinx.coroutines.delay
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.enter_code
 
@@ -64,9 +67,25 @@ fun SmsCodeScreen(
 
     var focusedIndex by rememberSaveable { mutableIntStateOf(0) }
 
-    // Automatically focus first box on load
-    LaunchedEffect(Unit) {
-        focusRequesters[focusedIndex].requestFocus()
+    val autoCode by viewModel.autoRetrievedCode.collectAsState()
+
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(autoCode) {
+        if (autoCode.length == 6 && autoCode.all { it.isDigit() }) {
+            focusManager.clearFocus()
+            autoCode.forEachIndexed { i, c ->
+                codeDigits[i] = c.toString()
+            }
+            keyboardController?.hide()
+            delay(1300L)
+            viewModel.hideLoading()
+            delay(200L)
+            onCodeVerified(viewModel.getUserId())
+        } else {
+            // Automatically focus first box on load
+            focusRequesters[focusedIndex].requestFocus()
+        }
     }
 
     TiptappAppBarWithNavigation(

@@ -11,23 +11,35 @@ import iq.tiptapp.PhoneAuthService
 import java.util.concurrent.TimeUnit
 
 class AndroidAuthService(
-    private val activity: Activity
+    private val activity: Activity,
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 ) : PhoneAuthService {
 
     override fun sendVerificationCode(
         phoneNumber: String,
         onCodeSent: (verificationId: String) -> Unit,
+        onAutoRetrievedCode: (code: String) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
+
+        /*
+        val firebaseAuthSettings = auth.firebaseAuthSettings
+        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber, "123456")
+        */
+
+        val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)
             .setTimeout(60L, TimeUnit.SECONDS)
-            .setActivity(activity) // ✅ required
+            .setActivity(activity)
             .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                    val smsCode = credential.smsCode
+                    if (!smsCode.isNullOrEmpty()) {
+                        onAutoRetrievedCode(smsCode)
+                    }
+                    auth.signInWithCredential(credential)
                         .addOnSuccessListener {
-                            onCodeSent("auto-verification") // optionally return UID or notify user
+                            onCodeSent(AUTO_VERIFICATION + it.user?.uid)
                         }
                         .addOnFailureListener { onError(it) }
                 }
@@ -36,8 +48,11 @@ class AndroidAuthService(
                     onError(e)
                 }
 
-                override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-                    Napier.d("code sent with verification id :$verificationId")
+                override fun onCodeSent(
+                    verificationId: String,
+                    token: PhoneAuthProvider.ForceResendingToken
+                ) {
+                    Napier.d("code sent with verificationId :$verificationId")
                     onCodeSent(verificationId)
                 }
             })
@@ -53,8 +68,10 @@ class AndroidAuthService(
         onError: (Throwable) -> Unit
     ) {
         val credential = PhoneAuthProvider.getCredential(verificationId, smsCode)
-        FirebaseAuth.getInstance().signInWithCredential(credential)
+        auth.signInWithCredential(credential)
             .addOnSuccessListener { onSuccess(it.user?.uid ?: "no-uid") }
             .addOnFailureListener { onError(it) }
     }
 }
+
+const val AUTO_VERIFICATION = "auto-verification"
