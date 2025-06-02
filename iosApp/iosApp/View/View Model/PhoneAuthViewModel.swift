@@ -13,8 +13,6 @@ class PhoneAuthViewModel: BaseViewModel {
     
     private let verificationIDKey = "authVerificationID"
     
-    var lastSubmittedCode: String = ""
-    
     /*func testCurlToEmulator() {
      let url = URL(string: "http://127.0.0.1:9099")!
      let task = URLSession.shared.dataTask(with: url) { data, response, error in

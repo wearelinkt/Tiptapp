@@ -13,6 +13,7 @@ struct SMSCodeView: View {
     @FocusState private var focusedIndex: Int?
     @ObservedObject var viewModel: PhoneAuthViewModel
     @Binding var navigationPath: [NavigationPath]
+    @State var lastSubmittedCode: String = ""
     
     private var isCodeComplete: Bool {
         !code.contains(where: { $0.isEmpty })
@@ -28,22 +29,22 @@ struct SMSCodeView: View {
                                 return code[index]
                             },
                             set: { newValue in
-                                if newValue.count <= 1,
-                                   newValue.allSatisfy(\.isNumber) || newValue.isEmpty {
+                                if newValue.count == 1 {
                                     code[index] = newValue
-                                    
-                                    if newValue.count == 1 {
-                                        if index < 5 {
-                                            focusedIndex = index + 1
-                                        }
-                                        
-                                        let currentCode = code.joined()
-                                        if isCodeComplete && currentCode != viewModel.lastSubmittedCode {
-                                            focusedIndex = nil
-                                            viewModel.lastSubmittedCode = currentCode
-                                            viewModel.verifySms(verificationCode: currentCode)
-                                        }
+                                    // Only auto-advance if user typed something and not when setting focus manually
+                                    if index < 5 && focusedIndex == index {
+                                        focusedIndex = index + 1
                                     }
+                                } else {
+                                    code[index] = newValue
+                                }
+
+                                // Trigger verification only when all fields are filled and it's a new code
+                                let currentCode = code.joined()
+                                if isCodeComplete && currentCode != lastSubmittedCode {
+                                    focusedIndex = nil
+                                    lastSubmittedCode = currentCode
+                                    viewModel.verifySms(verificationCode: currentCode)
                                 }
                             }
                         ))
