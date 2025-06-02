@@ -14,7 +14,7 @@ struct LoginView: View {
     @State private var phoneNumber: String = ""
     @Binding var navigationPath: [NavigationPath]
     
-    var isValidPhone: Bool {
+    private var isValidPhone: Bool {
         phoneNumber.count >= 9 && phoneNumber.count <= 10
     }
     

@@ -16,16 +16,16 @@ class PhoneAuthViewModel: BaseViewModel {
     var lastSubmittedCode: String = ""
     
     /*func testCurlToEmulator() {
-        let url = URL(string: "http://127.0.0.1:9099")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("❌ Error reaching emulator: \(error)")
-            } else if let data = data, let str = String(data: data, encoding: .utf8) {
-                print("✅ Response from emulator:\n\(str)")
-            }
-        }
-        task.resume()
-    }*/
+     let url = URL(string: "http://127.0.0.1:9099")!
+     let task = URLSession.shared.dataTask(with: url) { data, response, error in
+     if let error = error {
+     print("❌ Error reaching emulator: \(error)")
+     } else if let data = data, let str = String(data: data, encoding: .utf8) {
+     print("✅ Response from emulator:\n\(str)")
+     }
+     }
+     task.resume()
+     }*/
     
     func sendSmsVerification(phoneNumber: String)  {
         self.viewState = .loading
@@ -51,7 +51,7 @@ class PhoneAuthViewModel: BaseViewModel {
             self.viewState = .failure(error: error)
             return
         }
-        print("verificationId: ", verificationID)
+        print("verificationId: ",verificationID)
         
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: verificationID,
@@ -62,7 +62,7 @@ class PhoneAuthViewModel: BaseViewModel {
             if let error = error {
                 self.viewState = .failure(error: error)
             } else if let user = authResult?.user {
-                print(user)
+                print("userId: ",user)
                 self.viewState = .completed
             } else {
                 let error = NSError(domain: "PhoneAuth", code: -2, userInfo: [NSLocalizedDescriptionKey: "Unknown error. No user returned."])
