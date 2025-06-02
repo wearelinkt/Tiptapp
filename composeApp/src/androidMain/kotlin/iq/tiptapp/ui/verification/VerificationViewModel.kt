@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import iq.tiptapp.PhoneAuthService
-import iq.tiptapp.repository.AUTO_VERIFICATION
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -45,17 +44,16 @@ class VerificationViewModel(
         phoneAuthService.sendVerificationCode(
             fullPhoneNumber,
             onCodeSent = { id ->
-                if (id.contains(AUTO_VERIFICATION) ) {
-                  userId = id.replace(AUTO_VERIFICATION, "")
-                } else {
-                    isLoading = false
-                    verificationId = id
-                    onSuccess()
-                }
+                isLoading = false
+                verificationId = id
+                onSuccess()
             },
             onAutoRetrievedCode = { code ->
                 _autoRetrievedCode.value = code
                 updateSmsCode(code)
+            },
+            onSuccess = {
+                userId = it
                 onSuccess()
             },
             onError = {

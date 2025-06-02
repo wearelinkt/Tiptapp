@@ -5,6 +5,7 @@ interface PhoneAuthService {
         phoneNumber: String,
         onCodeSent: (verificationId: String) -> Unit,
         onAutoRetrievedCode: (code: String) -> Unit,
+        onSuccess: (userId: String) -> Unit,
         onError: (Throwable) -> Unit
     )
 

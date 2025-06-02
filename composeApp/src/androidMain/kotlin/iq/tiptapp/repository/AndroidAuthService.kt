@@ -19,6 +19,7 @@ class AndroidAuthService(
         phoneNumber: String,
         onCodeSent: (verificationId: String) -> Unit,
         onAutoRetrievedCode: (code: String) -> Unit,
+        onSuccess: (String) -> Unit,
         onError: (Throwable) -> Unit
     ) {
 
@@ -39,7 +40,7 @@ class AndroidAuthService(
                     }
                     auth.signInWithCredential(credential)
                         .addOnSuccessListener {
-                            onCodeSent(AUTO_VERIFICATION + it.user?.uid)
+                            onSuccess(it.user?.uid ?: "no-uid")
                         }
                         .addOnFailureListener { onError(it) }
                 }
@@ -73,5 +74,3 @@ class AndroidAuthService(
             .addOnFailureListener { onError(it) }
     }
 }
-
-const val AUTO_VERIFICATION = "auto-verification"
