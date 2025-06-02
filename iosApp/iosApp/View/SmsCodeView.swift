@@ -9,14 +9,16 @@
 import SwiftUI
 
 struct SMSCodeView: View {
-    @State private var code: [String] = Array(repeating: "", count: 6)
-    @FocusState private var focusedIndex: Int?
     @ObservedObject var viewModel: PhoneAuthViewModel
     @Binding var navigationPath: [NavigationPath]
-    @State var lastSubmittedCode: String = ""
+    
+    @State private var code: [String] = Array(repeating: "", count: 6)
+    @FocusState private var focusedIndex: Int?
+    @State private var lastSubmittedCode: String = ""
+    @State private var autofillCode: String = ""
     
     private var isCodeComplete: Bool {
-        !code.contains(where: { $0.isEmpty })
+        !code.contains { $0.isEmpty }
     }
     
     var body: some View {
@@ -55,11 +57,29 @@ struct SMSCodeView: View {
                         .multilineTextAlignment(.center)
                         .focused($focusedIndex, equals: index)
                     }
-                }
-                .onAppear {
+                }.onAppear {
                     focusedIndex = 0
-                }
-                .padding(.top, 40)
+                }.padding(.top, 50)
+                
+                // Hidden Autofill Field
+                TextField("", text: $autofillCode)
+                    .textContentType(.oneTimeCode)
+                    .keyboardType(.numberPad)
+                    .frame(width: 1, height: 1)
+                    .opacity(0.01)
+                    .disabled(false)
+                    .allowsHitTesting(false)
+                    .onChange(of: autofillCode) { newCode in
+                        let trimmed = String(newCode.prefix(6))
+                        for (i, char) in trimmed.enumerated() where i < code.count {
+                            code[i] = String(char)
+                        }
+                        if trimmed.count == 6 && trimmed != lastSubmittedCode {
+                            lastSubmittedCode = trimmed
+                            focusedIndex = nil
+                            viewModel.verifySms(verificationCode: trimmed)
+                        }
+                    }
                 
                 Spacer()
             }.navigationBarTitle("Enter Code", displayMode: .inline)
