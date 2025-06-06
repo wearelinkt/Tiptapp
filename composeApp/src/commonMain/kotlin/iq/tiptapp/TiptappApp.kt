@@ -27,15 +27,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
-import iq.tiptapp.ui.HelpScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
+import iq.tiptapp.ui.help.HelpScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
@@ -55,6 +56,7 @@ fun TiptappApp() {
                     tabs = appState.bottomBarTabs,
                     currentRoute = appState.currentRoute!!,
                     navigateToRoute = appState::navigateToBottomBarRoute,
+                    appState.navController
                 )
             }
         },
@@ -65,12 +67,18 @@ fun TiptappApp() {
             modifier = Modifier.padding(padding),
         ) {
             navigationScreens()
+            createAddScreens(appState.navController)
         }
     }
 }
 
 @Composable
-private fun TiptappBottomBar(tabs: Array<HomeSections>, currentRoute: String, navigateToRoute: (String) -> Unit) {
+private fun TiptappBottomBar(
+    tabs: Array<HomeSections>,
+    currentRoute: String,
+    navigateToRoute: (String) -> Unit,
+    navController: NavController
+) {
     val currentSection = tabs.first { it.route == currentRoute }
 
     Box(
@@ -84,9 +92,11 @@ private fun TiptappBottomBar(tabs: Array<HomeSections>, currentRoute: String, na
                 val selected = section == currentSection
                 BottomNavigationItem(
                     label = {
-                        Text(text = stringResource(section.title),
+                        Text(
+                            text = stringResource(section.title),
                             fontSize = 11.sp,
-                            color = if (selected) Color.DarkGray else Color.Gray)
+                            color = if (selected) Color.DarkGray else Color.Gray
+                        )
                     },
                     icon = {
                         Icon(
@@ -98,7 +108,15 @@ private fun TiptappBottomBar(tabs: Array<HomeSections>, currentRoute: String, na
                     selected = selected,
                     unselectedContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ContentAlpha.disabled),
                     selectedContentColor = MaterialTheme.colorScheme.onBackground,
-                    onClick = { navigateToRoute(section.route) },
+                    onClick = {
+
+                        if (section == HomeSections.HELP_SECTION) {
+                            navController.navigate(CREATE_ADD_ROUTE)
+                        } else {
+                            navigateToRoute(section.route)
+                        }
+                    }
+
                 )
             }
         }
@@ -117,7 +135,8 @@ private fun NavGraphBuilder.navigationScreens() {
             AdsScreen()
         }
         composable(route = HomeSections.HELP_SECTION.route) {
-            HelpScreen()
+            // This route should not be reached; clicking it navigates directly to CREATE_ADD_ROUTE
+            // But we define it to satisfy NavHost
         }
         composable(route = HomeSections.MY_ADS_SECTION.route) {
             MyAdsScreen()
@@ -128,6 +147,14 @@ private fun NavGraphBuilder.navigationScreens() {
     }
 }
 
+private fun NavGraphBuilder.createAddScreens(navController: NavController) {
+    composable(
+        route = CREATE_ADD_ROUTE
+    ) {
+        HelpScreen()
+    }
+}
+
 enum class HomeSections(
     val route: String,
     val title: StringResource,
@@ -135,10 +162,21 @@ enum class HomeSections(
     val selectedIcon: ImageVector,
 ) {
     HOME_SECTION("home", Res.string.home, Icons.Outlined.Home, Icons.Filled.Home),
-    ADS_SECTION("ads", Res.string.ads , Icons.AutoMirrored.Outlined.ListAlt, Icons.AutoMirrored.Filled.ListAlt),
+    ADS_SECTION(
+        "ads",
+        Res.string.ads,
+        Icons.AutoMirrored.Outlined.ListAlt,
+        Icons.AutoMirrored.Filled.ListAlt
+    ),
     HELP_SECTION("help", Res.string.create_ad, Icons.Outlined.Assistant, Icons.Filled.Assistant),
-    MY_ADS_SECTION("my_ads", Res.string.my_ads, Icons.Outlined.CollectionsBookmark, Icons.Filled.CollectionsBookmark),
+    MY_ADS_SECTION(
+        "my_ads",
+        Res.string.my_ads,
+        Icons.Outlined.CollectionsBookmark,
+        Icons.Filled.CollectionsBookmark
+    ),
     ACCOUNT_SECTION("account", Res.string.account, Icons.Outlined.Person, Icons.Filled.Person),
 }
 
 private const val HOME_ROUTE = "home_route"
+private const val CREATE_ADD_ROUTE = "create_ad_route"
