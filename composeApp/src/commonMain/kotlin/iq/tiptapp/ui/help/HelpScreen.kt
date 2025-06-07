@@ -72,42 +72,42 @@ import kotlin.uuid.Uuid
 @Composable
 fun HelpScreen(
     viewModel: PermissionViewModel = koinViewModel<PermissionViewModel>(),
+    onContinueClick: () -> Unit
 ) {
     val permissions: Permissions = providePermissions()
 
-    CameraPermissionContent(permissions, viewModel)
+    CameraPermissionContent(permissions, viewModel, onContinueClick)
 }
 
 @Composable
 private fun CameraPermissionContent(
     permissions: Permissions,
     viewModel: PermissionViewModel,
+    onContinueClick: () -> Unit
 ) {
-    val state by viewModel.cameraPermissionState.collectAsState()
-
-    when (state) {
+    when (val state = viewModel.cameraPermissionState.collectAsState().value) {
         is PermissionViewModel.PermissionState.Dialog -> {
             permissions.RequestCameraPermission(
                 onGranted = {
                     viewModel.setCameraState(PermissionViewModel.PermissionState.Granted)
                 },
                 onDenied = {
-                    viewModel.setCameraState(PermissionViewModel.PermissionState.Denied(""))
+                    viewModel.setCameraState(PermissionViewModel.PermissionState.Denied(Res.string.camera_permission_denied))
                 }
             )
         }
 
         is PermissionViewModel.PermissionState.Granted -> {
             if (isTiramisuOrHigher()) {
-                CameraScreen()
+                CameraScreen(onContinueClick)
             } else {
-                StoragePermissionContent(permissions, viewModel)
+                StoragePermissionContent(permissions, viewModel, onContinueClick)
             }
 
         }
 
         is PermissionViewModel.PermissionState.Denied -> {
-            PermissionDenied(Res.string.camera_permission_denied)
+            PermissionDenied(state.reason)
         }
     }
 }
@@ -116,28 +116,26 @@ private fun CameraPermissionContent(
 private fun StoragePermissionContent(
     permissions: Permissions,
     viewModel: PermissionViewModel,
+    onContinueClick: () -> Unit
 ) {
-    val state by viewModel.storagePermissionState.collectAsState()
-
-    when (state) {
+    when (val state = viewModel.storagePermissionState.collectAsState().value) {
         is PermissionViewModel.PermissionState.Dialog -> {
             permissions.RequestStoragePermission(
                 onGranted = {
                     viewModel.setStorageState(PermissionViewModel.PermissionState.Granted)
                 },
                 onDenied = {
-                    viewModel.setStorageState(PermissionViewModel.PermissionState.Denied(""))
+                    viewModel.setStorageState(PermissionViewModel.PermissionState.Denied(Res.string.storage_permission_denied))
                 }
             )
         }
 
         is PermissionViewModel.PermissionState.Granted -> {
-            CameraScreen()
+            CameraScreen(onContinueClick)
         }
 
         is PermissionViewModel.PermissionState.Denied -> {
-            PermissionDenied(Res.string.storage_permission_denied)
-
+            PermissionDenied(state.reason)
         }
     }
 }
@@ -160,7 +158,7 @@ private fun PermissionDenied(stringResource: StringResource) {
 }
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(onContinueClick: () -> Unit) {
     val cameraController = remember { mutableStateOf<CameraController?>(null) }
     val imageSaverPlugin = rememberImageSaverPlugin(
         config = ImageSaverConfig(
@@ -289,8 +287,8 @@ fun CameraScreen() {
 
         // Continue button anchored to bottom
         Button(
-            onClick = { /* Navigate or next step */ },
-            enabled = imageSlots[selectedSlot] != null,
+            onClick = { onContinueClick.invoke() },
+            //enabled = imageSlots[selectedSlot] != null,
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),
             modifier = Modifier
                 .align(Alignment.BottomCenter)

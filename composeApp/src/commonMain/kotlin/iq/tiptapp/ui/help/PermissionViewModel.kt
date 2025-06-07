@@ -3,6 +3,7 @@ package iq.tiptapp.ui.help
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.jetbrains.compose.resources.StringResource
 
 class PermissionViewModel : ViewModel() {
 
@@ -25,7 +26,7 @@ class PermissionViewModel : ViewModel() {
     sealed class PermissionState {
         object Dialog : PermissionState()
         object Granted : PermissionState()
-        data class Denied(val reason: String) : PermissionState()
+        data class Denied(val reason: StringResource) : PermissionState()
     }
 }
 

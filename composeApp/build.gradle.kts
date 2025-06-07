@@ -54,6 +54,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.firebase.auth)
             implementation(libs.kotlinx.coroutines.android)
+            implementation("com.google.maps.android:maps-compose:6.1.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -128,6 +129,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.runtime.android)
     debugImplementation(compose.uiTooling)
 }
 

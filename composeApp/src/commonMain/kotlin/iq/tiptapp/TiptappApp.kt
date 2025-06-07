@@ -37,8 +37,11 @@ import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.ui.help.HelpScreen
+import iq.tiptapp.ui.help.MapScreen
+import iq.tiptapp.ui.help.MapViewModel
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.account
 import tiptapp.composeapp.generated.resources.ads
@@ -61,13 +64,14 @@ fun TiptappApp() {
             }
         },
     ) { padding ->
+        val viewModel: MapViewModel = koinViewModel<MapViewModel>()
         NavHost(
             navController = appState.navController,
             startDestination = HOME_ROUTE,
             modifier = Modifier.padding(padding),
         ) {
             navigationScreens()
-            createAddScreens(appState.navController)
+            createAdScreens(appState.navController, viewModel)
         }
     }
 }
@@ -147,11 +151,17 @@ private fun NavGraphBuilder.navigationScreens() {
     }
 }
 
-private fun NavGraphBuilder.createAddScreens(navController: NavController) {
+private fun NavGraphBuilder.createAdScreens(
+    navController: NavController,
+    viewModel: MapViewModel
+) {
     composable(
         route = CREATE_ADD_ROUTE
     ) {
-        HelpScreen()
+        HelpScreen { navController.navigate(PICK_UP_LOCATION) }
+    }
+    composable(route = PICK_UP_LOCATION) {
+        MapScreen(viewModel)
     }
 }
 
@@ -180,3 +190,4 @@ enum class HomeSections(
 
 private const val HOME_ROUTE = "home_route"
 private const val CREATE_ADD_ROUTE = "create_ad_route"
+private const val PICK_UP_LOCATION = "pick_up_route"
