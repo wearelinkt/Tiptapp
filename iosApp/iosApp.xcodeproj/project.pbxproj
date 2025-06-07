@@ -23,6 +23,8 @@
 		419ADED22DE631B1009A2A8C /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ADED12DE631B1009A2A8C /* AsyncContentView.swift */; };
 		419ADED52DE6322A009A2A8C /* PhoneAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ADED42DE6322A009A2A8C /* PhoneAuthViewModel.swift */; };
 		41A48C392DED9738009C8F4A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41A48C382DED9738009C8F4A /* GoogleService-Info.plist */; };
+		41A48C3C2DF44777009C8F4A /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 41A48C3B2DF44777009C8F4A /* GoogleMaps */; };
+		41A48C3E2DF44DCF009C8F4A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C3D2DF44DCF009C8F4A /* MapViewController.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,7 @@
 		419ADED12DE631B1009A2A8C /* AsyncContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncContentView.swift; sourceTree = "<group>"; };
 		419ADED42DE6322A009A2A8C /* PhoneAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewModel.swift; sourceTree = "<group>"; };
 		41A48C382DED9738009C8F4A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		41A48C3D2DF44DCF009C8F4A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Tiptapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tiptapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,6 +58,7 @@
 			files = (
 				419ADECD2DE624FD009A2A8C /* FirebaseAnalytics in Frameworks */,
 				419ADECB2DE623A4009A2A8C /* FirebaseAuth in Frameworks */,
+				41A48C3C2DF44777009C8F4A /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +96,7 @@
 			children = (
 				419ADED32DE63212009A2A8C /* View Model */,
 				419ADED12DE631B1009A2A8C /* AsyncContentView.swift */,
+				41A48C3D2DF44DCF009C8F4A /* MapViewController.swift */,
 				4137F3652DE493FD00B0B53B /* LoginView.swift */,
 				41706DEA2DEA2533002DC082 /* SmsCodeView.swift */,
 			);
@@ -178,6 +183,7 @@
 			packageProductDependencies = (
 				419ADECA2DE623A4009A2A8C /* FirebaseAuth */,
 				419ADECC2DE624FD009A2A8C /* FirebaseAnalytics */,
+				41A48C3B2DF44777009C8F4A /* GoogleMaps */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Tiptapp.app */;
@@ -210,6 +216,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				41A48C3A2DF44777009C8F4A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -263,6 +270,7 @@
 				41706DE52DEA1FBB002DC082 /* ErrorPresentable.swift in Sources */,
 				41706DF02DEA2FF4002DC082 /* LoadingOverlayView.swift in Sources */,
 				4137F3662DE493FD00B0B53B /* LoginView.swift in Sources */,
+				41A48C3E2DF44DCF009C8F4A /* MapViewController.swift in Sources */,
 				419ADED22DE631B1009A2A8C /* AsyncContentView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				4137F3682DE495B100B0B53B /* PhoneInputField.swift in Sources */,
@@ -485,6 +493,14 @@
 				minimumVersion = 10.25.0;
 			};
 		};
+		41A48C3A2DF44777009C8F4A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -497,6 +513,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		41A48C3B2DF44777009C8F4A /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41A48C3A2DF44777009C8F4A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

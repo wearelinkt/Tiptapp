@@ -7,4 +7,11 @@
     <string name="phone_number">Phone number</string>
     <string name="continue_text">Continue</string>
     <string name="enter_code">Enter Code</string>
+    <string name="home">Home</string>
+    <string name="ads">Ads</string>
+    <string name="create_ad">Get help</string>
+    <string name="my_ads">My ads</string>
+    <string name="account">Account</string>
+    <string name="camera_permission_denied">Cannot continue without Camera Permission</string>
+    <string name="storage_permission_denied">Cannot continue without File Storage Permission</string>
 </resources>

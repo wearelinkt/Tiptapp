@@ -37,9 +37,9 @@ fun LoginScreen() {
     MaterialTheme {
         NavHost(
             navController = navController,
-            startDestination = INPUT_PHONE_NUMBER_ROUTE,
+            startDestination = HOME_ROUTE,
         ) {
-            composable(route = INPUT_PHONE_NUMBER_ROUTE) {
+           /* composable(route = INPUT_PHONE_NUMBER_ROUTE) {
                 PhoneNumberInputScreen(viewModel) {
                     navController.navigate(SMS_VERIFICATION_ROUTE)
                 }
@@ -60,9 +60,9 @@ fun LoginScreen() {
                         }
                     }
                 )
-            }
+            }*/
             composable(route = HOME_ROUTE) {
-                App()
+                TiptappApp()
             }
         }
     }
@@ -70,4 +70,4 @@ fun LoginScreen() {
 
 private const val INPUT_PHONE_NUMBER_ROUTE = "input_phone_number"
 private const val SMS_VERIFICATION_ROUTE = "verification"
-private const val HOME_ROUTE = "home"
+private const val HOME_ROUTE = "my_home"

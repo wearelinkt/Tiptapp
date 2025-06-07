@@ -9,12 +9,14 @@
 import UIKit
 import Firebase
 import UserNotifications
+import GoogleMaps
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        GMSServices.provideAPIKey("AIzaSyD0adkCvVEQBYz84S1Tw2AgSck595nOKhE")
         FirebaseApp.configure()
         //Auth.auth().useEmulator(withHost: "127.0.0.1", port: 9099)
         
