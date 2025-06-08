@@ -5,16 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitViewController
 import iq.tiptapp.LocalNativeViewFactory
-import iq.tiptapp.ui.help.HelpViewModel
 
 @Composable
-actual fun MapComponent(viewModel: HelpViewModel) {
+actual fun MapComponent(onMarkerTapped: (Double, Double) -> Unit) {
     val factory = LocalNativeViewFactory.current
     UIKitViewController(
         modifier = Modifier.fillMaxSize(),
         factory = {
             factory.createGoogleMapView { lat, lng ->
-                viewModel.onMarkerClicked(lat, lng)
+                onMarkerTapped(lat, lng)
             }
         }
     )

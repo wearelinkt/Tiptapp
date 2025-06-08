@@ -21,7 +21,7 @@ import tiptapp.composeapp.generated.resources.continue_text
 import tiptapp.composeapp.generated.resources.pick_up
 
 @Composable
-fun MapScreen(
+fun PickUpScreen(
     viewModel: HelpViewModel,
     onContinueClicked: () -> Unit,
     onBackClicked: () -> Unit
@@ -29,7 +29,9 @@ fun MapScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
             CustomTopAppBar(Res.string.pick_up, onBackClicked)
-            MapComponent(viewModel)
+            MapComponent { lat, lng ->
+                viewModel.onMarkerPickUpClicked(lat, lng)
+            }
         }
 
         Button(

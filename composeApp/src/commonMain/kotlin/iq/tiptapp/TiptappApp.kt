@@ -38,8 +38,9 @@ import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.ui.help.DropOffScreen
 import iq.tiptapp.ui.help.HelpScreen
-import iq.tiptapp.ui.help.MapScreen
+import iq.tiptapp.ui.help.PickUpScreen
 import iq.tiptapp.ui.help.HelpViewModel
+import iq.tiptapp.ui.help.PickUpDetailScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -162,12 +163,16 @@ private fun NavGraphBuilder.createAdScreens(
         HelpScreen { navController.navigate(PICK_UP_LOCATION) }
     }
     composable(route = PICK_UP_LOCATION) {
-        MapScreen(
+        PickUpScreen(
             viewModel,
             { navController.navigate(DROP_OFF_LOCATION) }) { navController.navigateUp() }
     }
     composable(route = DROP_OFF_LOCATION) {
-        DropOffScreen(viewModel)
+        DropOffScreen(viewModel,
+            { navController.navigate(PICK_UP_DETAIL) }) { navController.navigateUp() }
+    }
+    composable(route = PICK_UP_DETAIL) {
+        PickUpDetailScreen()
     }
 }
 
@@ -184,7 +189,7 @@ enum class HomeSections(
         Icons.AutoMirrored.Outlined.ListAlt,
         Icons.AutoMirrored.Filled.ListAlt
     ),
-    HELP_SECTION("help", Res.string.create_ad, Icons.Outlined.Assistant, Icons.Filled.Assistant),
+    HELP_SECTION("help", Res.string.create_ad, Icons.Filled.Assistant, Icons.Filled.Assistant),
     MY_ADS_SECTION(
         "my_ads",
         Res.string.my_ads,
@@ -196,5 +201,6 @@ enum class HomeSections(
 
 private const val HOME_ROUTE = "home_route"
 private const val CREATE_ADD_ROUTE = "create_ad_route"
-private const val PICK_UP_LOCATION = "pick_up_route"
-private const val DROP_OFF_LOCATION = "drop_off_location"
+private const val PICK_UP_LOCATION = "pick_up_location_route"
+private const val DROP_OFF_LOCATION = "drop_off_location_route"
+private const val PICK_UP_DETAIL = "pick_up_detail_route"

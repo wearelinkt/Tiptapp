@@ -2,43 +2,55 @@ package iq.tiptapp.map
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import iq.tiptapp.ui.help.HelpViewModel
 
 @Composable
-actual fun MapComponent(viewModel: HelpViewModel) {
-    var markerPosition by remember { mutableStateOf(LatLng(35.6997, 51.3380)) }
+actual fun MapComponent(onMarkerTapped: (Double, Double) -> Unit) {
+    val initialPosition = LatLng(35.6997, 51.3380)
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(markerPosition, 15f)
+        position = CameraPosition.fromLatLngZoom(initialPosition, 15f)
     }
 
-    val markerState = remember(markerPosition) { MarkerState(position = markerPosition) }
+    // Marker will be at the center of the map
+    val markerState = remember { MarkerState(position = initialPosition) }
+
+    // Update marker as camera moves
+    LaunchedEffect(cameraPositionState) {
+        snapshotFlow { cameraPositionState.position.target }
+            .collect { newCenter ->
+                markerState.position = newCenter
+                onMarkerTapped(newCenter.latitude, newCenter.longitude)
+            }
+    }
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
         onMapClick = { latLng ->
-            markerPosition = latLng // ✅ Update state
-            viewModel.onMarkerClicked(latLng.latitude, latLng.longitude)
+            // Move camera to tapped location
+            cameraPositionState.move(
+                CameraUpdateFactory.newLatLng(latLng)
+            )
+            onMarkerTapped(latLng.latitude, latLng.longitude)
         }
     ) {
         Marker(
             state = markerState,
             title = "Selected Location",
-            snippet = "Lat: ${markerPosition.latitude}, Lng: ${markerPosition.longitude}",
+            snippet = "Lat: ${markerState.position.latitude}, Lng: ${markerState.position.longitude}",
             onClick = {
-                viewModel.onMarkerClicked(it.position.latitude, it.position.longitude)
+                onMarkerTapped(it.position.latitude, it.position.longitude)
                 false // Show info window
             }
         )

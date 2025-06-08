@@ -12,8 +12,8 @@
     <string name="create_ad">Get help</string>
     <string name="my_ads">My ads</string>
     <string name="account">Account</string>
-    <string name="pick_up">PickUp</string>
-    <string name="drop_off">DropOff</string>
+    <string name="pick_up">Pick-up</string>
+    <string name="drop_off">Drop-off</string>
     <string name="camera_permission_denied">Cannot continue without Camera Permission</string>
     <string name="storage_permission_denied">Cannot continue without File Storage Permission</string>
 </resources>

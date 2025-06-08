@@ -5,10 +5,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class HelpViewModel : ViewModel() {
-    private val _clickedLocation = MutableStateFlow<Pair<Double, Double>?>(null)
-    val clickedLocation: StateFlow<Pair<Double, Double>?> = _clickedLocation
+    private val _pickUpClickedLocation = MutableStateFlow<Pair<Double, Double>?>(null)
+    val pickUpClickedLocation: StateFlow<Pair<Double, Double>?> = _pickUpClickedLocation
 
-    fun onMarkerClicked(lat: Double, lng: Double) {
-        _clickedLocation.value = lat to lng
+    private val _dropOffClickedLocation = MutableStateFlow<Pair<Double, Double>?>(null)
+    val dropOffClickedLocation: StateFlow<Pair<Double, Double>?> = _dropOffClickedLocation
+
+    fun onMarkerPickUpClicked(lat: Double, lng: Double) {
+        _pickUpClickedLocation.value = lat to lng
+    }
+
+    fun onMarkerDropOffClicked(lat: Double, lng: Double) {
+        _dropOffClickedLocation.value = lat to lng
     }
 }

@@ -39,7 +39,7 @@ fun LoginScreen() {
             navController = navController,
             startDestination = HOME_ROUTE,
         ) {
-           /* composable(route = INPUT_PHONE_NUMBER_ROUTE) {
+           composable(route = INPUT_PHONE_NUMBER_ROUTE) {
                 PhoneNumberInputScreen(viewModel) {
                     navController.navigate(SMS_VERIFICATION_ROUTE)
                 }
@@ -60,7 +60,7 @@ fun LoginScreen() {
                         }
                     }
                 )
-            }*/
+            }
             composable(route = HOME_ROUTE) {
                 TiptappApp()
             }
