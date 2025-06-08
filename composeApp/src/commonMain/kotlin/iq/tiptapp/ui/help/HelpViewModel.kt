@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class MapViewModel : ViewModel() {
+class HelpViewModel : ViewModel() {
     private val _clickedLocation = MutableStateFlow<Pair<Double, Double>?>(null)
     val clickedLocation: StateFlow<Pair<Double, Double>?> = _clickedLocation
 

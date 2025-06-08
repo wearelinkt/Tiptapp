@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitViewController
 import iq.tiptapp.LocalNativeViewFactory
-import iq.tiptapp.ui.help.MapViewModel
+import iq.tiptapp.ui.help.HelpViewModel
 
 @Composable
-actual fun MapComponent(viewModel: MapViewModel) {
+actual fun MapComponent(viewModel: HelpViewModel) {
     val factory = LocalNativeViewFactory.current
     UIKitViewController(
         modifier = Modifier.fillMaxSize(),

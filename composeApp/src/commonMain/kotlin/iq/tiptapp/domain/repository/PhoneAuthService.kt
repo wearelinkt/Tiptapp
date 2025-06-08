@@ -1,4 +1,4 @@
-package iq.tiptapp
+package iq.tiptapp.domain.repository
 
 interface PhoneAuthService {
     fun sendVerificationCode(

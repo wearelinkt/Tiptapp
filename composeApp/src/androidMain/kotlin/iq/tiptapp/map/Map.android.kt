@@ -13,10 +13,10 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import iq.tiptapp.ui.help.MapViewModel
+import iq.tiptapp.ui.help.HelpViewModel
 
 @Composable
-actual fun MapComponent(viewModel: MapViewModel) {
+actual fun MapComponent(viewModel: HelpViewModel) {
     var markerPosition by remember { mutableStateOf(LatLng(35.6997, 51.3380)) }
 
     val cameraPositionState = rememberCameraPositionState {

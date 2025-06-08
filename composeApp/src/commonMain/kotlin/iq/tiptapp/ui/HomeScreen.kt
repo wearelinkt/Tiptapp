@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import iq.tiptapp.Greeting
 import org.jetbrains.compose.resources.painterResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.compose_multiplatform
@@ -33,7 +32,7 @@ fun HomeScreen() {
             Text("Click me!")
         }
         AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
+            val greeting = remember { "Hello" }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(painterResource(Res.drawable.compose_multiplatform), null)
                 Text("Compose: $greeting")

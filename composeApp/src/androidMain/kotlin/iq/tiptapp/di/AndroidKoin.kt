@@ -1,7 +1,7 @@
 package iq.tiptapp.di
 
 import iq.tiptapp.ActivityHolder
-import iq.tiptapp.PhoneAuthService
+import iq.tiptapp.domain.repository.PhoneAuthService
 import iq.tiptapp.repository.AndroidAuthService
 import iq.tiptapp.ui.verification.VerificationViewModel
 import org.koin.core.module.Module

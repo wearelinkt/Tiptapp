@@ -7,7 +7,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import io.github.aakira.napier.Napier
-import iq.tiptapp.PhoneAuthService
+import iq.tiptapp.domain.repository.PhoneAuthService
 import java.util.concurrent.TimeUnit
 
 class AndroidAuthService(
