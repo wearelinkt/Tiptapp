@@ -102,6 +102,8 @@ kotlin {
     }
 }
 
+val mapsApiKey = project.findProperty("MAPS_API_KEY") as? String ?: ""
+
 android {
     namespace = "iq.tiptapp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -112,6 +114,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
     packaging {
         resources {
@@ -130,6 +133,7 @@ android {
     lint {
         disable += "NullSafeMutableLiveData"
     }
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
 }
 
