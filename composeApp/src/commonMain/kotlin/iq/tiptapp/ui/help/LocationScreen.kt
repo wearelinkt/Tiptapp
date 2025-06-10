@@ -1,5 +1,6 @@
 package iq.tiptapp.ui.help
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -116,9 +117,10 @@ fun LocationScreen(
                 Box(
                     modifier = Modifier.fillMaxWidth()
                         .padding(16.dp)
+                        .background(Color.White)
                         .border(
                             width = 1.dp,
-                            color = Color.Gray,
+                            color = Color.LightGray,
                             shape = RoundedCornerShape(8.dp)
                         )
                         .padding(start = 12.dp, end = 12.dp, top = 24.dp, bottom = 24.dp)

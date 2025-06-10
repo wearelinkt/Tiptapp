@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -102,7 +103,13 @@ kotlin {
     }
 }
 
-val mapsApiKey = project.findProperty("MAPS_API_KEY") as? String ?: ""
+val mapsApiKey = Properties().run {
+    val propsFile = rootProject.file("local.properties")
+    if (propsFile.exists()) {
+        propsFile.inputStream().use { load(it) }
+        getProperty("MAPS_API_KEY")
+    }
+}
 
 android {
     namespace = "iq.tiptapp"
@@ -134,7 +141,6 @@ android {
         disable += "NullSafeMutableLiveData"
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-
 }
 
 dependencies {
