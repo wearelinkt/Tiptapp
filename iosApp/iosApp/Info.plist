@@ -81,5 +81,9 @@
     <string>Camera permission is required for the app to work.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Photo Library permission is required for the app to work.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to your location to provide location-based services</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to your location to provide location-based services</string>
 </dict>
 </plist>

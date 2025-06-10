@@ -54,7 +54,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.firebase.auth)
             implementation(libs.kotlinx.coroutines.android)
-            implementation("com.google.maps.android:maps-compose:6.1.0")
+            implementation(libs.map.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -85,8 +85,11 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.url.encoder)
             implementation("io.github.kashif-mehmood-km:camerak:+")
-            implementation("io.github.kashif-mehmood-km:image_saver_plugin:0.0.7")
-            //implementation("io.github.kashif-mehmood-km:ocr_plugin:0.0.3")
+            implementation(libs.camera.k.image.saver)
+            implementation(libs.moko.geo)
+            implementation(libs.moko.geo.compose)
+            implementation(libs.moko.permissions)
+            implementation(libs.moko.permissions.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

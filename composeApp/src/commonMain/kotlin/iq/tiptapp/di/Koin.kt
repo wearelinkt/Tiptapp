@@ -1,7 +1,7 @@
 package iq.tiptapp.di
 
-import iq.tiptapp.ui.help.PermissionViewModel
 import iq.tiptapp.ui.help.HelpViewModel
+import iq.tiptapp.ui.help.PermissionViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf

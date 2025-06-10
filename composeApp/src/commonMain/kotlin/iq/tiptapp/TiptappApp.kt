@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Assistant
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Assistant
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
@@ -40,7 +39,7 @@ import iq.tiptapp.ui.help.DropOffScreen
 import iq.tiptapp.ui.help.HelpScreen
 import iq.tiptapp.ui.help.PickUpScreen
 import iq.tiptapp.ui.help.HelpViewModel
-import iq.tiptapp.ui.help.PickUpDetailScreen
+import iq.tiptapp.ui.help.LocationScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -172,7 +171,7 @@ private fun NavGraphBuilder.createAdScreens(
             { navController.navigate(PICK_UP_DETAIL) }) { navController.navigateUp() }
     }
     composable(route = PICK_UP_DETAIL) {
-        PickUpDetailScreen()
+        LocationScreen()
     }
 }
 

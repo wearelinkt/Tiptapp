@@ -29,6 +29,10 @@ lib-phone-number = "0.1.5"
 gservices = "4.4.2"
 firebase-auth = "22.0.0"
 runtimeAndroid = "1.8.2"
+map-compose ="6.1.0"
+moko-permissions = "0.18.0"
+moko-geo = "0.8.0"
+camera-k = "0.0.7"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -71,6 +75,14 @@ lib-phone-number = { group = "io.github.luca992.libphonenumber-kotlin", name = "
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth" }
 androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
 
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko-permissions" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+
+camera-k-image-saver = { module = "io.github.kashif-mehmood-km:image_saver_plugin", version.ref = "camera-k" }
+moko-geo = { module = "dev.icerock.moko:geo", version.ref = "moko-geo" }
+moko-geo-compose = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
+
+map-compose = {module = "com.google.maps.android:maps-compose", version.ref = "map-compose"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
