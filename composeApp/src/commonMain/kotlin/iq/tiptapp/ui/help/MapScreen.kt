@@ -18,19 +18,20 @@ import iq.tiptapp.map.MapComponent
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.continue_text
-import tiptapp.composeapp.generated.resources.drop_off
+import tiptapp.composeapp.generated.resources.pick_up
 
 @Composable
-fun DropOffScreen(
-    viewModel: HelpViewModel,
+fun MapScreen(
+    location: Pair<Double, Double>?,
     onContinueClicked: () -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    onMarkerClicked: (Double, Double) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
-            CustomTopAppBar(Res.string.drop_off, onBackClicked)
-            MapComponent { lat, lng ->
-                viewModel.onMarkerDropOffClicked(lat, lng)
+            CustomTopAppBar(Res.string.pick_up, onBackClicked)
+            MapComponent(location) { lat, lng ->
+                onMarkerClicked.invoke(lat, lng)
             }
         }
 

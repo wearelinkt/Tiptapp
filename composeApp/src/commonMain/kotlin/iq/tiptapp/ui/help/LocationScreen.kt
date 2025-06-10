@@ -1,6 +1,7 @@
 package iq.tiptapp.ui.help
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,13 +31,17 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
 import iq.tiptapp.location.getPlatformLocationProvider
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.current_location
-import tiptapp.composeapp.generated.resources.pick_up
 
 @Composable
-fun LocationScreen(onBackClicked: () -> Unit) {
+fun LocationScreen(
+    title: StringResource,
+    onBackClicked: () -> Unit,
+    setupLatLngToNavigate: (Double, Double) -> Unit
+) {
     val factory = rememberPermissionsControllerFactory()
     val controller = remember(factory) {
         factory.createPermissionsController()
@@ -62,7 +67,7 @@ fun LocationScreen(onBackClicked: () -> Unit) {
     }
 
     Column(Modifier.fillMaxSize()) {
-        CustomTopAppBar(Res.string.pick_up, onBackClicked)
+        CustomTopAppBar(title, onBackClicked)
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -114,6 +119,11 @@ fun LocationScreen(onBackClicked: () -> Unit) {
                             shape = RoundedCornerShape(8.dp)
                         )
                         .padding(start = 12.dp, end = 12.dp, top = 24.dp, bottom = 24.dp)
+                        .clickable {
+                            location?.let { loc ->
+                                setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
+                            }
+                        }
                 ) {
                     Text(
                         text = it,

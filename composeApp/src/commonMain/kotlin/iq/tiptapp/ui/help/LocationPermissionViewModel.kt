@@ -73,6 +73,8 @@ class LocationPermissionViewModel(
                     lookupCoordinates(it.latitude, it.longitude)?.let { ads ->
                         _address.tryEmit(buildString {
                             listOfNotNull(
+                                ads.name,
+                                ads.street,
                                 ads.thoroughfare,
                                 ads.locality,
                                 ads.administrativeArea,

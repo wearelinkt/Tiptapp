@@ -12,18 +12,22 @@ import SwiftUI
 import ComposeApp
 
 class IOSNativeViewFactory: NativeViewFactory {
-    func createGoogleMapView(onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) -> UIViewController {
-        return MapViewController(onMarkerTapped: onMarkerTapped)
+    func createGoogleMapView(latitude: KotlinDouble?, longitude: KotlinDouble?, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) -> UIViewController {
+        return MapViewController(latitude: latitude!.doubleValue, longitude: longitude!.doubleValue, onMarkerTapped: onMarkerTapped)
     }
     
     static var shared = IOSNativeViewFactory()
 }
 
 class MapViewController: UIViewController, GMSMapViewDelegate {
-    var marker: GMSMarker!
+    let latitude: Double
+    let longitude: Double
     let onMarkerTapped: (KotlinDouble, KotlinDouble) -> Void
+    var marker: GMSMarker!
     
-    init(onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) {
+    init(latitude: Double, longitude: Double, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) {
+        self.latitude = latitude
+        self.longitude = longitude
         self.onMarkerTapped = onMarkerTapped
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,13 +40,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         super.viewDidLoad()
         
         DispatchQueue.main.async {
-            let camera = GMSCameraPosition.camera(withLatitude: 35.6997, longitude: 51.3380, zoom: 15.0)
+            let camera = GMSCameraPosition.camera(withLatitude: self.latitude, longitude: self.longitude, zoom: 15.0)
             let mapView = GMSMapView(frame: self.view.bounds, camera: camera)
             mapView.delegate = self
             self.view.addSubview(mapView)
             
             self.marker = GMSMarker()
-            self.marker.position = CLLocationCoordinate2D(latitude: 35.6997, longitude: 51.3380)
+            self.marker.position = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
             self.marker.title = "Selected Location"
             self.marker.snippet = "Lat: \(self.marker.position.latitude), Lng: \(self.marker.position.longitude)"
             self.marker.map = mapView

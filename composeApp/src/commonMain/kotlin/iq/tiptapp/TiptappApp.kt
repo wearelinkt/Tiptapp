@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -35,9 +36,9 @@ import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
-import iq.tiptapp.ui.help.DropOffScreen
+import iq.tiptapp.ui.help.HelpDetailScreen
 import iq.tiptapp.ui.help.HelpScreen
-import iq.tiptapp.ui.help.PickUpScreen
+import iq.tiptapp.ui.help.MapScreen
 import iq.tiptapp.ui.help.HelpViewModel
 import iq.tiptapp.ui.help.LocationScreen
 import org.jetbrains.compose.resources.StringResource
@@ -47,8 +48,10 @@ import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.account
 import tiptapp.composeapp.generated.resources.ads
 import tiptapp.composeapp.generated.resources.create_ad
+import tiptapp.composeapp.generated.resources.drop_off
 import tiptapp.composeapp.generated.resources.home
 import tiptapp.composeapp.generated.resources.my_ads
+import tiptapp.composeapp.generated.resources.pick_up
 
 @Composable
 fun TiptappApp() {
@@ -162,16 +165,35 @@ private fun NavGraphBuilder.createAdScreens(
         HelpScreen { navController.navigate(PICK_UP_LOCATION) }
     }
     composable(route = PICK_UP_LOCATION) {
-        PickUpScreen(
-            viewModel,
-            { navController.navigate(DROP_OFF_LOCATION) }) { navController.navigateUp() }
+        LocationScreen(Res.string.pick_up, { navController.navigateUp() }) { lat, lng ->
+            viewModel.onMarkerPickUpClicked(lat, lng)
+            navController.navigate(PICK_UP_ROUTE)
+        }
+    }
+    composable(route = PICK_UP_ROUTE) {
+        MapScreen(
+            viewModel.pickUpClickedLocation.collectAsState().value,
+            { navController.navigate(DROP_OFF_LOCATION) },
+            { navController.navigateUp() }) { lat, lng ->
+            viewModel.onMarkerPickUpClicked(lat, lng)
+        }
     }
     composable(route = DROP_OFF_LOCATION) {
-        DropOffScreen(viewModel,
-            { navController.navigate(PICK_UP_DETAIL) }) { navController.navigateUp() }
+        LocationScreen(Res.string.drop_off, { navController.navigateUp() }) { lat, lng ->
+            viewModel.onMarkerDropOffClicked(lat, lng)
+            navController.navigate(DROP_OFF_ROUTE)
+        }
     }
-    composable(route = PICK_UP_DETAIL) {
-        LocationScreen { navController.navigateUp() }
+    composable(route = DROP_OFF_ROUTE) {
+        MapScreen(
+            viewModel.dropOffClickedLocation.collectAsState().value,
+            { navController.navigate(HELP_DETAIL_ROUTE) },
+            { navController.navigateUp() }) { lat, lng ->
+            viewModel.onMarkerPickUpClicked(lat, lng)
+        }
+    }
+    composable(route = HELP_DETAIL_ROUTE) {
+        HelpDetailScreen()
     }
 }
 
@@ -201,5 +223,7 @@ enum class HomeSections(
 private const val HOME_ROUTE = "home_route"
 private const val CREATE_ADD_ROUTE = "create_ad_route"
 private const val PICK_UP_LOCATION = "pick_up_location_route"
+private const val PICK_UP_ROUTE = "pick_up__route"
 private const val DROP_OFF_LOCATION = "drop_off_location_route"
-private const val PICK_UP_DETAIL = "pick_up_detail_route"
+private const val DROP_OFF_ROUTE = "drop_off_route"
+private const val HELP_DETAIL_ROUTE = "help_detail_route"
