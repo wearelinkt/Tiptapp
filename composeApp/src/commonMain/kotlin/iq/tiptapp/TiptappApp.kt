@@ -171,7 +171,7 @@ private fun NavGraphBuilder.createAdScreens(
             { navController.navigate(PICK_UP_DETAIL) }) { navController.navigateUp() }
     }
     composable(route = PICK_UP_DETAIL) {
-        LocationScreen()
+        LocationScreen { navController.navigateUp() }
     }
 }
 

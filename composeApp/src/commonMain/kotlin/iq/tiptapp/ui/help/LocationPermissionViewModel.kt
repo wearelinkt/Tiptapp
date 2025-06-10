@@ -14,6 +14,11 @@ import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
+import dev.jordond.compass.Place
+import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.GeocoderResult
+import dev.jordond.compass.geocoder.mobile.MobilePlatformGeocoder
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -28,9 +33,14 @@ class LocationPermissionViewModel(
     var state by mutableStateOf(PermissionState.NotDetermined)
         private set
 
+    var isLoading by mutableStateOf(false)
+       private set
+
     private val _latLng = MutableStateFlow<LatLng?>(null)
     val latLng: StateFlow<LatLng?> = _latLng
 
+    private val _address = MutableStateFlow<String?>(null)
+    val address: StateFlow<String?> = _address
 
     init {
         viewModelScope.launch {
@@ -53,14 +63,37 @@ class LocationPermissionViewModel(
     }
 
     fun refreshLocation() {
+        isLoading = true
         viewModelScope.launch {
             locationTracker.startTracking()
             locationTracker.getLocationsFlow()
                 .distinctUntilChanged()
                 .collect {
                     _latLng.tryEmit(it)
+                    lookupCoordinates(it.latitude, it.longitude)?.let { ads ->
+                        _address.tryEmit(buildString {
+                            listOfNotNull(
+                                ads.thoroughfare,
+                                ads.locality,
+                                ads.administrativeArea,
+                                ads.country,
+                                ads.postalCode
+                            ).joinTo(this, separator = ", ")
+                            isLoading = false
+                        })
+                    }
                 }
         }
+    }
+
+    private suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
+        val geocoder = Geocoder(MobilePlatformGeocoder())
+        val result: GeocoderResult<Place> = geocoder.reverse(latitude, longitude)
+        when (result) {
+            is GeocoderResult.Error -> Napier.w("Error: $result")
+            is GeocoderResult.Success -> Napier.d("Success: ${result.getFirstOrNull()}")
+        }
+        return result.getFirstOrNull()
     }
 
     override fun onCleared() {

@@ -93,8 +93,7 @@ fun PhoneNumberInputScreen(
             if (isLoading) {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .clickable(enabled = false) {},
+                        .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator(color = Turquoise)
