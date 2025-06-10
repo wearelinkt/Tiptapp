@@ -16,7 +16,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        if let apiKey = Bundle.main.infoDictionary?["SECRET"] as? String {
+        if let apiKey = Bundle.main.infoDictionary?["MAPS_API_KEY"] as? String {
             GMSServices.provideAPIKey(apiKey)
         }
         FirebaseApp.configure()
