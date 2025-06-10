@@ -16,7 +16,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        GMSServices.provideAPIKey("AIzaSyD0adkCvVEQBYz84S1Tw2AgSck595nOKhE")
+        if let apiKey = Bundle.main.infoDictionary?["SECRET"] as? String {
+            GMSServices.provideAPIKey(apiKey)
+        }
         FirebaseApp.configure()
         //Auth.auth().useEmulator(withHost: "127.0.0.1", port: 9099)
         

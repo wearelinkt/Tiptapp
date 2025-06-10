@@ -1,3 +1,5 @@
 TEAM_ID=
 BUNDLE_ID=iq.tiptapp
 APP_NAME=Tiptapp
+
+MAPS_API_KEY = AIzaSyD0adkCvVEQBYz84S1Tw2AgSck595nOKhE
