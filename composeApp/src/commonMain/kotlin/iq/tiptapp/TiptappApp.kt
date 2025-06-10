@@ -172,6 +172,7 @@ private fun NavGraphBuilder.createAdScreens(
     }
     composable(route = PICK_UP_ROUTE) {
         MapScreen(
+            Res.string.pick_up,
             viewModel.pickUpClickedLocation.collectAsState().value,
             { navController.navigate(DROP_OFF_LOCATION) },
             { navController.navigateUp() }) { lat, lng ->
@@ -186,6 +187,7 @@ private fun NavGraphBuilder.createAdScreens(
     }
     composable(route = DROP_OFF_ROUTE) {
         MapScreen(
+            Res.string.drop_off,
             viewModel.dropOffClickedLocation.collectAsState().value,
             { navController.navigate(HELP_DETAIL_ROUTE) },
             { navController.navigateUp() }) { lat, lng ->

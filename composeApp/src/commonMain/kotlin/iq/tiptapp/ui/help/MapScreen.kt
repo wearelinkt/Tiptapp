@@ -15,13 +15,14 @@ import androidx.compose.ui.unit.dp
 import component.CustomTopAppBar
 import iq.tiptapp.Turquoise
 import iq.tiptapp.map.MapComponent
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.continue_text
-import tiptapp.composeapp.generated.resources.pick_up
 
 @Composable
 fun MapScreen(
+    title: StringResource,
     location: Pair<Double, Double>?,
     onContinueClicked: () -> Unit,
     onBackClicked: () -> Unit,
@@ -29,7 +30,7 @@ fun MapScreen(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
-            CustomTopAppBar(Res.string.pick_up, onBackClicked)
+            CustomTopAppBar(title, onBackClicked)
             MapComponent(location) { lat, lng ->
                 onMarkerClicked.invoke(lat, lng)
             }
