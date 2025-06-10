@@ -17,4 +17,7 @@
     <string name="current_location">Current location</string>
     <string name="camera_permission_denied">Cannot continue without Camera Permission</string>
     <string name="storage_permission_denied">Cannot continue without File Storage Permission</string>
+    <string name="location_permission_denied_permanent">Permission was permanently declined.</string>
+    <string name="location_permission_denied">Permission was declined. Please try again.</string>
+    <string name="open_app_setting">Open app settings</string>
 </resources>

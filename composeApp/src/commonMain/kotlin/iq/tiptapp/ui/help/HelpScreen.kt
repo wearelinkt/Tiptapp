@@ -24,7 +24,7 @@ import tiptapp.composeapp.generated.resources.storage_permission_denied
 
 @Composable
 fun HelpScreen(
-    viewModel: PermissionViewModel = koinViewModel<PermissionViewModel>(),
+    viewModel: CameraPermissionViewModel = koinViewModel<CameraPermissionViewModel>(),
     onContinueClick: () -> Unit
 ) {
     val permissions: Permissions = providePermissions()
@@ -35,22 +35,22 @@ fun HelpScreen(
 @Composable
 private fun CameraPermissionContent(
     permissions: Permissions,
-    viewModel: PermissionViewModel,
+    viewModel: CameraPermissionViewModel,
     onContinueClick: () -> Unit
 ) {
     when (val state = viewModel.cameraPermissionState.collectAsState().value) {
-        is PermissionViewModel.PermissionState.Dialog -> {
+        is CameraPermissionViewModel.PermissionState.Dialog -> {
             permissions.RequestCameraPermission(
                 onGranted = {
-                    viewModel.setCameraState(PermissionViewModel.PermissionState.Granted)
+                    viewModel.setCameraState(CameraPermissionViewModel.PermissionState.Granted)
                 },
                 onDenied = {
-                    viewModel.setCameraState(PermissionViewModel.PermissionState.Denied(Res.string.camera_permission_denied))
+                    viewModel.setCameraState(CameraPermissionViewModel.PermissionState.Denied(Res.string.camera_permission_denied))
                 }
             )
         }
 
-        is PermissionViewModel.PermissionState.Granted -> {
+        is CameraPermissionViewModel.PermissionState.Granted -> {
             if (isTiramisuOrHigher()) {
                 CameraScreen(onContinueClick)
             } else {
@@ -59,7 +59,7 @@ private fun CameraPermissionContent(
 
         }
 
-        is PermissionViewModel.PermissionState.Denied -> {
+        is CameraPermissionViewModel.PermissionState.Denied -> {
             PermissionDenied(state.reason)
         }
     }
@@ -68,26 +68,26 @@ private fun CameraPermissionContent(
 @Composable
 private fun StoragePermissionContent(
     permissions: Permissions,
-    viewModel: PermissionViewModel,
+    viewModel: CameraPermissionViewModel,
     onContinueClick: () -> Unit
 ) {
     when (val state = viewModel.storagePermissionState.collectAsState().value) {
-        is PermissionViewModel.PermissionState.Dialog -> {
+        is CameraPermissionViewModel.PermissionState.Dialog -> {
             permissions.RequestStoragePermission(
                 onGranted = {
-                    viewModel.setStorageState(PermissionViewModel.PermissionState.Granted)
+                    viewModel.setStorageState(CameraPermissionViewModel.PermissionState.Granted)
                 },
                 onDenied = {
-                    viewModel.setStorageState(PermissionViewModel.PermissionState.Denied(Res.string.storage_permission_denied))
+                    viewModel.setStorageState(CameraPermissionViewModel.PermissionState.Denied(Res.string.storage_permission_denied))
                 }
             )
         }
 
-        is PermissionViewModel.PermissionState.Granted -> {
+        is CameraPermissionViewModel.PermissionState.Granted -> {
             CameraScreen(onContinueClick)
         }
 
-        is PermissionViewModel.PermissionState.Denied -> {
+        is CameraPermissionViewModel.PermissionState.Denied -> {
             PermissionDenied(state.reason)
         }
     }

@@ -35,6 +35,9 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.current_location
+import tiptapp.composeapp.generated.resources.location_permission_denied
+import tiptapp.composeapp.generated.resources.location_permission_denied_permanent
+import tiptapp.composeapp.generated.resources.open_app_setting
 
 @Composable
 fun LocationScreen(
@@ -80,16 +83,16 @@ fun LocationScreen(
                 }
 
                 PermissionState.DeniedAlways -> {
-                    Text("Permission was permanently declined.")
+                    Text(stringResource(Res.string.location_permission_denied_permanent))
                     Button(onClick = {
                         controller.openAppSettings()
                     }) {
-                        Text("Open app settings")
+                        Text(stringResource(Res.string.open_app_setting))
                     }
                 }
 
                 PermissionState.Denied -> {
-                    Text("Permission was declined. Please try again.")
+                    Text(stringResource(Res.string.location_permission_denied))
                 }
 
                 else -> {

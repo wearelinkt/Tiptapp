@@ -71,7 +71,6 @@ fun CameraScreen(onContinueClick: () -> Unit) {
         )
     )
 
-    val maxSlots = 4
     val imageSlots = remember { mutableStateListOf<ImageBitmap?>(null, null, null, null) }
     var selectedSlot by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
@@ -260,3 +259,5 @@ private suspend fun handleImageCapture(
         }
     }
 }
+
+private const val maxSlots = 4

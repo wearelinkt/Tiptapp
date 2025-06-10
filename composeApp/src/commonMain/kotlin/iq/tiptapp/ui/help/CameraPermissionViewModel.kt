@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.StringResource
 
-class PermissionViewModel : ViewModel() {
+class CameraPermissionViewModel : ViewModel() {
 
     private val _cameraPermissionState = MutableStateFlow<PermissionState>(PermissionState.Dialog)
     val cameraPermissionState: StateFlow<PermissionState>
