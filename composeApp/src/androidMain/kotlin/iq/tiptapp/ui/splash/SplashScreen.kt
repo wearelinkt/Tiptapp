@@ -36,7 +36,7 @@ fun SplashScreen(
 
     LaunchedEffect(userId) {
         userId?.let {
-            if(userId!!.isEmpty()) {
+            if(it.isEmpty()) {
                 navigate.invoke(false)
             } else {
                 viewModel.userExist(it)
