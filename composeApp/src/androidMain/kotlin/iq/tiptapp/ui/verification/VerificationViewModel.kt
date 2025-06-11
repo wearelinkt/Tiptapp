@@ -4,12 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import iq.tiptapp.domain.repository.PhoneAuthService
+import iq.tiptapp.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class VerificationViewModel(
-    private val phoneAuthService: PhoneAuthService
+    private val phoneAuthService: PhoneAuthService,
+    private val repository: UserRepository
 ) : ViewModel() {
 
     private val _autoRetrievedCode = MutableStateFlow("")
@@ -21,9 +25,17 @@ class VerificationViewModel(
     var isLoading by mutableStateOf(false)
         private set
 
+    private val _registerUserState = MutableStateFlow<Boolean?>(null)
+    val registerUserState: StateFlow<Boolean?>
+        get() = _registerUserState
+
     private var verificationId: String? = null
     private var smsCode: String = ""
     private var userId: String = "no-uid"
+
+    private val fullPhoneNumber
+        get() = "+98$phoneNumber"
+
 
     fun onPhoneNumberChange(newValue: String) {
         phoneNumber = newValue.filter(Char::isDigit).take(10)
@@ -39,7 +51,6 @@ class VerificationViewModel(
         onSuccess: () -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val fullPhoneNumber = "+98$phoneNumber"
         isLoading = true
         phoneAuthService.sendVerificationCode(
             fullPhoneNumber,
@@ -77,7 +88,6 @@ class VerificationViewModel(
             verificationId = verificationId,
             smsCode = smsCode,
             onSuccess = {
-                isLoading = false
                 onResult(true, it)
             },
             onError = {
@@ -87,8 +97,23 @@ class VerificationViewModel(
         )
     }
 
-    fun hideLoading() {
-        isLoading = false
+    fun registerUser() {
+        viewModelScope.launch {
+            repository.registerUser(fullPhoneNumber, userId).fold(
+                onSuccess = { result ->
+                    isLoading = false
+                    _registerUserState.value = result
+                },
+                onFailure = {
+                    isLoading = false
+                    _registerUserState.value = false
+                }
+            )
+        }
+    }
+
+    fun setUserId(userId: String) {
+        this.userId = userId
     }
 
     fun getUserId() = userId

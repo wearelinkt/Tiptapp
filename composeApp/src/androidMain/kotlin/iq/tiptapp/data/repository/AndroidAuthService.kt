@@ -1,4 +1,4 @@
-package iq.tiptapp.repository
+package iq.tiptapp.data.repository
 
 import android.app.Activity
 import com.google.firebase.FirebaseException

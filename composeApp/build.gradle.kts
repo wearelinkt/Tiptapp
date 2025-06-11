@@ -93,6 +93,8 @@ kotlin {
             implementation(libs.compass.geocoder)
             implementation(libs.compass.geocoder.mobile)
 
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

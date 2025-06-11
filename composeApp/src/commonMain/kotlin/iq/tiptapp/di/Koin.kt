@@ -1,10 +1,15 @@
 package iq.tiptapp.di
 
-import iq.tiptapp.ui.help.HelpViewModel
+import iq.tiptapp.data.network.jsonModule
+import iq.tiptapp.data.network.ktorModule
 import iq.tiptapp.ui.help.CameraPermissionViewModel
+import iq.tiptapp.ui.help.HelpViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
@@ -12,7 +17,12 @@ fun initKoin(config: KoinAppDeclaration? = null, modules: List<Module> = emptyLi
     startKoin {
         config?.invoke(this)
         modules(
-            viewModelModule + modules
+            listOf(
+                ktorModule,
+                jsonModule,
+                dispatcherModule,
+                viewModelModule
+            ) + modules
         )
     }
 }
@@ -20,4 +30,8 @@ fun initKoin(config: KoinAppDeclaration? = null, modules: List<Module> = emptyLi
 val viewModelModule = module {
     viewModelOf(::CameraPermissionViewModel)
     viewModelOf(::HelpViewModel)
+}
+
+val dispatcherModule = module {
+    single(named("io")) { Dispatchers.IO }
 }

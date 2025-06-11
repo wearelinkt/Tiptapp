@@ -34,6 +34,7 @@ moko-permissions = "0.18.0"
 moko-geo = "0.8.0"
 compass = "1.2.2"
 camera-k = "0.0.7"
+datastore = "1.1.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -85,6 +86,9 @@ moko-geo-compose = { module = "dev.icerock.moko:geo-compose", version.ref = "mok
 compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
 compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", version.ref = "compass" }
 map-compose = {module = "com.google.maps.android:maps-compose", version.ref = "map-compose"}
+
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

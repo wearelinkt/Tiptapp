@@ -38,17 +38,24 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import component.TiptappAppBarWithNavigation
 import iq.tiptapp.Turquoise
-import kotlinx.coroutines.delay
+import iq.tiptapp.ui.splash.USER_ID_KEY
+import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.enter_code
+import tiptapp.composeapp.generated.resources.user_register_failed
 
 @Composable
 fun SmsCodeScreen(
+    prefs: DataStore<Preferences>,
     viewModel: VerificationViewModel,
     onBackClick: () -> Unit,
-    onCodeVerified: (String) -> Unit
+    navigate: () -> Unit
 ) {
     val isLoading = viewModel.isLoading
     val context = LocalContext.current
@@ -71,6 +78,25 @@ fun SmsCodeScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val registerUserState by viewModel.registerUserState.collectAsState()
+    registerUserState?.let {
+        navigate.invoke()
+        if(it) {
+            LaunchedEffect(Unit) {
+                prefs.edit { dataStore ->
+                    dataStore[stringPreferencesKey(USER_ID_KEY)] =
+                        viewModel.getUserId()
+                }
+            }
+        } else {
+            Toast.makeText(
+                context,
+                stringResource(Res.string.user_register_failed),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     LaunchedEffect(autoCode) {
         if (autoCode.length == 6 && autoCode.all { it.isDigit() }) {
             focusManager.clearFocus()
@@ -78,10 +104,7 @@ fun SmsCodeScreen(
                 codeDigits[i] = c.toString()
             }
             keyboardController?.hide()
-            delay(1300L)
-            viewModel.hideLoading()
-            delay(200L)
-            onCodeVerified(viewModel.getUserId())
+            viewModel.registerUser()
         } else {
             // Automatically focus first box on load
             focusRequesters[focusedIndex].requestFocus()
@@ -122,7 +145,8 @@ fun SmsCodeScreen(
                         OutlinedTextField(
                             value = value,
                             onValueChange = { input ->
-                                val digit = input.lastOrNull()?.takeIf { it.isDigit() }?.toString() ?: ""
+                                val digit =
+                                    input.lastOrNull()?.takeIf { it.isDigit() }?.toString() ?: ""
                                 codeDigits[index] = digit
                                 focusedIndex = index
 
@@ -142,9 +166,11 @@ fun SmsCodeScreen(
                                     viewModel.updateSmsCode(fullCode)
                                     viewModel.verifyCode { success, result ->
                                         if (success) {
-                                            onCodeVerified(result)
+                                            viewModel.setUserId(userId = result)
+                                            viewModel.registerUser()
                                         } else {
-                                            Toast.makeText(context, result, Toast.LENGTH_LONG).show()
+                                            Toast.makeText(context, result, Toast.LENGTH_LONG)
+                                                .show()
                                         }
                                     }
                                 }
