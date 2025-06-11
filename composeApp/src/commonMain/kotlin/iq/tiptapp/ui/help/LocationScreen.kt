@@ -70,73 +70,77 @@ fun LocationScreen(
         }
     }
 
-    Column(Modifier.fillMaxSize()) {
-        CustomTopAppBar(title, onBackClicked)
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            when (permissionState) {
-                PermissionState.Granted -> {
-                    Napier.d("Permission granted.")
-                }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(Modifier.fillMaxSize()) {
+            CustomTopAppBar(title, onBackClicked)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                when (permissionState) {
+                    PermissionState.Granted -> {
+                        Napier.d("Permission granted.")
+                    }
 
-                PermissionState.DeniedAlways -> {
-                    Text(stringResource(Res.string.location_permission_denied_permanent))
-                    Button(onClick = {
-                        controller.openAppSettings()
-                    }) {
-                        Text(stringResource(Res.string.open_app_setting))
+                    PermissionState.DeniedAlways -> {
+                        Text(stringResource(Res.string.location_permission_denied_permanent))
+                        Button(onClick = {
+                            controller.openAppSettings()
+                        }) {
+                            Text(stringResource(Res.string.open_app_setting))
+                        }
+                    }
+
+                    PermissionState.Denied -> {
+                        Text(stringResource(Res.string.location_permission_denied))
+                    }
+
+                    else -> {
+                        Napier.d("Requesting permission...")
                     }
                 }
 
-                PermissionState.Denied -> {
-                    Text(stringResource(Res.string.location_permission_denied))
-                }
-
-                else -> {
-                    Napier.d("Requesting permission...")
-                }
-            }
-
-            if (isLoading) {
-                CircularProgressIndicator(color = Turquoise)
-            }
-
-            address?.let {
-                Text(
-                    stringResource(Res.string.current_location),
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp) // Optional for spacing
-                        .align(Alignment.Start)
-                )
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(16.dp)
-                        .background(Color.White)
-                        .border(
-                            width = 1.dp,
-                            color = Color.LightGray,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(start = 12.dp, end = 12.dp, top = 24.dp, bottom = 24.dp)
-                        .clickable {
-                            location?.let { loc ->
-                                setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
-                            }
-                        }
-                ) {
+                address?.let {
                     Text(
-                        text = it,
-                        fontSize = 14.sp,
-                        color = Color.DarkGray
+                        stringResource(Res.string.current_location),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 8.dp) // Optional for spacing
+                            .align(Alignment.Start)
                     )
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(16.dp)
+                            .background(Color.White)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(start = 12.dp, end = 12.dp, top = 24.dp, bottom = 24.dp)
+                            .clickable {
+                                location?.let { loc ->
+                                    setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
+                                }
+                            }
+                    ) {
+                        Text(
+                            text = it,
+                            fontSize = 14.sp,
+                            color = Color.DarkGray
+                        )
+                    }
                 }
             }
+        }
+        if (isLoading) {
+            CircularProgressIndicator(color = Turquoise)
         }
     }
 }
