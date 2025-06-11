@@ -35,6 +35,7 @@ moko-geo = "0.8.0"
 compass = "1.2.2"
 camera-k = "0.0.7"
 datastore = "1.1.1"
+google-secret = "2.0.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -99,4 +100,5 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "gservices" }
+googleSecret = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref="google-secret" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }

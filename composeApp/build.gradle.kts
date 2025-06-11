@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.googleSecret)
     //alias(libs.plugins.kotlinCocoapods)
 }
 
@@ -105,14 +106,6 @@ kotlin {
     }
 }
 
-val mapsApiKey = Properties().run {
-    val propsFile = rootProject.file("local.properties")
-    if (propsFile.exists()) {
-        propsFile.inputStream().use { load(it) }
-        getProperty("MAPS_API_KEY")
-    }
-}
-
 android {
     namespace = "iq.tiptapp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -123,7 +116,6 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
     packaging {
         resources {
@@ -142,7 +134,6 @@ android {
     lint {
         disable += "NullSafeMutableLiveData"
     }
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
 dependencies {
