@@ -25,7 +25,6 @@ enum ViewState: Equatable {
         default: return false
         }
     }
-    
 }
 
 struct AsyncContentView<Content: View>: View {

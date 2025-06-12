@@ -14,16 +14,18 @@ struct iOSApp: App {
     
     @State private var navigationPaths = [NavigationPath]()
     
+    private let networkService: NetworkServiceProtocol = NetworkService()
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPaths) {
-                ComposeView()
+                SplashView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths)
                     .navigationDestination(for: NavigationPath.self) { path in
                         switch path {
                         case .login:
-                            LoginView(viewModel: .init(), navigationPath: $navigationPaths)
+                            LoginView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths)
                         case .smsVerify:
-                            SMSCodeView(viewModel: .init(), navigationPath: $navigationPaths)
+                            SMSCodeView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths)
                         case .composeView:
                             ComposeView().navigationBarBackButtonHidden(true)
                                 .navigationBarTitleDisplayMode(.inline)

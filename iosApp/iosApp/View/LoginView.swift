@@ -11,22 +11,21 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel: PhoneAuthViewModel
-    @State private var phoneNumber: String = ""
     @Binding var navigationPath: [NavigationPath]
     
     private var isValidPhone: Bool {
-        phoneNumber.count >= 9 && phoneNumber.count <= 10
+        viewModel.phoneNumber.count >= 9 && viewModel.phoneNumber.count <= 10
     }
     
     var body: some View {
         AsyncContentView2(viewModel: viewModel) {
             VStack {
-                PhoneInputField(phoneNumber: $phoneNumber)
+                PhoneInputField(phoneNumber: $viewModel.phoneNumber)
                 
                 Spacer()
                 
                 Button(action: {
-                    viewModel.sendSmsVerification(phoneNumber: "+98\(phoneNumber)")
+                    viewModel.sendSmsVerification(phoneNumber: "+98\(viewModel.phoneNumber)")
                 }) {
                     Text("Continue")
                         .font(.headline)

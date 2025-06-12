@@ -86,6 +86,10 @@ struct SMSCodeView: View {
             
         } navigate: {
             navigationPath.append(.composeView)
+        }.onChange(of: viewModel.userId) { userId in
+            Task {
+                await viewModel.registerUser(phoneNumber: "+98\(viewModel.phoneNumber)", userId: viewModel.userId)
+            }
         }
     }
 }
