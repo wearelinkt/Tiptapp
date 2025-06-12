@@ -74,13 +74,12 @@ class PhoneAuthViewModel: BaseViewModel {
             } else {
                 let error = NSError(domain: "PhoneAuth", code: -2, userInfo: [NSLocalizedDescriptionKey: "Unknown error. No user returned."])
                 self.viewState = .failure(error: error)
-                
             }
         }
     }
     
-    func registerUser(phoneNumber: String, userId: String) async {
-        let body = RegisterRequest(id: userId, phoneNumber: phoneNumber)
+    func registerUser() async {
+        let body = RegisterRequest(id: userId, phoneNumber: "+98\(phoneNumber)")
         do {
             let request = TiptappRequest(path: .register, body: try JSONEncoder().encode(body))
             let response = try await networkService.performWithResponse(request: request)

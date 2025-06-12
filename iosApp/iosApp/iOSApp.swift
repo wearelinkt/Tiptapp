@@ -23,7 +23,7 @@ struct iOSApp: App {
                     .navigationDestination(for: NavigationPath.self) { path in
                         switch path {
                         case .login:
-                            LoginView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths)
+                            LoginView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths).navigationBarBackButtonHidden(true)
                         case .smsVerify:
                             SMSCodeView(viewModel: .init(networkService: networkService), navigationPath: $navigationPaths)
                         case .composeView:
