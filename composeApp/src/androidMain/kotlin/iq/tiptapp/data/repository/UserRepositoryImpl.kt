@@ -9,6 +9,8 @@ import io.ktor.http.contentType
 import iq.tiptapp.data.request.RegisterRequest
 import iq.tiptapp.data.request.UserExistRequest
 import iq.tiptapp.domain.repository.UserRepository
+import iq.tiptapp.utils.RegisterUserException
+import iq.tiptapp.utils.UserExistException
 
 class UserRepositoryImpl(
     private val httpClient: HttpClient,
@@ -27,7 +29,7 @@ class UserRepositoryImpl(
             if(response.status.value == HttpStatusCode.Created.value) {
                 return Result.success(true)
             }
-            return Result.failure(Exception())
+            return Result.failure(RegisterUserException())
         } catch (e: Exception) {
             return Result.failure(e)
         }
@@ -43,7 +45,7 @@ class UserRepositoryImpl(
             if(response.status.value == HttpStatusCode.OK.value) {
                 return Result.success(true)
             }
-            return Result.failure(Exception())
+            return Result.failure(UserExistException())
         } catch (e: Exception) {
             return Result.failure(e)
         }
