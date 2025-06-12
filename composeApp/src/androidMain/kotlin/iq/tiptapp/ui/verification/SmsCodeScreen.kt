@@ -166,8 +166,7 @@ fun SmsCodeScreen(
                                     viewModel.updateSmsCode(fullCode)
                                     viewModel.verifyCode { success, result ->
                                         if (success) {
-                                            viewModel.setUserId(userId = result)
-                                            viewModel.registerUser()
+                                            viewModel.registerUser(result)
                                         } else {
                                             Toast.makeText(context, result, Toast.LENGTH_LONG)
                                                 .show()
