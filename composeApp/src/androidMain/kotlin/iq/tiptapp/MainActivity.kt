@@ -87,4 +87,4 @@ fun LoginScreen(prefs: DataStore<Preferences>) {
 private const val SPLASH_ROUTE = "splash"
 private const val INPUT_PHONE_NUMBER_ROUTE = "input_phone_number"
 private const val SMS_VERIFICATION_ROUTE = "verification"
-private const val HOME_ROUTE = "my_home"
+private const val HOME_ROUTE = "home"
