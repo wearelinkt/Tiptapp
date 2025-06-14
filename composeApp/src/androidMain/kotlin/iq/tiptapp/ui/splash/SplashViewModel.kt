@@ -16,8 +16,8 @@ class SplashViewModel(private val repository: UserRepository): ViewModel() {
     fun userExist(userId: String) {
         viewModelScope.launch {
             repository.userExist(userId).fold(
-                onSuccess = { result ->
-                    _userExist.value = result
+                onSuccess = {
+                    _userExist.value = true
                 },
                 onFailure = {
                     _userExist.value = false

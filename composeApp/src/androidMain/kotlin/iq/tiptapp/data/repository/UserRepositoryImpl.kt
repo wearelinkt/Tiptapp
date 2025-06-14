@@ -16,7 +16,7 @@ class UserRepositoryImpl(
     private val httpClient: HttpClient,
 ) : UserRepository {
 
-    override suspend fun registerUser(phoneNumber: String, userId: String): Result<Boolean> {
+    override suspend fun registerUser(phoneNumber: String, userId: String): Result<Unit> {
         val requestBody = RegisterRequest(
             id = userId,
             phoneNumber = phoneNumber
@@ -27,7 +27,7 @@ class UserRepositoryImpl(
                 setBody(requestBody)
             }
             if(response.status.value == HttpStatusCode.Created.value) {
-                return Result.success(true)
+                return Result.success(Unit)
             }
             return Result.failure(RegisterUserException())
         } catch (e: Exception) {
@@ -35,7 +35,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun userExist(userId: String): Result<Boolean> {
+    override suspend fun userExist(userId: String): Result<Unit> {
         val requestBody = UserExistRequest(id = userId)
         try {
             val response = httpClient.post("users/exists") {
@@ -43,7 +43,7 @@ class UserRepositoryImpl(
                 setBody(requestBody)
             }
             if(response.status.value == HttpStatusCode.OK.value) {
-                return Result.success(true)
+                return Result.success(Unit)
             }
             return Result.failure(UserExistException())
         } catch (e: Exception) {

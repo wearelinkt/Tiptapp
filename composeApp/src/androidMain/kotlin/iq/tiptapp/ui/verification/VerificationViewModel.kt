@@ -101,9 +101,9 @@ class VerificationViewModel(
         val id = userId ?: this.userId
         viewModelScope.launch {
             repository.registerUser(fullPhoneNumber, id).fold(
-                onSuccess = { result ->
+                onSuccess = {
                     isLoading = false
-                    _registerUserState.value = result
+                    _registerUserState.value = true
                 },
                 onFailure = {
                     isLoading = false
