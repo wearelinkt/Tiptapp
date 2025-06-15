@@ -19,7 +19,7 @@ actual fun MapComponent(
     location: Pair<Double, Double>?,
     onMarkerTapped: (Double, Double) -> Unit) {
 
-    val initialPosition = LatLng(location!!.first, location!!.second)
+    val initialPosition = LatLng(location!!.first, location.second)
 
 
     val cameraPositionState = rememberCameraPositionState {

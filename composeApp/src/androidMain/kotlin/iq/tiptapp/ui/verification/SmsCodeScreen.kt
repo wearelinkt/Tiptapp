@@ -78,8 +78,8 @@ fun SmsCodeScreen(
 
     val focusManager = LocalFocusManager.current
 
-    val registerUserState by viewModel.registerUserState.collectAsState()
-    registerUserState?.let {
+    val registerUser by viewModel.registerUser.collectAsState()
+    registerUser?.let {
         navigate.invoke()
         if(it) {
             LaunchedEffect(Unit) {

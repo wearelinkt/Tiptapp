@@ -25,9 +25,9 @@ class VerificationViewModel(
     var isLoading by mutableStateOf(false)
         private set
 
-    private val _registerUserState = MutableStateFlow<Boolean?>(null)
-    val registerUserState: StateFlow<Boolean?>
-        get() = _registerUserState
+    private val _registerUser = MutableStateFlow<Boolean?>(null)
+    val registerUser: StateFlow<Boolean?>
+        get() = _registerUser
 
     private var verificationId: String? = null
     private var smsCode: String = ""
@@ -98,16 +98,16 @@ class VerificationViewModel(
     }
 
     fun registerUser(userId: String? = null) {
-        val id = userId ?: this.userId
+        userId?.let { this.userId = it }
         viewModelScope.launch {
-            repository.registerUser(fullPhoneNumber, id).fold(
+            repository.registerUser(fullPhoneNumber, this@VerificationViewModel.userId).fold(
                 onSuccess = {
                     isLoading = false
-                    _registerUserState.value = true
+                    _registerUser.value = true
                 },
                 onFailure = {
                     isLoading = false
-                    _registerUserState.value = false
+                    _registerUser.value = false
                 }
             )
         }
