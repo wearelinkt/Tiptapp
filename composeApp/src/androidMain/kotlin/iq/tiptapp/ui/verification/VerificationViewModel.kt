@@ -98,9 +98,9 @@ class VerificationViewModel(
     }
 
     fun registerUser(userId: String? = null) {
-        userId?.let { this.userId = it }
+        val id = userId?.also { this.userId = it } ?: this.userId
         viewModelScope.launch {
-            repository.registerUser(fullPhoneNumber, this@VerificationViewModel.userId).fold(
+            repository.registerUser(fullPhoneNumber, id).fold(
                 onSuccess = {
                     isLoading = false
                     _registerUser.value = true
