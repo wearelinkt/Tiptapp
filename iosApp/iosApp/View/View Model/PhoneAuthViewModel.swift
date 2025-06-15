@@ -84,7 +84,7 @@ class PhoneAuthViewModel: BaseViewModel {
             let request = TiptappRequest(path: .register, body: try JSONEncoder().encode(body))
             let response = try await networkService.performWithResponse(request: request)
             print("Status code: \(response.statusCode)")
-            if(response.statusCode == 201) {
+            if response.statusCode == 201 {
                 UserDefaults.standard.set(userId, forKey: self.userIdKey)
             }
             self.viewState = .completed

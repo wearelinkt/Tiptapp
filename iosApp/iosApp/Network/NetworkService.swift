@@ -45,7 +45,6 @@ final class NetworkService: NetworkServiceProtocol {
     
     func performWithResponse(request: RequestProtocol) async throws -> HTTPURLResponse {
         let response = try await session.data(for: request.request()).1
-        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
         }
