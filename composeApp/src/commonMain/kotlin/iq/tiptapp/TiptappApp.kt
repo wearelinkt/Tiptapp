@@ -191,7 +191,7 @@ private fun NavGraphBuilder.createAdScreens(
             viewModel.dropOffClickedLocation.collectAsState().value,
             { navController.navigate(HELP_DETAIL_ROUTE) },
             { navController.navigateUp() }) { lat, lng ->
-            viewModel.onMarkerPickUpClicked(lat, lng)
+            viewModel.onMarkerDropOffClicked(lat, lng)
         }
     }
     composable(route = HELP_DETAIL_ROUTE) {
