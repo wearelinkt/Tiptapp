@@ -10,6 +10,7 @@ import Foundation
 
 protocol NetworkServiceProtocol {
     func perform(request: RequestProtocol) async throws -> Data
+    func perform(request: RequestProtocol) async throws -> URLResponse
     func perform<T: Decodable>(request: RequestProtocol) async throws -> T
     func performWithResponse(request: RequestProtocol) async throws -> HTTPURLResponse
 }
@@ -36,15 +37,19 @@ final class NetworkService: NetworkServiceProtocol {
         return try await session.data(for: request.request()).0
     }
     
+    func perform(request: RequestProtocol) async throws -> URLResponse {
+        return try await session.data(for: request.request()).1
+    }
+    
     func perform<T: Decodable>(request: RequestProtocol) async throws -> T {
-        let data = try await perform(request: request)
+        let data: Data = try await perform(request: request)
         let decoder = JSONDecoder()
         let result = try decoder.decode(T.self, from: data)
         return result
     }
     
     func performWithResponse(request: RequestProtocol) async throws -> HTTPURLResponse {
-        let response = try await session.data(for: request.request()).1
+        let response: URLResponse = try await perform(request: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
         }
