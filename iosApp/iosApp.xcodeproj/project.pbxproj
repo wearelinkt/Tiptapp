@@ -29,12 +29,13 @@
 		41A48C482DFA6315009C8F4A /* Scheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C472DFA6315009C8F4A /* Scheme.swift */; };
 		41A48C4A2DFA6440009C8F4A /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C492DFA6440009C8F4A /* HttpMethod.swift */; };
 		41A48C4C2DFA6473009C8F4A /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C4B2DFA6473009C8F4A /* RequestProtocol.swift */; };
-		41A48C4E2DFA649A009C8F4A /* TiptappRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C4D2DFA649A009C8F4A /* TiptappRequest.swift */; };
+		41A48C4E2DFA649A009C8F4A /* TiptappPostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C4D2DFA649A009C8F4A /* TiptappPostRequest.swift */; };
 		41A48C502DFA6500009C8F4A /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C4F2DFA6500009C8F4A /* URLFactory.swift */; };
 		41A48C522DFA6534009C8F4A /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C512DFA6534009C8F4A /* NetworkService.swift */; };
 		41A48C552DFA689B009C8F4A /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C542DFA689B009C8F4A /* RegisterRequest.swift */; };
 		41A48C572DFA82E4009C8F4A /* UserExistRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C562DFA82E4009C8F4A /* UserExistRequest.swift */; };
 		41A48C5B2DFA8545009C8F4A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C5A2DFA8545009C8F4A /* SplashView.swift */; };
+		41A48C5D2E085D44009C8F4A /* TiptappGetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A48C5C2E085D44009C8F4A /* TiptappGetRequest.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,12 +60,13 @@
 		41A48C472DFA6315009C8F4A /* Scheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scheme.swift; sourceTree = "<group>"; };
 		41A48C492DFA6440009C8F4A /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		41A48C4B2DFA6473009C8F4A /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
-		41A48C4D2DFA649A009C8F4A /* TiptappRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiptappRequest.swift; sourceTree = "<group>"; };
+		41A48C4D2DFA649A009C8F4A /* TiptappPostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiptappPostRequest.swift; sourceTree = "<group>"; };
 		41A48C4F2DFA6500009C8F4A /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
 		41A48C512DFA6534009C8F4A /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		41A48C542DFA689B009C8F4A /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 		41A48C562DFA82E4009C8F4A /* UserExistRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistRequest.swift; sourceTree = "<group>"; };
 		41A48C5A2DFA8545009C8F4A /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		41A48C5C2E085D44009C8F4A /* TiptappGetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiptappGetRequest.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Tiptapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tiptapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -148,7 +150,8 @@
 			children = (
 				41A48C442DFA62C8009C8F4A /* Endpoint */,
 				41A48C4B2DFA6473009C8F4A /* RequestProtocol.swift */,
-				41A48C4D2DFA649A009C8F4A /* TiptappRequest.swift */,
+				41A48C5C2E085D44009C8F4A /* TiptappGetRequest.swift */,
+				41A48C4D2DFA649A009C8F4A /* TiptappPostRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -342,13 +345,14 @@
 				41A48C552DFA689B009C8F4A /* RegisterRequest.swift in Sources */,
 				41A48C482DFA6315009C8F4A /* Scheme.swift in Sources */,
 				41706DE72DEA2070002DC082 /* BaseViewModel.swift in Sources */,
-				41A48C4E2DFA649A009C8F4A /* TiptappRequest.swift in Sources */,
+				41A48C4E2DFA649A009C8F4A /* TiptappPostRequest.swift in Sources */,
 				419ADED52DE6322A009A2A8C /* PhoneAuthViewModel.swift in Sources */,
 				41706DEB2DEA2533002DC082 /* SmsCodeView.swift in Sources */,
 				41A48C5B2DFA8545009C8F4A /* SplashView.swift in Sources */,
 				41706DE92DEA2177002DC082 /* ErrorAlertModifier.swift in Sources */,
 				41A48C572DFA82E4009C8F4A /* UserExistRequest.swift in Sources */,
 				41A48C4C2DFA6473009C8F4A /* RequestProtocol.swift in Sources */,
+				41A48C5D2E085D44009C8F4A /* TiptappGetRequest.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				41A48C502DFA6500009C8F4A /* URLFactory.swift in Sources */,
 			);

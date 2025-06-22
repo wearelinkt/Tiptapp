@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TiptappRequest: RequestProtocol {
+struct TiptappPostRequest: RequestPostProtocol {
     let httpMethod: HTTPMethod = .POST
     let url: URL?
     let body: Data?

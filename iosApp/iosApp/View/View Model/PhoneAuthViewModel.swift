@@ -69,7 +69,7 @@ class PhoneAuthViewModel: BaseViewModel {
             if let error = error {
                 self.viewState = .failure(error: error)
             } else if let user = authResult?.user {
-                print("userId: ",user)
+                print("userId: ",user.uid)
                 self.userId = user.uid
             } else {
                 let error = NSError(domain: "PhoneAuth", code: -2, userInfo: [NSLocalizedDescriptionKey: "Unknown error. No user returned."])
@@ -78,10 +78,11 @@ class PhoneAuthViewModel: BaseViewModel {
         }
     }
     
+    @MainActor
     func registerUser() async {
         let body = RegisterRequest(id: userId, phoneNumber: "+98\(phoneNumber)")
         do {
-            let request = TiptappRequest(path: .register, body: try JSONEncoder().encode(body))
+            let request = TiptappPostRequest(path: .register, body: try JSONEncoder().encode(body))
             let response = try await networkService.performWithResponse(request: request)
             print("Status code: \(response.statusCode)")
             if response.statusCode == 201 {
@@ -93,6 +94,7 @@ class PhoneAuthViewModel: BaseViewModel {
         }
     }
     
+    @MainActor
     func userExist() async {
         guard let userId = UserDefaults.standard.string(forKey: userIdKey) else {
             self.isUserExist = false
@@ -100,7 +102,7 @@ class PhoneAuthViewModel: BaseViewModel {
         }
         let body = UserExistRequest(id: userId)
         do {
-            let request = TiptappRequest(path: .userExist, body: try JSONEncoder().encode(body))
+            let request = TiptappPostRequest(path: .userExist, body: try JSONEncoder().encode(body))
             let response = try await networkService.performWithResponse(request: request)
             print("Status code: \(response.statusCode)")
             if response.statusCode == 200 {

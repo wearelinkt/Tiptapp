@@ -13,3 +13,7 @@ protocol RequestProtocol {
     var url: URL? { get }
     func request() throws -> URLRequest
 }
+
+protocol RequestPostProtocol: RequestProtocol {
+    var body: Data? { get }
+}
