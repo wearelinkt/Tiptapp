@@ -3,9 +3,7 @@ package iq.tiptapp.ui.verification
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,8 +40,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import iq.tiptapp.component.TiptappAppBarWithNavigation
 import iq.tiptapp.Turquoise
+import iq.tiptapp.component.TiptappAppBarWithNavigation
 import iq.tiptapp.ui.splash.USER_ID_KEY
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
@@ -81,7 +79,7 @@ fun SmsCodeScreen(
     val registerUser by viewModel.registerUser.collectAsState()
     registerUser?.let {
         navigate.invoke()
-        if(it) {
+        if (it) {
             LaunchedEffect(Unit) {
                 prefs.edit { dataStore ->
                     dataStore[stringPreferencesKey(USER_ID_KEY)] =
@@ -128,70 +126,63 @@ fun SmsCodeScreen(
                 )
             }
 
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 24.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(top = 48.dp)
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Spacer(modifier = Modifier.height(48.dp))
+                codeDigits.forEachIndexed { index, value ->
+                    OutlinedTextField(
+                        value = value,
+                        onValueChange = { input ->
+                            val digit =
+                                input.lastOrNull()?.takeIf { it.isDigit() }?.toString() ?: ""
+                            codeDigits[index] = digit
+                            focusedIndex = index
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    codeDigits.forEachIndexed { index, value ->
-                        OutlinedTextField(
-                            value = value,
-                            onValueChange = { input ->
-                                val digit =
-                                    input.lastOrNull()?.takeIf { it.isDigit() }?.toString() ?: ""
-                                codeDigits[index] = digit
-                                focusedIndex = index
+                            // Auto-move forward or back
+                            if (digit.isNotEmpty() && index < 5) {
+                                focusRequesters[index + 1].requestFocus()
+                                focusedIndex = index + 1
+                            } else if (digit.isEmpty() && index > 0) {
+                                focusRequesters[index - 1].requestFocus()
+                                focusedIndex = index - 1
+                            }
 
-                                // Auto-move forward or back
-                                if (digit.isNotEmpty() && index < 5) {
-                                    focusRequesters[index + 1].requestFocus()
-                                    focusedIndex = index + 1
-                                } else if (digit.isEmpty() && index > 0) {
-                                    focusRequesters[index - 1].requestFocus()
-                                    focusedIndex = index - 1
-                                }
-
-                                // Combine and check for 6-digit code
-                                val fullCode = codeDigits.joinToString("")
-                                if (fullCode.length == 6 && fullCode.all { it.isDigit() }) {
-                                    keyboardController?.hide()
-                                    viewModel.updateSmsCode(fullCode)
-                                    viewModel.verifyCode { success, result ->
-                                        if (success) {
-                                            viewModel.registerUser(result)
-                                        } else {
-                                            Toast.makeText(context, result, Toast.LENGTH_LONG)
-                                                .show()
-                                        }
+                            // Combine and check for 6-digit code
+                            val fullCode = codeDigits.joinToString("")
+                            if (fullCode.length == 6 && fullCode.all { it.isDigit() }) {
+                                keyboardController?.hide()
+                                viewModel.updateSmsCode(fullCode)
+                                viewModel.verifyCode { success, result ->
+                                    if (success) {
+                                        viewModel.registerUser(result)
+                                    } else {
+                                        Toast.makeText(context, result, Toast.LENGTH_LONG)
+                                            .show()
                                     }
                                 }
-                            },
-                            modifier = Modifier
-                                .width(48.dp)
-                                .height(64.dp)
-                                .focusRequester(focusRequesters[index]),
-                            singleLine = true,
-                            textStyle = LocalTextStyle.current.copy(
-                                fontSize = 24.sp,
-                                textAlign = TextAlign.Center
-                            ),
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number
-                            ),
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Turquoise,
-                                cursorColor = Turquoise
-                            )
+                            }
+                        },
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(64.dp)
+                            .focusRequester(focusRequesters[index]),
+                        singleLine = true,
+                        textStyle = LocalTextStyle.current.copy(
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        ),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Turquoise,
+                            cursorColor = Turquoise
                         )
-                    }
+                    )
                 }
             }
         }
