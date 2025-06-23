@@ -117,7 +117,6 @@ private fun TiptappBottomBar(
                     unselectedContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ContentAlpha.disabled),
                     selectedContentColor = MaterialTheme.colorScheme.onBackground,
                     onClick = {
-
                         if (section == HomeSections.HELP_SECTION) {
                             navController.navigate(CREATE_ADD_ROUTE)
                         } else {
