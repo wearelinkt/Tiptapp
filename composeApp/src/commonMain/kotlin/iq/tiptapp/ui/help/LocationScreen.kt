@@ -123,7 +123,7 @@ fun LocationScreen(
                                 color = Color.LightGray,
                                 shape = RoundedCornerShape(8.dp)
                             )
-                            .padding(start = 12.dp, end = 12.dp, top = 24.dp, bottom = 24.dp)
+                            .padding(horizontal = 12.dp, vertical = 24.dp)
                             .clickable {
                                 location?.let { loc ->
                                     setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
