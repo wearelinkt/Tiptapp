@@ -128,7 +128,7 @@ fun SmsCodeScreen(
 
             Row(
                 modifier = Modifier
-                    .padding(top = 48.dp)
+                    .padding(horizontal = 12.dp, vertical = 48.dp)
                     .align(Alignment.TopCenter)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
