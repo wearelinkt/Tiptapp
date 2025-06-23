@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import component.CustomTopAppBar
+import iq.tiptapp.component.CustomTopAppBar
 import iq.tiptapp.Turquoise
 import iq.tiptapp.map.MapComponent
 import org.jetbrains.compose.resources.StringResource

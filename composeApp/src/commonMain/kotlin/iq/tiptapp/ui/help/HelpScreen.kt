@@ -28,7 +28,6 @@ fun HelpScreen(
     onContinueClick: () -> Unit
 ) {
     val permissions: Permissions = providePermissions()
-
     CameraPermissionContent(permissions, viewModel, onContinueClick)
 }
 

@@ -29,4 +29,3 @@ class CameraPermissionViewModel : ViewModel() {
         data class Denied(val reason: StringResource) : PermissionState()
     }
 }
-

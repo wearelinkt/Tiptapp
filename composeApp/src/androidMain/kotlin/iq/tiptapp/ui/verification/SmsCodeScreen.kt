@@ -42,7 +42,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import component.TiptappAppBarWithNavigation
+import iq.tiptapp.component.TiptappAppBarWithNavigation
 import iq.tiptapp.Turquoise
 import iq.tiptapp.ui.splash.USER_ID_KEY
 import org.jetbrains.compose.resources.stringResource
