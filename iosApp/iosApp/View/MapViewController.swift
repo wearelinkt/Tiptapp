@@ -11,12 +11,12 @@ import GoogleMaps
 import SwiftUI
 import ComposeApp
 
-class IOSNativeViewFactory: NativeViewFactory {
+class IOSMapNativeViewFactory: NativeMapViewFactory {
     func createGoogleMapView(latitude: KotlinDouble?, longitude: KotlinDouble?, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) -> UIViewController {
         return MapViewController(latitude: latitude!.doubleValue, longitude: longitude!.doubleValue, onMarkerTapped: onMarkerTapped)
     }
     
-    static var shared = IOSNativeViewFactory()
+    static var shared = IOSMapNativeViewFactory()
 }
 
 class MapViewController: UIViewController, GMSMapViewDelegate {

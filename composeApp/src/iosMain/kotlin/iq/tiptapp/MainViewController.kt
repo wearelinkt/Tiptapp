@@ -4,20 +4,20 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.ComposeUIViewController
 import iq.tiptapp.di.initKoin
-import iq.tiptapp.map.NativeViewFactory
+import iq.tiptapp.map.NativeMapViewFactory
 
-val LocalNativeViewFactory = staticCompositionLocalOf<NativeViewFactory> {
+val LocalNativeMapViewFactory = staticCompositionLocalOf<NativeMapViewFactory> {
     error("No view factory provided.")
 }
 
 fun MainViewController(
-    nativeViewFactory: NativeViewFactory
+    nativeMapViewFactory: NativeMapViewFactory
 ) = ComposeUIViewController(
     configure = {
         initKoin()
     }
 ) {
-    CompositionLocalProvider(LocalNativeViewFactory provides nativeViewFactory) {
+    CompositionLocalProvider(LocalNativeMapViewFactory provides nativeMapViewFactory) {
         TiptappApp()
     }
 }

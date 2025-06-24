@@ -2,7 +2,7 @@ package iq.tiptapp.map
 
 import platform.UIKit.UIViewController
 
-interface NativeViewFactory {
+interface NativeMapViewFactory {
     fun createGoogleMapView(
         latitude: Double?,
         longitude: Double?,
