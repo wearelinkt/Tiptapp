@@ -60,7 +60,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let lat = KotlinDouble(value: marker.position.latitude)
         let lng = KotlinDouble(value: marker.position.longitude)
         onMarkerTapped(lat, lng)
-        return true
+        return false
     }
     
     // Map tap
@@ -75,7 +75,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     // Called when map stops moving (e.g. after scroll or tap)
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         marker.position = position.target
-        marker.snippet = "Lat: \(position.target.latitude), Lng: \(position.target.longitude)"
+        marker.snippet = self.markerSnippet
         
         let lat = KotlinDouble(value: position.target.latitude)
         let lng = KotlinDouble(value: position.target.longitude)
