@@ -17,6 +17,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 actual fun MapComponent(
     location: Pair<Double, Double>?,
+    markerSnippet: String,
     onMarkerTapped: (Double, Double) -> Unit) {
 
     val initialPosition = LatLng(location!!.first, location.second)
@@ -52,7 +53,7 @@ actual fun MapComponent(
         Marker(
             state = markerState,
             title = "Selected Location",
-            snippet = "Lat: ${markerState.position.latitude}, Lng: ${markerState.position.longitude}",
+            snippet = markerSnippet,
             onClick = {
                 onMarkerTapped(it.position.latitude, it.position.longitude)
                 false // Show info window

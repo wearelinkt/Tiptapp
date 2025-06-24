@@ -49,9 +49,11 @@ import tiptapp.composeapp.generated.resources.account
 import tiptapp.composeapp.generated.resources.ads
 import tiptapp.composeapp.generated.resources.create_ad
 import tiptapp.composeapp.generated.resources.drop_off
+import tiptapp.composeapp.generated.resources.drop_off_location
 import tiptapp.composeapp.generated.resources.home
 import tiptapp.composeapp.generated.resources.my_ads
 import tiptapp.composeapp.generated.resources.pick_up
+import tiptapp.composeapp.generated.resources.pick_up_location
 
 @Composable
 fun TiptappApp() {
@@ -172,6 +174,7 @@ private fun NavGraphBuilder.createAdScreens(
     composable(route = PICK_UP_ROUTE) {
         MapScreen(
             Res.string.pick_up,
+            Res.string.pick_up_location,
             viewModel.pickUpClickedLocation.collectAsState().value,
             { navController.navigate(DROP_OFF_LOCATION) },
             { navController.navigateUp() }) { lat, lng ->
@@ -187,6 +190,7 @@ private fun NavGraphBuilder.createAdScreens(
     composable(route = DROP_OFF_ROUTE) {
         MapScreen(
             Res.string.drop_off,
+            Res.string.drop_off_location,
             viewModel.dropOffClickedLocation.collectAsState().value,
             { navController.navigate(HELP_DETAIL_ROUTE) },
             { navController.navigateUp() }) { lat, lng ->

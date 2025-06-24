@@ -23,6 +23,7 @@ import tiptapp.composeapp.generated.resources.continue_text
 @Composable
 fun MapScreen(
     title: StringResource,
+    markerSnippet: StringResource,
     location: Pair<Double, Double>?,
     onContinueClicked: () -> Unit,
     onBackClicked: () -> Unit,
@@ -31,7 +32,7 @@ fun MapScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
             CustomTopAppBar(title, onBackClicked)
-            MapComponent(location) { lat, lng ->
+            MapComponent(location, stringResource(markerSnippet)) { lat, lng ->
                 onMarkerClicked.invoke(lat, lng)
             }
         }

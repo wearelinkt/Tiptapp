@@ -9,13 +9,14 @@ import iq.tiptapp.LocalNativeMapViewFactory
 @Composable
 actual fun MapComponent(
     location: Pair<Double, Double>?,
+    markerSnippet: String,
     onMarkerTapped: (Double, Double) -> Unit
 ) {
     val factory = LocalNativeMapViewFactory.current
     UIKitViewController(
         modifier = Modifier.fillMaxSize(),
         factory = {
-            factory.createGoogleMapView(location?.first, location?.second) { lat, lng ->
+            factory.createGoogleMapView(location?.first, location?.second, markerSnippet) { lat, lng ->
                 onMarkerTapped(lat, lng)
             }
         }

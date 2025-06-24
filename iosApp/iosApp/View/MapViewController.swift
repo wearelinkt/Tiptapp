@@ -12,8 +12,8 @@ import SwiftUI
 import ComposeApp
 
 class IOSMapNativeViewFactory: NativeMapViewFactory {
-    func createGoogleMapView(latitude: KotlinDouble?, longitude: KotlinDouble?, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) -> UIViewController {
-        return MapViewController(latitude: latitude!.doubleValue, longitude: longitude!.doubleValue, onMarkerTapped: onMarkerTapped)
+    func createGoogleMapView(latitude: KotlinDouble?, longitude: KotlinDouble?, markerSnippet: String, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) -> UIViewController {
+        return MapViewController(latitude: latitude!.doubleValue, longitude: longitude!.doubleValue, markerSnippet: markerSnippet, onMarkerTapped: onMarkerTapped)
     }
     
     static var shared = IOSMapNativeViewFactory()
@@ -22,12 +22,14 @@ class IOSMapNativeViewFactory: NativeMapViewFactory {
 class MapViewController: UIViewController, GMSMapViewDelegate {
     let latitude: Double
     let longitude: Double
+    let markerSnippet: String
     let onMarkerTapped: (KotlinDouble, KotlinDouble) -> Void
     var marker: GMSMarker!
     
-    init(latitude: Double, longitude: Double, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) {
+    init(latitude: Double, longitude: Double, markerSnippet: String, onMarkerTapped: @escaping (KotlinDouble, KotlinDouble) -> Void) {
         self.latitude = latitude
         self.longitude = longitude
+        self.markerSnippet = markerSnippet
         self.onMarkerTapped = onMarkerTapped
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,7 +50,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             self.marker = GMSMarker()
             self.marker.position = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
             self.marker.title = "Selected Location"
-            self.marker.snippet = "Lat: \(self.marker.position.latitude), Lng: \(self.marker.position.longitude)"
+            self.marker.snippet = self.markerSnippet
             self.marker.map = mapView
         }
     }

@@ -14,6 +14,8 @@
     <string name="account">Account</string>
     <string name="pick_up">Pick-up</string>
     <string name="drop_off">Drop-off</string>
+    <string name="pick_up_location">Pick-up Location</string>
+    <string name="drop_off_location">Drop-off Location</string>
     <string name="current_location">Current location</string>
     <string name="camera_permission_denied">Cannot continue without Camera Permission</string>
     <string name="storage_permission_denied">Cannot continue without File Storage Permission</string>
