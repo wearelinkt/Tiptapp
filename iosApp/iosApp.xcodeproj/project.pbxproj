@@ -15,6 +15,7 @@
 		414778912E0D6924009759E8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 414778902E0D6924009759E8 /* FirebaseAnalytics */; };
 		414778932E0D69C2009759E8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 414778922E0D69C2009759E8 /* FirebaseAuth */; };
 		414778952E0D6D86009759E8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 414778942E0D6D86009759E8 /* FirebaseFirestore */; };
+		414778972E148FCA009759E8 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414778962E148FCA009759E8 /* Monitor.swift */; };
 		41706DE52DEA1FBB002DC082 /* ErrorPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE42DEA1FBB002DC082 /* ErrorPresentable.swift */; };
 		41706DE72DEA2070002DC082 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE62DEA2070002DC082 /* BaseViewModel.swift */; };
 		41706DE92DEA2177002DC082 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE82DEA2177002DC082 /* ErrorAlertModifier.swift */; };
@@ -46,6 +47,7 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		4137F3652DE493FD00B0B53B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		4137F3672DE495B100B0B53B /* PhoneInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneInputField.swift; sourceTree = "<group>"; };
+		414778962E148FCA009759E8 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		41706DE22DE76350002DC082 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		41706DE42DEA1FBB002DC082 /* ErrorPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPresentable.swift; sourceTree = "<group>"; };
 		41706DE62DEA2070002DC082 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				419ADED42DE6322A009A2A8C /* PhoneAuthViewModel.swift */,
 				41706DE62DEA2070002DC082 /* BaseViewModel.swift */,
+				414778962E148FCA009759E8 /* Monitor.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				4137F3682DE495B100B0B53B /* PhoneInputField.swift in Sources */,
 				41A48C522DFA6534009C8F4A /* NetworkService.swift in Sources */,
+				414778972E148FCA009759E8 /* Monitor.swift in Sources */,
 				41A48C552DFA689B009C8F4A /* RegisterRequest.swift in Sources */,
 				41A48C482DFA6315009C8F4A /* Scheme.swift in Sources */,
 				41706DE72DEA2070002DC082 /* BaseViewModel.swift in Sources */,
