@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.compose.dropUnlessResumed
@@ -15,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import iq.tiptapp.datastore.createDataStore
+import iq.tiptapp.expected.createDataStore
 import iq.tiptapp.ui.splash.SplashScreen
 import iq.tiptapp.ui.verification.PhoneNumberInputScreen
 import iq.tiptapp.ui.verification.SmsCodeScreen

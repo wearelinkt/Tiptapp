@@ -1,4 +1,4 @@
-package iq.tiptapp.map
+package iq.tiptapp
 
 import platform.UIKit.UIViewController
 

@@ -95,6 +95,10 @@ kotlin {
 
             implementation(libs.datastore)
             implementation(libs.datastore.preferences)
+
+            implementation(libs.connectivity.core)
+            implementation(libs.connectivity.device)
+            implementation(libs.connectivity.compose.device)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import iq.tiptapp.component.CustomTopAppBar
 import iq.tiptapp.Turquoise
-import iq.tiptapp.map.MapComponent
+import iq.tiptapp.expected.MapComponent
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res

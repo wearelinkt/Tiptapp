@@ -29,6 +29,9 @@ class UserRepositoryImpl(
             if(response.status.value == HttpStatusCode.Created.value) {
                 return Result.success(Unit)
             }
+            if(response.status.value == HttpStatusCode.OK.value) {
+                return Result.success(Unit)
+            }
             return Result.failure(RegisterUserException())
         } catch (e: Exception) {
             return Result.failure(e)

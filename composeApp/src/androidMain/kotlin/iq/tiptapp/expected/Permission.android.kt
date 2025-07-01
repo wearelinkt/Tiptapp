@@ -1,4 +1,4 @@
-package iq.tiptapp.permissions
+package iq.tiptapp.expected
 
 import android.os.Build
 

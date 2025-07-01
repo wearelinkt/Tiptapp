@@ -1,4 +1,4 @@
-package iq.tiptapp.location
+package iq.tiptapp.expected
 
 import dev.icerock.moko.geo.LocationTracker
 import dev.icerock.moko.permissions.PermissionsController

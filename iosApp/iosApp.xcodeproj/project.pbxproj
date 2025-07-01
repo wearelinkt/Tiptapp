@@ -12,14 +12,15 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		4137F3662DE493FD00B0B53B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4137F3652DE493FD00B0B53B /* LoginView.swift */; };
 		4137F3682DE495B100B0B53B /* PhoneInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4137F3672DE495B100B0B53B /* PhoneInputField.swift */; };
+		414778912E0D6924009759E8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 414778902E0D6924009759E8 /* FirebaseAnalytics */; };
+		414778932E0D69C2009759E8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 414778922E0D69C2009759E8 /* FirebaseAuth */; };
+		414778952E0D6D86009759E8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 414778942E0D6D86009759E8 /* FirebaseFirestore */; };
 		41706DE52DEA1FBB002DC082 /* ErrorPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE42DEA1FBB002DC082 /* ErrorPresentable.swift */; };
 		41706DE72DEA2070002DC082 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE62DEA2070002DC082 /* BaseViewModel.swift */; };
 		41706DE92DEA2177002DC082 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DE82DEA2177002DC082 /* ErrorAlertModifier.swift */; };
 		41706DEB2DEA2533002DC082 /* SmsCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DEA2DEA2533002DC082 /* SmsCodeView.swift */; };
 		41706DF02DEA2FF4002DC082 /* LoadingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41706DEF2DEA2FF4002DC082 /* LoadingOverlayView.swift */; };
 		417A17482DEB4EBA00808895 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417A17472DEB4EBA00808895 /* AppDelegate.swift */; };
-		419ADECB2DE623A4009A2A8C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 419ADECA2DE623A4009A2A8C /* FirebaseAuth */; };
-		419ADECD2DE624FD009A2A8C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 419ADECC2DE624FD009A2A8C /* FirebaseAnalytics */; };
 		419ADED22DE631B1009A2A8C /* AsyncContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ADED12DE631B1009A2A8C /* AsyncContentView.swift */; };
 		419ADED52DE6322A009A2A8C /* PhoneAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419ADED42DE6322A009A2A8C /* PhoneAuthViewModel.swift */; };
 		41A48C392DED9738009C8F4A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41A48C382DED9738009C8F4A /* GoogleService-Info.plist */; };
@@ -78,8 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				419ADECD2DE624FD009A2A8C /* FirebaseAnalytics in Frameworks */,
-				419ADECB2DE623A4009A2A8C /* FirebaseAuth in Frameworks */,
+				414778912E0D6924009759E8 /* FirebaseAnalytics in Frameworks */,
+				414778952E0D6D86009759E8 /* FirebaseFirestore in Frameworks */,
+				414778932E0D69C2009759E8 /* FirebaseAuth in Frameworks */,
 				41A48C3C2DF44777009C8F4A /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,9 +248,10 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				419ADECA2DE623A4009A2A8C /* FirebaseAuth */,
-				419ADECC2DE624FD009A2A8C /* FirebaseAnalytics */,
 				41A48C3B2DF44777009C8F4A /* GoogleMaps */,
+				414778902E0D6924009759E8 /* FirebaseAnalytics */,
+				414778922E0D69C2009759E8 /* FirebaseAuth */,
+				414778942E0D6D86009759E8 /* FirebaseFirestore */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Tiptapp.app */;
@@ -280,8 +283,8 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
-				4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				41A48C3A2DF44777009C8F4A /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+				4147788F2E0D6924009759E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -561,7 +564,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		4147788F2E0D6924009759E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
@@ -580,15 +583,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		419ADECA2DE623A4009A2A8C /* FirebaseAuth */ = {
+		414778902E0D6924009759E8 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 4147788F2E0D6924009759E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		414778922E0D69C2009759E8 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4147788F2E0D6924009759E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		419ADECC2DE624FD009A2A8C /* FirebaseAnalytics */ = {
+		414778942E0D6D86009759E8 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4137F3642DE4922400B0B53B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
+			package = 4147788F2E0D6924009759E8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		41A48C3B2DF44777009C8F4A /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;

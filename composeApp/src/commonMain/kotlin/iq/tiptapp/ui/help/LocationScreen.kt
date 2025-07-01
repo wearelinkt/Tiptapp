@@ -31,7 +31,7 @@ import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
-import iq.tiptapp.location.getPlatformLocationProvider
+import iq.tiptapp.expected.getPlatformLocationProvider
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res

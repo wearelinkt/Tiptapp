@@ -4,7 +4,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.ComposeUIViewController
 import iq.tiptapp.di.initKoin
-import iq.tiptapp.map.NativeMapViewFactory
 
 val LocalNativeMapViewFactory = staticCompositionLocalOf<NativeMapViewFactory> {
     error("No view factory provided.")
