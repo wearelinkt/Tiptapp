@@ -48,9 +48,15 @@ fun LoginScreen(prefs: DataStore<Preferences>) {
             composable(route = SPLASH_ROUTE) {
                 SplashScreen(prefs) {
                     if (it) {
-                        navController.navigate(HOME_ROUTE)
+                        navController.navigate(HOME_ROUTE) {
+                            popUpTo(0)
+                            launchSingleTop = true
+                        }
                     } else {
-                        navController.navigate(INPUT_PHONE_NUMBER_ROUTE)
+                        navController.navigate(INPUT_PHONE_NUMBER_ROUTE) {
+                            popUpTo(0)
+                            launchSingleTop = true
+                        }
                     }
                 }
             }
