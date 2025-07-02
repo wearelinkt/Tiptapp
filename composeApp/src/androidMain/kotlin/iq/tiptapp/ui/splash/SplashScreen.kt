@@ -13,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import dev.jordond.connectivity.Connectivity
-import dev.jordond.connectivity.compose.rememberConnectivityState
 import iq.tiptapp.Turquoise
 import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.stringResource
@@ -49,36 +47,25 @@ fun SplashScreen(
         }
     }
 
-    val state = rememberConnectivityState {
-        // Optional configurator for ConnectivityOptions
-        autoStart = true
-    }
-
-    when (state.status) {
-        is Connectivity.Status.Connected -> {
-            LaunchedEffect(userId) {
-                userId?.let {
-                    if (it.isEmpty()) {
-                        navigate.invoke(false)
-                    } else {
-                        viewModel.userExist(it)
-                    }
+    if (viewModel.isConnected) {
+        LaunchedEffect(userId) {
+            userId?.let {
+                if (it.isEmpty()) {
+                    navigate.invoke(false)
+                } else {
+                    viewModel.userExist(it)
                 }
             }
         }
-
-        is Connectivity.Status.Disconnected -> {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(stringResource(Res.string.check_network))
-            }
-            viewModel.hideLoading()
+    } else {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(stringResource(Res.string.check_network))
         }
-
-        else -> {}
     }
+
 }
 
 const val USER_ID_KEY = "user_id"
