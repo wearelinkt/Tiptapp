@@ -87,5 +87,6 @@
 	<string>This app needs access to your location to provide location-based services</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to your location to provide location-based services</string>
+	<key>NSLocationAlwaysUsageDescription</key><string>$(PRODUCT_NAME) requires GPS to get current location</string>
 </dict>
 </plist>

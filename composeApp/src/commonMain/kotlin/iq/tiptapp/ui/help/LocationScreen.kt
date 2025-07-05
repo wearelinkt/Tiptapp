@@ -6,13 +6,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,13 +30,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import iq.tiptapp.component.CustomTopAppBar
 import dev.icerock.moko.geo.compose.BindLocationTrackerEffect
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
+import iq.tiptapp.component.CustomTopAppBar
 import iq.tiptapp.expected.getPlatformLocationProvider
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -44,6 +50,7 @@ import tiptapp.composeapp.generated.resources.open_app_setting
 fun LocationScreen(
     title: StringResource,
     onBackClicked: () -> Unit,
+    onAddressBoxClicked: () -> Unit,
     setupLatLngToNavigate: (Double, Double) -> Unit
 ) {
     val factory = rememberPermissionsControllerFactory()
@@ -76,71 +83,104 @@ fun LocationScreen(
     ) {
         Column(Modifier.fillMaxSize()) {
             CustomTopAppBar(title, onBackClicked)
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                when (permissionState) {
-                    PermissionState.Granted -> {
-                        Napier.d("Permission granted.")
-                    }
+            SearchAddressBox(onAddressBoxClicked, modifier = Modifier.padding(16.dp))
 
-                    PermissionState.DeniedAlways -> {
-                        Text(stringResource(Res.string.location_permission_denied_permanent))
-                        Button(onClick = {
-                            controller.openAppSettings()
-                        }) {
-                            Text(stringResource(Res.string.open_app_setting))
-                        }
-                    }
+            when (permissionState) {
+                PermissionState.Granted -> {
+                    Napier.d("Permission granted.")
+                }
 
-                    PermissionState.Denied -> {
-                        Text(stringResource(Res.string.location_permission_denied))
-                    }
-
-                    else -> {
-                        Napier.d("Requesting permission...")
+                PermissionState.DeniedAlways -> {
+                    Text(stringResource(Res.string.location_permission_denied_permanent))
+                    Button(onClick = {
+                        controller.openAppSettings()
+                    }) {
+                        Text(stringResource(Res.string.open_app_setting))
                     }
                 }
 
-                address?.let {
-                    Text(
-                        stringResource(Res.string.current_location),
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 8.dp) // Optional for spacing
-                            .align(Alignment.Start)
-                    )
-                    Box(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(16.dp)
-                            .background(Color.White)
-                            .border(
-                                width = 1.dp,
-                                color = Color.LightGray,
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 24.dp)
-                            .clickable {
-                                location?.let { loc ->
-                                    setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
-                                }
-                            }
-                    ) {
-                        Text(
-                            text = it,
-                            fontSize = 14.sp,
-                            color = Color.DarkGray
+                PermissionState.Denied -> {
+                    Text(stringResource(Res.string.location_permission_denied))
+                }
+
+                else -> {
+                    Napier.d("Requesting permission...")
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            address?.let {
+                Text(
+                    stringResource(Res.string.current_location),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp) // Optional for spacing
+                        .align(Alignment.Start)
+                )
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(16.dp)
+                        .background(Color.White)
+                        .border(
+                            width = 1.dp,
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(8.dp)
                         )
-                    }
+                        .padding(16.dp)
+                        .clickable {
+                            location?.let { loc ->
+                                setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
+                            }
+                        }
+                ) {
+                    Text(
+                        text = it,
+                        fontSize = 14.sp,
+                        color = Color.DarkGray
+                    )
                 }
             }
         }
         if (isLoading) {
             CircularProgressIndicator(color = Turquoise)
         }
+    }
+}
+
+@Composable
+fun SearchAddressBox(
+    onBoxClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .background(Color.White)
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clickable {
+                onBoxClicked.invoke()
+            }
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Search Address",
+            fontSize = 14.sp,
+            color = Color.DarkGray,
+            modifier = Modifier.weight(1f)
+        )
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Add",
+            tint = Turquoise
+        )
     }
 }

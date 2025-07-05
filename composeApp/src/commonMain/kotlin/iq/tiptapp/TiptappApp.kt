@@ -32,15 +32,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import iq.tiptapp.expected.SearchComponent
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.ui.help.HelpDetailScreen
 import iq.tiptapp.ui.help.HelpScreen
-import iq.tiptapp.ui.help.MapScreen
 import iq.tiptapp.ui.help.HelpViewModel
 import iq.tiptapp.ui.help.LocationScreen
+import iq.tiptapp.ui.help.MapScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -166,10 +167,18 @@ private fun NavGraphBuilder.createAdScreens(
         HelpScreen { navController.navigate(PICK_UP_LOCATION) }
     }
     composable(route = PICK_UP_LOCATION) {
-        LocationScreen(Res.string.pick_up, { navController.navigateUp() }) { lat, lng ->
+        LocationScreen(Res.string.pick_up, { navController.navigateUp() },
+            { navController.navigate(PICK_UP_ADDRESS_SEARCH_ROUTE) }) { lat, lng ->
             viewModel.onMarkerPickUpClicked(lat, lng)
             navController.navigate(PICK_UP_ROUTE)
         }
+    }
+    composable(route = PICK_UP_ADDRESS_SEARCH_ROUTE) {
+        SearchComponent({ lat, lng ->
+            navController.popBackStack()
+            viewModel.onMarkerPickUpClicked(lat, lng)
+            navController.navigate(PICK_UP_ROUTE)
+        }, onDone = { navController.popBackStack() })
     }
     composable(route = PICK_UP_ROUTE) {
         MapScreen(
@@ -182,10 +191,18 @@ private fun NavGraphBuilder.createAdScreens(
         }
     }
     composable(route = DROP_OFF_LOCATION) {
-        LocationScreen(Res.string.drop_off, { navController.navigateUp() }) { lat, lng ->
+        LocationScreen(Res.string.drop_off, { navController.navigateUp() },
+            { navController.navigate(DROP_OFF_ADDRESS_SEARCH_ROUTE) }) { lat, lng ->
             viewModel.onMarkerDropOffClicked(lat, lng)
             navController.navigate(DROP_OFF_ROUTE)
         }
+    }
+    composable(route = DROP_OFF_ADDRESS_SEARCH_ROUTE) {
+        SearchComponent({ lat, lng ->
+            navController.popBackStack()
+            viewModel.onMarkerDropOffClicked(lat, lng)
+            navController.navigate(DROP_OFF_ROUTE)
+        }, onDone = { navController.popBackStack() })
     }
     composable(route = DROP_OFF_ROUTE) {
         MapScreen(
@@ -228,7 +245,9 @@ enum class HomeSections(
 private const val HOME_ROUTE = "home_route"
 private const val CREATE_ADD_ROUTE = "create_ad_route"
 private const val PICK_UP_LOCATION = "pick_up_location_route"
-private const val PICK_UP_ROUTE = "pick_up__route"
+private const val PICK_UP_ROUTE = "pick_up_route"
+private const val PICK_UP_ADDRESS_SEARCH_ROUTE = "pick_up_address"
 private const val DROP_OFF_LOCATION = "drop_off_location_route"
 private const val DROP_OFF_ROUTE = "drop_off_route"
+private const val DROP_OFF_ADDRESS_SEARCH_ROUTE = "drop_off_address"
 private const val HELP_DETAIL_ROUTE = "help_detail_route"

@@ -5,7 +5,8 @@ import ComposeApp
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         MainViewControllerKt.MainViewController(
-        nativeMapViewFactory: IOSMapNativeViewFactory.shared)
+        nativeMapViewFactory: IOSMapNativeViewFactory.shared,
+        nativeSearchViewFactory: IOSSearchNativeViewFactory.shared)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

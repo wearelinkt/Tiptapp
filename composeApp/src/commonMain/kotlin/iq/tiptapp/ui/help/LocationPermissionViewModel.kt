@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-
 class LocationPermissionViewModel(
     private val controller: PermissionsController,
     private val locationTracker: LocationTracker
@@ -63,12 +62,12 @@ class LocationPermissionViewModel(
     }
 
     fun refreshLocation() {
-        isLoading = true
         viewModelScope.launch {
             locationTracker.startTracking()
             locationTracker.getLocationsFlow()
                 .distinctUntilChanged()
                 .collect {
+                    isLoading = true
                     _latLng.tryEmit(it)
                     lookupCoordinates(it.latitude, it.longitude)?.let { ads ->
                         _address.tryEmit(buildString {
@@ -77,8 +76,8 @@ class LocationPermissionViewModel(
                                 ads.country,
                                 ads.postalCode
                             ).joinTo(this, separator = ", ")
-                            isLoading = false
                         })
+                        isLoading = false
                     }
                 }
         }

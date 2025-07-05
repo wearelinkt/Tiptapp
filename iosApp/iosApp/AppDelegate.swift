@@ -11,6 +11,8 @@ import Firebase
 import FirebaseAuth
 import UserNotifications
 import GoogleMaps
+import GooglePlaces
+import ComposeApp
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
@@ -19,6 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         if let apiKey = Bundle.main.infoDictionary?["MAPS_API_KEY"] as? String {
             GMSServices.provideAPIKey(apiKey)
+            GMSPlacesClient.provideAPIKey(apiKey)
         }
         FirebaseApp.configure()
         //Auth.auth().useEmulator(withHost: "127.0.0.1", port: 9099)
@@ -27,6 +30,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             print("Notification permission granted: \(granted)")
         }
+        
+        NapierHelperKt.initializeNapier()
 
         application.registerForRemoteNotifications()
         return true

@@ -9,14 +9,22 @@ val LocalNativeMapViewFactory = staticCompositionLocalOf<NativeMapViewFactory> {
     error("No view factory provided.")
 }
 
+val LocalNativeSearchViewFactory = staticCompositionLocalOf<NativeSearchViewFactory> {
+    error("No view factory provided.")
+}
+
 fun MainViewController(
-    nativeMapViewFactory: NativeMapViewFactory
+    nativeMapViewFactory: NativeMapViewFactory,
+    nativeSearchViewFactory: NativeSearchViewFactory,
 ) = ComposeUIViewController(
     configure = {
         initKoin()
     }
 ) {
-    CompositionLocalProvider(LocalNativeMapViewFactory provides nativeMapViewFactory) {
+    CompositionLocalProvider(
+        LocalNativeMapViewFactory provides nativeMapViewFactory,
+        LocalNativeSearchViewFactory provides nativeSearchViewFactory
+    ) {
         TiptappApp()
     }
 }
