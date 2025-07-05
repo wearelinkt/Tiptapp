@@ -32,9 +32,6 @@ class LocationPermissionViewModel(
     var state by mutableStateOf(PermissionState.NotDetermined)
         private set
 
-    var isLoading by mutableStateOf(false)
-       private set
-
     private val _latLng = MutableStateFlow<LatLng?>(null)
     val latLng: StateFlow<LatLng?> = _latLng
 
@@ -67,7 +64,6 @@ class LocationPermissionViewModel(
             locationTracker.getLocationsFlow()
                 .distinctUntilChanged()
                 .collect {
-                    isLoading = true
                     _latLng.tryEmit(it)
                     lookupCoordinates(it.latitude, it.longitude)?.let { ads ->
                         _address.tryEmit(buildString {
@@ -77,7 +73,6 @@ class LocationPermissionViewModel(
                                 ads.postalCode
                             ).joinTo(this, separator = ", ")
                         })
-                        isLoading = false
                     }
                 }
         }

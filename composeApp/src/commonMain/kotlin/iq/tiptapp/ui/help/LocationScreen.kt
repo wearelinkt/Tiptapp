@@ -17,7 +17,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +44,8 @@ import tiptapp.composeapp.generated.resources.current_location
 import tiptapp.composeapp.generated.resources.location_permission_denied
 import tiptapp.composeapp.generated.resources.location_permission_denied_permanent
 import tiptapp.composeapp.generated.resources.open_app_setting
+import tiptapp.composeapp.generated.resources.search_address
+import tiptapp.composeapp.generated.resources.search_for_address
 
 @Composable
 fun LocationScreen(
@@ -69,7 +70,6 @@ fun LocationScreen(
     val location = viewModel.latLng.collectAsState().value
     val address = viewModel.address.collectAsState().value
     val permissionState = viewModel.state
-    val isLoading = viewModel.isLoading
 
     LaunchedEffect(permissionState) {
         if (permissionState == PermissionState.Granted) {
@@ -110,41 +110,39 @@ fun LocationScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            address?.let {
-                Text(
-                    stringResource(Res.string.current_location),
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp) // Optional for spacing
-                        .align(Alignment.Start)
-                )
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(16.dp)
-                        .background(Color.White)
-                        .border(
-                            width = 1.dp,
-                            color = Color.LightGray,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(16.dp)
-                        .clickable {
+            Text(
+                stringResource(Res.string.current_location),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp) // Optional for spacing
+                    .align(Alignment.Start)
+            )
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(16.dp)
+                    .background(Color.White)
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .padding(16.dp)
+                    .then(
+                        if (address != null) Modifier.clickable {
                             location?.let { loc ->
                                 setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
                             }
                         }
-                ) {
-                    Text(
-                        text = it,
-                        fontSize = 14.sp,
-                        color = Color.DarkGray
+                        else Modifier
                     )
-                }
+            ) {
+                Text(
+                    text = address ?: stringResource(Res.string.search_for_address),
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
+                )
             }
-        }
-        if (isLoading) {
-            CircularProgressIndicator(color = Turquoise)
         }
     }
 }
@@ -172,7 +170,7 @@ fun SearchAddressBox(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Search Address",
+            text = stringResource(Res.string.search_address),
             fontSize = 14.sp,
             color = Color.DarkGray,
             modifier = Modifier.weight(1f)

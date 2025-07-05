@@ -24,4 +24,6 @@
     <string name="open_app_setting">Open app settings</string>
     <string name="user_register_failed">Failed to register user</string>
     <string name="check_network">Check your network connection</string>
+    <string name="search_address">Search address</string>
+    <string name="search_for_address">Search for address ...</string>
 </resources>

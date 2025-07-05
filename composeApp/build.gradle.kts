@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.googleSecret)
+    alias(libs.plugins.buildKonfig)
     //alias(libs.plugins.kotlinCocoapods)
 }
 
@@ -55,6 +58,7 @@ kotlin {
             implementation(libs.firebase.auth)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.map.compose)
+            implementation(libs.places)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -142,5 +146,14 @@ android {
 dependencies {
     implementation(libs.androidx.runtime.android)
     debugImplementation(compose.uiTooling)
+}
+
+buildkonfig {
+    packageName = "iq.tiptapp"
+
+    defaultConfigs {
+        val apiKey: String = gradleLocalProperties(rootDir, providers).getProperty("MAPS_API_KEY")
+        buildConfigField(FieldSpec.Type.STRING, "MAPS_API_KEY", apiKey)
+    }
 }
 

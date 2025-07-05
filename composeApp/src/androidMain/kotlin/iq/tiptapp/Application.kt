@@ -1,6 +1,7 @@
 package iq.tiptapp
 
 import android.content.Context
+import com.google.android.libraries.places.api.Places
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import iq.tiptapp.di.getAndroidModules
@@ -22,6 +23,10 @@ class Application : android.app.Application() {
         instance = this
         initializeNapier()
         //Firebase.auth.useEmulator("10.0.2.2", 9099)
+
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, BuildKonfig.MAPS_API_KEY)
+        }
     }
 
     companion object {
