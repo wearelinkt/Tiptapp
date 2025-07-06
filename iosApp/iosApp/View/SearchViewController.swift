@@ -21,7 +21,6 @@ class IOSSearchNativeViewFactory: NativeSearchViewFactory {
 class SearchViewController: UIViewController, GMSAutocompleteViewControllerDelegate {
     private let onPlaceSelected: (KotlinDouble, KotlinDouble) -> Void
     private let onDone: () -> Void
-    private var hasPresented = false
     
     init(onPlaceSelected: @escaping (KotlinDouble, KotlinDouble) -> Void,
          onDone: @escaping () -> Void) {
