@@ -30,7 +30,7 @@ actual fun SearchComponent(
                 val latLng = place.latLng
                 Napier.d("✅ Selected: ${place.name ?: "unknown"}")
                 latLng?.let {
-                    onPlaceSelected(latLng.latitude, latLng.longitude)
+                    onPlaceSelected(it.latitude, it.longitude)
                 }
             }
 
