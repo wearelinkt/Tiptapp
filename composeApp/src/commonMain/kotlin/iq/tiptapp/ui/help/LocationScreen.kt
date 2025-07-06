@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.icerock.moko.geo.LatLng
 import dev.icerock.moko.geo.compose.BindLocationTrackerEffect
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.compose.BindEffect
@@ -115,41 +116,53 @@ fun LocationScreen(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp) // Optional for spacing
+                    .padding(start = 8.dp)
                     .align(Alignment.Start)
             )
-            Box(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(16.dp)
-                    .background(Color.White)
-                    .border(
-                        width = 1.dp,
-                        color = Color.LightGray,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(16.dp)
-                    .then(
-                        if (address != null) Modifier.clickable {
-                            location?.let { loc ->
-                                setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
-                            }
-                        }
-                        else Modifier
-                    )
-            ) {
-                Text(
-                    text = address ?: stringResource(Res.string.search_for_address),
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
-                )
-            }
+            CurrentLocationBox(
+                address,
+                location,
+                setupLatLngToNavigate,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
 
 @Composable
-fun SearchAddressBox(
-    onBoxClicked: () -> Unit,
+private fun CurrentLocationBox(
+    address: String?,
+    location: LatLng?,
+    setupLatLngToNavigate: (Double, Double) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxWidth()
+            .background(Color.White)
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(8.dp)
+            ).then(
+                if (address == null) Modifier
+                else Modifier.clickable {
+                    location?.let { loc ->
+                        setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
+                    }
+                }
+            ).padding(16.dp)
+    ) {
+        Text(
+            text = address ?: stringResource(Res.string.search_for_address),
+            fontSize = 14.sp,
+            color = Color.DarkGray
+        )
+    }
+}
+
+@Composable
+private fun SearchAddressBox(
+    onAddressBoxClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -163,7 +176,7 @@ fun SearchAddressBox(
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable {
-                onBoxClicked.invoke()
+                onAddressBoxClicked.invoke()
             }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
