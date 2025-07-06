@@ -140,7 +140,7 @@ fun CameraScreen(onContinueClick: () -> Unit) {
                 for (i in 0 until maxSlots) {
                     Box(
                         modifier = Modifier
-                            .size(60.dp)
+                            .size(72.dp)
                             .border(
                                 width = if (i == selectedSlot) 2.dp else 1.dp,
                                 color = if (i == selectedSlot) Turquoise else Color.Gray,
