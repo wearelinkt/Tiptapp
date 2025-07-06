@@ -11,6 +11,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import io.github.aakira.napier.Napier
 
 @Composable
 actual fun SearchComponent(
@@ -27,6 +28,7 @@ actual fun SearchComponent(
                 val data = result.data
                 val place = Autocomplete.getPlaceFromIntent(data!!)
                 val latLng = place.latLng
+                Napier.d("✅ Selected: ${place.name ?: "unknown"}")
                 latLng?.let {
                     onPlaceSelected(latLng.latitude, latLng.longitude)
                 }
@@ -34,11 +36,12 @@ actual fun SearchComponent(
 
             AutocompleteActivity.RESULT_ERROR -> {
                 val status: Status = Autocomplete.getStatusFromIntent(result.data!!)
-                println("❌ Autocomplete error: ${status.statusMessage}")
+                Napier.d("❌ Autocomplete error: ${status.statusMessage}")
                 onDone()
             }
 
             Activity.RESULT_CANCELED -> {
+                Napier.d("❌ Autocomplete cancelled")
                 onDone()
             }
         }
