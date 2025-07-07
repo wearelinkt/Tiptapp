@@ -14,6 +14,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -30,6 +32,7 @@ import iq.tiptapp.domain.model.Destination
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
+import tiptapp.composeapp.generated.resources.can_help
 import tiptapp.composeapp.generated.resources.continue_text
 import tiptapp.composeapp.generated.resources.courtyard
 import tiptapp.composeapp.generated.resources.driveway
@@ -62,6 +65,7 @@ fun DeliveryScreen(
         )
     }
     val selectedItem = remember { mutableStateOf<DeliveryNavItem?>(null) }
+    val toggleState = remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxSize()) {
         CustomTopAppBar(title, onBackClicked)
@@ -81,7 +85,7 @@ fun DeliveryScreen(
                                 }
                                 selectedItem.value = item
                             }
-                            .padding(16.dp),
+                            .padding(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -99,6 +103,28 @@ fun DeliveryScreen(
                     }
                     HorizontalDivider()
                 }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 3.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        stringResource(Res.string.can_help, stringResource(title)),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Switch(
+                        checked = toggleState.value,
+                        onCheckedChange = { toggleState.value = it },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = Turquoise
+                        )
+                    )
+                }
+                HorizontalDivider()
             }
         }
 

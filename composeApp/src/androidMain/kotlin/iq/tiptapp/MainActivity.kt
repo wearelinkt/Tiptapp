@@ -43,7 +43,7 @@ fun LoginScreen(prefs: DataStore<Preferences>) {
     MaterialTheme {
         NavHost(
             navController = navController,
-            startDestination = SPLASH_ROUTE,
+            startDestination = HOME_ROUTE,
         ) {
             composable(route = SPLASH_ROUTE) {
                 SplashScreen(prefs) {

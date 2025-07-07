@@ -3,7 +3,6 @@ package iq.tiptapp.di
 import iq.tiptapp.data.network.jsonModule
 import iq.tiptapp.data.network.ktorModule
 import iq.tiptapp.ui.help.CameraPermissionViewModel
-import iq.tiptapp.ui.help.HelpViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.context.startKoin
@@ -29,7 +28,6 @@ fun initKoin(config: KoinAppDeclaration? = null, modules: List<Module> = emptyLi
 
 val viewModelModule = module {
     viewModelOf(::CameraPermissionViewModel)
-    viewModelOf(::HelpViewModel)
 }
 
 val dispatcherModule = module {

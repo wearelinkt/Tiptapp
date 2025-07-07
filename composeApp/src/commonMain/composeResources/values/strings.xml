@@ -35,4 +35,5 @@
     <string name="meet_show">I will meet and show where</string>
     <string name="in_home">In the home</string>
     <string name="in_store">In store</string>
+    <string name="can_help">Can help carry at %1$s</string>
 </resources>

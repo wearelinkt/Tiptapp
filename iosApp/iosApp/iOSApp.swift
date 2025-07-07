@@ -19,7 +19,8 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPaths) {
-                SplashView(viewModel: .init(networkService: networkService), monitor: .init(), navigationPath: $navigationPaths)
+                //SplashView(viewModel: .init(networkService: networkService), monitor: .init(), navigationPath: $navigationPaths)
+                    ComposeView()
                     .navigationDestination(for: NavigationPath.self) { path in
                         switch path {
                         case .login:

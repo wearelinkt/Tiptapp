@@ -3,6 +3,7 @@ package iq.tiptapp
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.ComposeUIViewController
+import iq.tiptapp.di.getIosModules
 import iq.tiptapp.di.initKoin
 
 val LocalNativeMapViewFactory = staticCompositionLocalOf<NativeMapViewFactory> {
@@ -18,7 +19,7 @@ fun MainViewController(
     nativeSearchViewFactory: NativeSearchViewFactory,
 ) = ComposeUIViewController(
     configure = {
-        initKoin()
+        initKoin(modules = getIosModules())
     }
 ) {
     CompositionLocalProvider(

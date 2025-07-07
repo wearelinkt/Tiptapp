@@ -32,6 +32,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import iq.tiptapp.expected.HelpViewModel
 import iq.tiptapp.expected.SearchComponent
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
@@ -41,7 +42,6 @@ import iq.tiptapp.ui.help.DeliveryDetailScreen
 import iq.tiptapp.ui.help.DeliveryScreen
 import iq.tiptapp.ui.help.HelpDetailScreen
 import iq.tiptapp.ui.help.HelpScreen
-import iq.tiptapp.ui.help.HelpViewModel
 import iq.tiptapp.ui.help.LocationScreen
 import iq.tiptapp.ui.help.MapScreen
 import org.jetbrains.compose.resources.StringResource
