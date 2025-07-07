@@ -26,4 +26,13 @@
     <string name="check_network">Check your network connection</string>
     <string name="search_address">Search address</string>
     <string name="search_for_address">Search for address ...</string>
+    <string name="driveway">Driveway - No need to meet</string>
+    <string name="stairwell">Stairwell - No need to meet</string>
+    <string name="reception">Reception</string>
+    <string name="garden">Garden - No need to meet</string>
+    <string name="courtyard">Courtyard - No need to meet</string>
+    <string name="outside">Outside building entrance</string>
+    <string name="meet_show">I will meet and show where</string>
+    <string name="in_home">In the home</string>
+    <string name="in_store">In store</string>
 </resources>

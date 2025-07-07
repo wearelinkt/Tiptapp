@@ -37,6 +37,8 @@ import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
+import iq.tiptapp.ui.help.DeliveryDetailScreen
+import iq.tiptapp.ui.help.DeliveryScreen
 import iq.tiptapp.ui.help.HelpDetailScreen
 import iq.tiptapp.ui.help.HelpScreen
 import iq.tiptapp.ui.help.HelpViewModel
@@ -185,10 +187,19 @@ private fun NavGraphBuilder.createAdScreens(
             Res.string.pick_up,
             Res.string.pick_up_location,
             viewModel.pickUpClickedLocation.collectAsState().value,
-            { navController.navigate(DROP_OFF_LOCATION) },
+            { navController.navigate(PICK_UP_DELIVERY_ROUTE) },
             { navController.navigateUp() }) { lat, lng ->
             viewModel.onMarkerPickUpClicked(lat, lng)
         }
+    }
+    composable(route = PICK_UP_DELIVERY_ROUTE) {
+        DeliveryScreen(Res.string.pick_up,
+            { navController.navigateUp() },
+            { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
+            { navController.navigate(DROP_OFF_LOCATION) })
+    }
+    composable(route = PICK_UP_DELIVERY_DETAIL_ROUTE) {
+        DeliveryDetailScreen()
     }
     composable(route = DROP_OFF_LOCATION) {
         LocationScreen(Res.string.drop_off, { navController.navigateUp() },
@@ -247,6 +258,8 @@ private const val CREATE_ADD_ROUTE = "create_ad_route"
 private const val PICK_UP_LOCATION = "pick_up_location_route"
 private const val PICK_UP_ROUTE = "pick_up_route"
 private const val PICK_UP_ADDRESS_SEARCH_ROUTE = "pick_up_address"
+private const val PICK_UP_DELIVERY_ROUTE = "pick_up_delivery"
+private const val PICK_UP_DELIVERY_DETAIL_ROUTE = "pick_up_delivery_detail"
 private const val DROP_OFF_LOCATION = "drop_off_location_route"
 private const val DROP_OFF_ROUTE = "drop_off_route"
 private const val DROP_OFF_ADDRESS_SEARCH_ROUTE = "drop_off_address"
