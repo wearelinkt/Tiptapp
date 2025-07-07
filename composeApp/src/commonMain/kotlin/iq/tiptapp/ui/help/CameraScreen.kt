@@ -51,6 +51,7 @@ import com.kashif.cameraK.ui.CameraPreview
 import com.kashif.imagesaverplugin.ImageSaverConfig
 import com.kashif.imagesaverplugin.ImageSaverPlugin
 import com.kashif.imagesaverplugin.rememberImageSaverPlugin
+import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -247,14 +248,14 @@ private suspend fun handleImageCapture(
                     byteArray = result.byteArray,
                     imageName = customName
                 )?.let { path ->
-                    println("Image saved at: $path")
+                    Napier.d("Image saved at: $path")
                 }
             }
             return bitmap
         }
 
         is ImageCaptureResult.Error -> {
-            println("Image Capture Error: ${result.exception.message}")
+            Napier.d("Image Capture Error: ${result.exception.message}")
             return null
         }
     }
