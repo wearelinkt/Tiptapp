@@ -40,7 +40,6 @@ import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.ui.help.DeliveryDetailScreen
 import iq.tiptapp.ui.help.DeliveryScreen
-import iq.tiptapp.ui.help.HelpDetailScreen
 import iq.tiptapp.ui.help.HelpScreen
 import iq.tiptapp.ui.help.LocationScreen
 import iq.tiptapp.ui.help.MapScreen
@@ -226,13 +225,13 @@ private fun NavGraphBuilder.createAdScreens(
         }
     }
     composable(route = DROP_OFF_DELIVERY_ROUTE) {
-        DeliveryScreen(Res.string.pick_up,
+        DeliveryScreen(Res.string.drop_off,
             { navController.navigateUp() },
             { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
             { navController.navigate(DROP_OFF_DELIVERY_DETAIL_ROUTE) })
     }
     composable(route = DROP_OFF_DELIVERY_DETAIL_ROUTE) {
-        HelpDetailScreen()
+        DeliveryDetailScreen()
     }
 }
 
