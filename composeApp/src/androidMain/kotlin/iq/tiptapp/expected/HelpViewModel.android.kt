@@ -1,13 +1,12 @@
 package iq.tiptapp.expected
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 actual class HelpViewModel(
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : BaseHelpViewModel() {
 
     private val _pickUpClickedLocation = MutableStateFlow(
         savedStateHandle.get<Pair<Double, Double>?>(KEY_PICK_UP)

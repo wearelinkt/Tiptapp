@@ -1,10 +1,9 @@
 package iq.tiptapp.expected
 
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-actual class HelpViewModel : ViewModel() {
+actual class HelpViewModel : BaseHelpViewModel() {
 
     private val _pickUpClickedLocation = MutableStateFlow<Pair<Double, Double>?>(null)
     actual val pickUpClickedLocation: StateFlow<Pair<Double, Double>?> = _pickUpClickedLocation

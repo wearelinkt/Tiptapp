@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
@@ -18,8 +18,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +48,10 @@ import tiptapp.composeapp.generated.resources.stairwell
 fun DeliveryScreen(
     title: StringResource,
     onBackClicked: () -> Unit,
+    onItemSelected: (DeliveryNavItem) -> Unit,
+    selectedItem: DeliveryNavItem?,
+    toggleState: Boolean,
+    onToggleState: (Boolean) -> Unit,
     onDetailScreen: () -> Unit,
     onNextScreen: () -> Unit
 ) {
@@ -64,8 +68,14 @@ fun DeliveryScreen(
             DeliveryNavItem(Res.string.in_store, Destination.NextScreen)
         )
     }
-    val selectedItem = remember { mutableStateOf<DeliveryNavItem?>(null) }
-    val toggleState = remember { mutableStateOf(false) }
+
+    LaunchedEffect(selectedItem) {
+        selectedItem?.let {
+            navItems.forEachIndexed { i, item ->
+                navItems[i] = item.copy(showCheckbox = item == it)
+            }
+        }
+    }
 
     Column(Modifier.fillMaxSize()) {
         CustomTopAppBar(title, onBackClicked)
@@ -74,16 +84,13 @@ fun DeliveryScreen(
                 .weight(1f)
                 .fillMaxWidth()
         ) {
-            itemsIndexed(navItems) { index, item ->
+            items(navItems) { item ->
                 Column {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                navItems.forEachIndexed { i, oldItem ->
-                                    navItems[i] = oldItem.copy(showCheckbox = i == index)
-                                }
-                                selectedItem.value = item
+                                onItemSelected.invoke(item)
                             }
                             .padding(12.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -117,8 +124,8 @@ fun DeliveryScreen(
                         modifier = Modifier.weight(1f)
                     )
                     Switch(
-                        checked = toggleState.value,
-                        onCheckedChange = { toggleState.value = it },
+                        checked = toggleState,
+                        onCheckedChange = { onToggleState.invoke(it) },
                         colors = SwitchDefaults.colors(
                             checkedTrackColor = Turquoise
                         )
@@ -130,14 +137,14 @@ fun DeliveryScreen(
 
         Button(
             onClick = {
-                when (selectedItem.value?.destination) {
+                when (selectedItem?.destination) {
                     is Destination.DetailScreen -> onDetailScreen.invoke()
                     is Destination.NextScreen -> onNextScreen.invoke()
                     null -> Napier.w("invalid destination")
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),
-            enabled = selectedItem.value != null,
+            enabled = selectedItem != null,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

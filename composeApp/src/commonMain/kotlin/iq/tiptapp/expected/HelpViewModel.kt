@@ -1,9 +1,8 @@
 package iq.tiptapp.expected
 
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.StateFlow
 
-expect class HelpViewModel : ViewModel {
+expect class HelpViewModel : BaseHelpViewModel {
     val pickUpClickedLocation: StateFlow<Pair<Double, Double>?>
     val dropOffClickedLocation: StateFlow<Pair<Double, Double>?>
 

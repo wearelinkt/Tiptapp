@@ -194,6 +194,10 @@ private fun NavGraphBuilder.createAdScreens(
     composable(route = PICK_UP_DELIVERY_ROUTE) {
         DeliveryScreen(Res.string.pick_up,
             { navController.navigateUp() },
+            { deliveryItem -> viewModel.setPickUpDeliveryItem(deliveryItem) },
+            viewModel.pickUpDeliveryItem.collectAsState().value,
+            viewModel.pickUpToggleState.collectAsState().value,
+            { state -> viewModel.setPickUpToggleState(state) },
             { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
             { navController.navigate(DROP_OFF_LOCATION) })
     }
@@ -227,6 +231,10 @@ private fun NavGraphBuilder.createAdScreens(
     composable(route = DROP_OFF_DELIVERY_ROUTE) {
         DeliveryScreen(Res.string.drop_off,
             { navController.navigateUp() },
+            { deliveryItem -> viewModel.setDropOffDeliveryItem(deliveryItem) },
+            viewModel.dropOffDeliveryItem.collectAsState().value,
+            viewModel.dropOffToggleState.collectAsState().value,
+            { state -> viewModel.setDropOffToggleState(state) },
             { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
             { navController.navigate(DROP_OFF_DELIVERY_DETAIL_ROUTE) })
     }
