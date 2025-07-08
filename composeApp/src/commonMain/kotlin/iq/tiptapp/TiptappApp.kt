@@ -220,12 +220,18 @@ private fun NavGraphBuilder.createAdScreens(
             Res.string.drop_off,
             Res.string.drop_off_location,
             viewModel.dropOffClickedLocation.collectAsState().value,
-            { navController.navigate(HELP_DETAIL_ROUTE) },
+            { navController.navigate(DROP_OFF_DELIVERY_ROUTE) },
             { navController.navigateUp() }) { lat, lng ->
             viewModel.onMarkerDropOffClicked(lat, lng)
         }
     }
-    composable(route = HELP_DETAIL_ROUTE) {
+    composable(route = DROP_OFF_DELIVERY_ROUTE) {
+        DeliveryScreen(Res.string.pick_up,
+            { navController.navigateUp() },
+            { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
+            { navController.navigate(DROP_OFF_DELIVERY_DETAIL_ROUTE) })
+    }
+    composable(route = DROP_OFF_DELIVERY_DETAIL_ROUTE) {
         HelpDetailScreen()
     }
 }
@@ -263,4 +269,5 @@ private const val PICK_UP_DELIVERY_DETAIL_ROUTE = "pick_up_delivery_detail"
 private const val DROP_OFF_LOCATION = "drop_off_location_route"
 private const val DROP_OFF_ROUTE = "drop_off_route"
 private const val DROP_OFF_ADDRESS_SEARCH_ROUTE = "drop_off_address"
-private const val HELP_DETAIL_ROUTE = "help_detail_route"
+private const val DROP_OFF_DELIVERY_ROUTE = "drop_off_delivery"
+private const val DROP_OFF_DELIVERY_DETAIL_ROUTE = "drop_off_delivery_detail"
