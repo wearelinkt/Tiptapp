@@ -1,4 +1,4 @@
-package iq.tiptapp.help
+package iq.tiptapp.camera
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

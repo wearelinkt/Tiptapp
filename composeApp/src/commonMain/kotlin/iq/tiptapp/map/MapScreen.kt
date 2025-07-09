@@ -1,4 +1,4 @@
-package iq.tiptapp.location
+package iq.tiptapp.map
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import iq.tiptapp.component.CustomTopAppBar
 import iq.tiptapp.Turquoise
-import iq.tiptapp.map.MapComponent
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res

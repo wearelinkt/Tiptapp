@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kashif.cameraK.permissions.Permissions
 import com.kashif.cameraK.permissions.providePermissions
+import iq.tiptapp.camera.CameraPermissionViewModel
 import iq.tiptapp.camera.CameraScreen
 import iq.tiptapp.camera.isTiramisuOrHigher
 import org.jetbrains.compose.resources.StringResource

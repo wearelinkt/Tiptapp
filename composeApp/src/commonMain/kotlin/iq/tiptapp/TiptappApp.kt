@@ -43,7 +43,7 @@ import iq.tiptapp.delivery.DeliveryScreen
 import iq.tiptapp.help.DetailScreen
 import iq.tiptapp.help.HelpScreen
 import iq.tiptapp.location.LocationScreen
-import iq.tiptapp.location.MapScreen
+import iq.tiptapp.map.MapScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
