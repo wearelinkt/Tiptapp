@@ -43,6 +43,7 @@ class LocationPermissionViewModel(
             state = controller.getPermissionState(Permission.LOCATION)
             provideOrRequestLocationPermission()
         }
+        onStartTracking()
     }
 
     private suspend fun provideOrRequestLocationPermission() {
@@ -60,7 +61,6 @@ class LocationPermissionViewModel(
 
     fun refreshLocation() {
         viewModelScope.launch {
-            locationTracker.startTracking()
             locationTracker.getLocationsFlow()
                 .distinctUntilChanged()
                 .collect {
@@ -78,6 +78,14 @@ class LocationPermissionViewModel(
         }
     }
 
+    private fun onStartTracking() {
+        viewModelScope.launch { locationTracker.startTracking() }
+    }
+
+    private fun onStopTracking() {
+        locationTracker.stopTracking()
+    }
+
     private suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
         val geocoder = Geocoder(MobilePlatformGeocoder())
         val result: GeocoderResult<Place> = geocoder.reverse(latitude, longitude)
@@ -90,6 +98,6 @@ class LocationPermissionViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        locationTracker.stopTracking()
+        onStopTracking()
     }
 }

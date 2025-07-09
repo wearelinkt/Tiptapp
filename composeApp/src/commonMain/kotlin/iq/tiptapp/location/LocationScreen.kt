@@ -129,37 +129,6 @@ fun LocationScreen(
 }
 
 @Composable
-private fun CurrentLocationBox(
-    address: String?,
-    location: LatLng?,
-    setupLatLngToNavigate: (Double, Double) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier.fillMaxWidth()
-            .background(Color.White)
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-                shape = RoundedCornerShape(8.dp)
-            ).then(
-                if (address == null) Modifier
-                else Modifier.clickable {
-                    location?.let { loc ->
-                        setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
-                    }
-                }
-            ).padding(16.dp)
-    ) {
-        Text(
-            text = address ?: stringResource(Res.string.search_for_address),
-            fontSize = 14.sp,
-            color = Color.DarkGray
-        )
-    }
-}
-
-@Composable
 private fun SearchAddressBox(
     onAddressBoxClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -191,6 +160,37 @@ private fun SearchAddressBox(
             imageVector = Icons.Default.Add,
             contentDescription = "Add",
             tint = Turquoise
+        )
+    }
+}
+
+@Composable
+private fun CurrentLocationBox(
+    address: String?,
+    location: LatLng?,
+    setupLatLngToNavigate: (Double, Double) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxWidth()
+            .background(Color.White)
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(8.dp)
+            ).then(
+                if (address == null) Modifier
+                else Modifier.clickable {
+                    location?.let { loc ->
+                        setupLatLngToNavigate.invoke(loc.latitude, loc.longitude)
+                    }
+                }
+            ).padding(16.dp)
+    ) {
+        Text(
+            text = address ?: stringResource(Res.string.search_for_address),
+            fontSize = 14.sp,
+            color = Color.DarkGray
         )
     }
 }
