@@ -32,18 +32,18 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import iq.tiptapp.expected.HelpViewModel
-import iq.tiptapp.expected.SearchComponent
+import iq.tiptapp.help.HelpViewModel
+import iq.tiptapp.search.SearchComponent
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
-import iq.tiptapp.ui.help.DeliveryDetailScreen
-import iq.tiptapp.ui.help.DeliveryScreen
-import iq.tiptapp.ui.help.DetailScreen
-import iq.tiptapp.ui.help.HelpScreen
-import iq.tiptapp.ui.help.LocationScreen
-import iq.tiptapp.ui.help.MapScreen
+import iq.tiptapp.delivery.DeliveryDetailScreen
+import iq.tiptapp.delivery.DeliveryScreen
+import iq.tiptapp.help.DetailScreen
+import iq.tiptapp.help.HelpScreen
+import iq.tiptapp.location.LocationScreen
+import iq.tiptapp.location.MapScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -61,6 +61,7 @@ import tiptapp.composeapp.generated.resources.pick_up_location
 @Composable
 fun TiptappApp() {
     val appState = rememberTiptappAppState()
+    val viewModel: HelpViewModel = koinViewModel<HelpViewModel>()
     Scaffold(
         bottomBar = {
             if (appState.shouldShowBottomBar) {
@@ -68,12 +69,12 @@ fun TiptappApp() {
                     tabs = appState.bottomBarTabs,
                     currentRoute = appState.currentRoute!!,
                     navigateToRoute = appState::navigateToBottomBarRoute,
-                    appState.navController
+                    appState.navController,
+                    viewModel
                 )
             }
         },
     ) { padding ->
-        val viewModel: HelpViewModel = koinViewModel<HelpViewModel>()
         NavHost(
             navController = appState.navController,
             startDestination = HOME_ROUTE,
@@ -90,7 +91,8 @@ private fun TiptappBottomBar(
     tabs: Array<HomeSections>,
     currentRoute: String,
     navigateToRoute: (String) -> Unit,
-    navController: NavController
+    navController: NavController,
+    viewModel: HelpViewModel
 ) {
     val currentSection = tabs.first { it.route == currentRoute }
 
@@ -123,6 +125,7 @@ private fun TiptappBottomBar(
                     selectedContentColor = MaterialTheme.colorScheme.onBackground,
                     onClick = {
                         if (section == HomeSections.HELP_SECTION) {
+                            viewModel.reset()
                             navController.navigate(CREATE_ADD_ROUTE)
                         } else {
                             navigateToRoute(section.route)

@@ -7,7 +7,7 @@ import iq.tiptapp.data.repository.UserRepositoryImpl
 import iq.tiptapp.domain.repository.UserRepository
 import iq.tiptapp.ui.verification.VerificationViewModel
 import iq.tiptapp.ui.splash.SplashViewModel
-import iq.tiptapp.expected.HelpViewModel
+import iq.tiptapp.help.HelpViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module

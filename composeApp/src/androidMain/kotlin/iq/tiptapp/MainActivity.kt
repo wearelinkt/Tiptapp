@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import iq.tiptapp.expected.createDataStore
+import iq.tiptapp.datastore.createDataStore
 import iq.tiptapp.ui.splash.SplashScreen
 import iq.tiptapp.ui.verification.PhoneNumberInputScreen
 import iq.tiptapp.ui.verification.SmsCodeScreen

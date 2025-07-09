@@ -1,6 +1,6 @@
 package iq.tiptapp.di
 
-import iq.tiptapp.expected.HelpViewModel
+import iq.tiptapp.help.HelpViewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
