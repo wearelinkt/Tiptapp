@@ -36,4 +36,9 @@
     <string name="in_home">In the home</string>
     <string name="in_store">In store</string>
     <string name="can_help">Can help carry at %1$s</string>
+    <string name="floor">Floor</string>
+    <string name="Door_code">Door code</string>
+    <string name="elevator">Fits in the elevator</string>
+    <string name="other_info">Other info</string>
+    <string name="info">Info</string>
 </resources>

@@ -19,6 +19,30 @@ open class BaseHelpViewModel: ViewModel() {
     private val _dropOffToggleState = MutableStateFlow(false)
     val dropOffToggleState: StateFlow<Boolean> = _dropOffToggleState
 
+    private val _pickUpFloor = MutableStateFlow<Int?>(null)
+    val pickUpFloor: StateFlow<Int?> = _pickUpFloor
+
+    private val _pickUpDoorCode = MutableStateFlow<Int?>(null)
+    val pickUpDoorCode: StateFlow<Int?> = _pickUpDoorCode
+
+    private val _pickUpFitElevator = MutableStateFlow(false)
+    val pickUpFitElevator: StateFlow<Boolean> = _pickUpFitElevator
+
+    private val _pickUpInfo = MutableStateFlow<String?>(null)
+    val pickUpInfo: StateFlow<String?> = _pickUpInfo
+
+    private val _dropOffFloor = MutableStateFlow<Int?>(null)
+    val dropOffFloor: StateFlow<Int?> = _dropOffFloor
+
+    private val _dropOffDoorCode = MutableStateFlow<Int?>(null)
+    val dropOffDoorCode: StateFlow<Int?> = _dropOffDoorCode
+
+    private val _dropOffFitElevator = MutableStateFlow(false)
+    val dropOffFitElevator: StateFlow<Boolean> = _dropOffFitElevator
+
+    private val _dropOffInfo = MutableStateFlow<String?>(null)
+    val dropOffInfo: StateFlow<String?> = _dropOffInfo
+
     fun setPickUpDeliveryItem(item: DeliveryNavItem) {
         _pickUpDeliveryItem.value = item
     }
@@ -33,5 +57,37 @@ open class BaseHelpViewModel: ViewModel() {
 
     fun setDropOffToggleState(state: Boolean) {
         _dropOffToggleState.value = state
+    }
+
+    fun setPickUpFloor(floor: Int) {
+        _pickUpFloor.value = floor
+    }
+
+    fun setPickUpDoorCode(doorCode: Int) {
+        _pickUpDoorCode.value = doorCode
+    }
+
+    fun setPickUpFitElevator(state: Boolean) {
+        _pickUpFitElevator.value = state
+    }
+
+    fun setPickUpOtherInfo(info: String) {
+        _pickUpInfo.value = info
+    }
+
+    fun setDropOffFloor(floor: Int) {
+        _dropOffFloor.value = floor
+    }
+
+    fun setDropOffDoorCode(doorCode: Int) {
+        _dropOffDoorCode.value = doorCode
+    }
+
+    fun setDropOffFitElevator(state: Boolean) {
+        _dropOffFitElevator.value = state
+    }
+
+    fun setDropOffOtherInfo(info: String) {
+        _dropOffInfo.value = info
     }
 }

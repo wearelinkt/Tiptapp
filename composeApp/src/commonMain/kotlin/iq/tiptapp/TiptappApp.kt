@@ -40,6 +40,7 @@ import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.ui.help.DeliveryDetailScreen
 import iq.tiptapp.ui.help.DeliveryScreen
+import iq.tiptapp.ui.help.DetailScreen
 import iq.tiptapp.ui.help.HelpScreen
 import iq.tiptapp.ui.help.LocationScreen
 import iq.tiptapp.ui.help.MapScreen
@@ -202,7 +203,17 @@ private fun NavGraphBuilder.createAdScreens(
             { navController.navigate(DROP_OFF_LOCATION) })
     }
     composable(route = PICK_UP_DELIVERY_DETAIL_ROUTE) {
-        DeliveryDetailScreen()
+        DeliveryDetailScreen(Res.string.pick_up,
+            { navController.navigateUp() },
+            viewModel.pickUpFitElevator.collectAsState().value,
+            { state -> viewModel.setPickUpFitElevator(state) },
+            viewModel.pickUpFloor.collectAsState().value,
+            { floor -> viewModel.setPickUpFloor(floor) },
+            viewModel.pickUpDoorCode.collectAsState().value,
+            { doorCode -> viewModel.setPickUpDoorCode(doorCode) },
+            viewModel.pickUpInfo.collectAsState().value,
+            { info -> viewModel.setPickUpOtherInfo(info) },
+            { navController.navigate(DROP_OFF_LOCATION) })
     }
     composable(route = DROP_OFF_LOCATION) {
         LocationScreen(Res.string.drop_off, { navController.navigateUp() },
@@ -235,11 +246,24 @@ private fun NavGraphBuilder.createAdScreens(
             viewModel.dropOffDeliveryItem.collectAsState().value,
             viewModel.dropOffToggleState.collectAsState().value,
             { state -> viewModel.setDropOffToggleState(state) },
-            { navController.navigate(PICK_UP_DELIVERY_DETAIL_ROUTE) },
-            { navController.navigate(DROP_OFF_DELIVERY_DETAIL_ROUTE) })
+            { navController.navigate(DROP_OFF_DELIVERY_DETAIL_ROUTE) },
+            { navController.navigate(DETAIL_ROUTE) })
     }
     composable(route = DROP_OFF_DELIVERY_DETAIL_ROUTE) {
-        DeliveryDetailScreen()
+        DeliveryDetailScreen(Res.string.drop_off,
+            { navController.navigateUp() },
+            viewModel.dropOffFitElevator.collectAsState().value,
+            { state -> viewModel.setDropOffFitElevator(state) },
+            viewModel.dropOffFloor.collectAsState().value,
+            { floor -> viewModel.setDropOffFloor(floor) },
+            viewModel.dropOffDoorCode.collectAsState().value,
+            { doorCode -> viewModel.setDropOffDoorCode(doorCode) },
+            viewModel.dropOffInfo.collectAsState().value,
+            { info -> viewModel.setDropOffOtherInfo(info) },
+            { navController.navigate(DETAIL_ROUTE) })
+    }
+    composable(route = DETAIL_ROUTE) {
+        DetailScreen()
     }
 }
 
@@ -278,3 +302,4 @@ private const val DROP_OFF_ROUTE = "drop_off_route"
 private const val DROP_OFF_ADDRESS_SEARCH_ROUTE = "drop_off_address"
 private const val DROP_OFF_DELIVERY_ROUTE = "drop_off_delivery"
 private const val DROP_OFF_DELIVERY_DETAIL_ROUTE = "drop_off_delivery_detail"
+private const val DETAIL_ROUTE = "detail_route"
