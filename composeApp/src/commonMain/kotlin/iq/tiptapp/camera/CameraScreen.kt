@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -204,10 +204,10 @@ fun CameraScreen(
         ) {
             Text(stringResource(Res.string.continue_text))
         }
-        CircleCrossIcon(
+        CircleBackIcon(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 8.dp, top = 8.dp), onBackClicked
+                .padding(start = 16.dp, top = 8.dp), onBackClicked
         )
     }
 }
@@ -271,10 +271,10 @@ private suspend fun handleImageCapture(
 }
 
 @Composable
-fun CircleCrossIcon(
+fun CircleBackIcon(
     modifier: Modifier = Modifier,
     onBackClicked: () -> Unit,
-    size: Dp = 32.dp,
+    size: Dp = 40.dp,
     backgroundColor: Color = Color.LightGray,
     iconColor: Color = Color.Black
 ) {
@@ -287,8 +287,8 @@ fun CircleCrossIcon(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Default.Close,
-            contentDescription = "Close",
+            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+            contentDescription = "Back",
             tint = iconColor
         )
     }
