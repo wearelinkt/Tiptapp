@@ -10,7 +10,7 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		4137F3662DE493FD00B0B53B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4137F3652DE493FD00B0B53B /* LoginView.swift */; };
+		4137F3662DE493FD00B0B53B /* PhoneNumberInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4137F3652DE493FD00B0B53B /* PhoneNumberInputView.swift */; };
 		4137F3682DE495B100B0B53B /* PhoneInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4137F3672DE495B100B0B53B /* PhoneInputField.swift */; };
 		413EE0CC2E198DB10088AB7E /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 413EE0CB2E198DB10088AB7E /* GooglePlaces */; };
 		413EE0CE2E198DB10088AB7E /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 413EE0CD2E198DB10088AB7E /* GooglePlacesSwift */; };
@@ -46,7 +46,7 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		4137F3652DE493FD00B0B53B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		4137F3652DE493FD00B0B53B /* PhoneNumberInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberInputView.swift; sourceTree = "<group>"; };
 		4137F3672DE495B100B0B53B /* PhoneInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneInputField.swift; sourceTree = "<group>"; };
 		414778962E148FCA009759E8 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		414778A22E197206009759E8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 				419ADED32DE63212009A2A8C /* View Model */,
 				419ADED12DE631B1009A2A8C /* AsyncContentView.swift */,
 				41A48C3D2DF44DCF009C8F4A /* MapViewController.swift */,
-				4137F3652DE493FD00B0B53B /* LoginView.swift */,
+				4137F3652DE493FD00B0B53B /* PhoneNumberInputView.swift */,
 				41706DEA2DEA2533002DC082 /* SmsCodeView.swift */,
 				41A48C5A2DFA8545009C8F4A /* SplashView.swift */,
 				414778A22E197206009759E8 /* SearchViewController.swift */,
@@ -346,7 +346,7 @@
 				417A17482DEB4EBA00808895 /* AppDelegate.swift in Sources */,
 				41706DE52DEA1FBB002DC082 /* ErrorPresentable.swift in Sources */,
 				41706DF02DEA2FF4002DC082 /* LoadingOverlayView.swift in Sources */,
-				4137F3662DE493FD00B0B53B /* LoginView.swift in Sources */,
+				4137F3662DE493FD00B0B53B /* PhoneNumberInputView.swift in Sources */,
 				41A48C3E2DF44DCF009C8F4A /* MapViewController.swift in Sources */,
 				419ADED22DE631B1009A2A8C /* AsyncContentView.swift in Sources */,
 				414778A32E197206009759E8 /* SearchViewController.swift in Sources */,

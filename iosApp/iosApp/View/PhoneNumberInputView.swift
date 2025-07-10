@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct LoginView: View {
+struct PhoneNumberInputView: View {
     @ObservedObject var viewModel: PhoneAuthViewModel
     @Binding var navigationPath: [NavigationPath]
     
