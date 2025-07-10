@@ -166,10 +166,9 @@ private fun NavGraphBuilder.createAdScreens(
     navController: NavController,
     viewModel: HelpViewModel
 ) {
-    composable(
-        route = CREATE_ADD_ROUTE
-    ) {
-        HelpScreen { navController.navigate(PICK_UP_LOCATION) }
+    composable(route = CREATE_ADD_ROUTE) {
+        HelpScreen({ navController.navigateUp() },
+            { navController.navigate(PICK_UP_LOCATION) })
     }
     composable(route = PICK_UP_LOCATION) {
         LocationScreen(Res.string.pick_up, { navController.navigateUp() },

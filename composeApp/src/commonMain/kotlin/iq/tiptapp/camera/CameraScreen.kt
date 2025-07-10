@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -38,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.decodeToImageBitmap
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kashif.cameraK.controller.CameraController
 import com.kashif.cameraK.enums.CameraLens
@@ -61,7 +63,10 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Composable
-fun CameraScreen(onContinueClick: () -> Unit) {
+fun CameraScreen(
+    onBackClicked: () -> Unit,
+    onContinueClick: () -> Unit
+) {
     val cameraController = remember { mutableStateOf<CameraController?>(null) }
     val imageSaverPlugin = rememberImageSaverPlugin(
         config = ImageSaverConfig(
@@ -199,9 +204,13 @@ fun CameraScreen(onContinueClick: () -> Unit) {
         ) {
             Text(stringResource(Res.string.continue_text))
         }
+        CircleCrossIcon(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 8.dp, top = 8.dp), onBackClicked
+        )
     }
 }
-
 
 @Composable
 private fun BottomControls(
@@ -258,6 +267,30 @@ private suspend fun handleImageCapture(
             Napier.d("Image Capture Error: ${result.exception.message}")
             return null
         }
+    }
+}
+
+@Composable
+fun CircleCrossIcon(
+    modifier: Modifier = Modifier,
+    onBackClicked: () -> Unit,
+    size: Dp = 32.dp,
+    backgroundColor: Color = Color.LightGray,
+    iconColor: Color = Color.Black
+) {
+    Box(
+        modifier = modifier
+            .size(size)
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .clickable { onBackClicked.invoke() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.Close,
+            contentDescription = "Close",
+            tint = iconColor
+        )
     }
 }
 

@@ -26,17 +26,19 @@ import tiptapp.composeapp.generated.resources.storage_permission_denied
 
 @Composable
 fun HelpScreen(
-    viewModel: CameraPermissionViewModel = koinViewModel<CameraPermissionViewModel>(),
-    onContinueClick: () -> Unit
+    onBackClicked: () -> Unit,
+    onContinueClick: () -> Unit,
+    viewModel: CameraPermissionViewModel = koinViewModel<CameraPermissionViewModel>()
 ) {
     val permissions: Permissions = providePermissions()
-    CameraPermissionContent(permissions, viewModel, onContinueClick)
+    CameraPermissionContent(permissions, viewModel, onBackClicked, onContinueClick)
 }
 
 @Composable
 private fun CameraPermissionContent(
     permissions: Permissions,
     viewModel: CameraPermissionViewModel,
+    onBackClicked: () -> Unit,
     onContinueClick: () -> Unit
 ) {
     when (val state = viewModel.cameraPermissionState.collectAsState().value) {
@@ -53,9 +55,9 @@ private fun CameraPermissionContent(
 
         is CameraPermissionViewModel.PermissionState.Granted -> {
             if (isTiramisuOrHigher()) {
-                CameraScreen(onContinueClick)
+                CameraScreen(onBackClicked, onContinueClick)
             } else {
-                StoragePermissionContent(permissions, viewModel, onContinueClick)
+                StoragePermissionContent(permissions, viewModel, onBackClicked, onContinueClick)
             }
 
         }
@@ -70,6 +72,7 @@ private fun CameraPermissionContent(
 private fun StoragePermissionContent(
     permissions: Permissions,
     viewModel: CameraPermissionViewModel,
+    onBackClicked: () -> Unit,
     onContinueClick: () -> Unit
 ) {
     when (val state = viewModel.storagePermissionState.collectAsState().value) {
@@ -85,7 +88,7 @@ private fun StoragePermissionContent(
         }
 
         is CameraPermissionViewModel.PermissionState.Granted -> {
-            CameraScreen(onContinueClick)
+            CameraScreen(onBackClicked, onContinueClick)
         }
 
         is CameraPermissionViewModel.PermissionState.Denied -> {
