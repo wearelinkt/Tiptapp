@@ -1,11 +1,23 @@
 package iq.tiptapp.help
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
+import iq.tiptapp.camera.maxSlots
 import iq.tiptapp.domain.model.DeliveryNavItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-open class BaseHelpViewModel: ViewModel() {
+open class BaseHelpViewModel : ViewModel() {
+
+    private val _imageSlots = mutableStateListOf<ImageBitmap?>(null, null, null, null)
+    val imageSlots: SnapshotStateList<ImageBitmap?> = _imageSlots
+
+    private val _selectedSlot = mutableStateOf(0)
+    val selectedSlot: State<Int> get() = _selectedSlot
 
     private val _pickUpDeliveryItem = MutableStateFlow<DeliveryNavItem?>(null)
     val pickUpDeliveryItem: StateFlow<DeliveryNavItem?> = _pickUpDeliveryItem
@@ -42,6 +54,18 @@ open class BaseHelpViewModel: ViewModel() {
 
     private val _dropOffInfo = MutableStateFlow<String?>(null)
     val dropOffInfo: StateFlow<String?> = _dropOffInfo
+
+    fun selectSlot(index: Int) {
+        _selectedSlot.value = index
+    }
+
+    fun setImageAtSelectedSlot(bitmap: ImageBitmap?) {
+        _imageSlots[_selectedSlot.value] = bitmap
+    }
+
+    fun deleteImageAtSelectedSlot() {
+        _imageSlots[_selectedSlot.value] = null
+    }
 
     fun setPickUpDeliveryItem(item: DeliveryNavItem) {
         _pickUpDeliveryItem.value = item
@@ -92,6 +116,9 @@ open class BaseHelpViewModel: ViewModel() {
     }
 
     fun reset() {
+        _imageSlots.clear()
+        repeat(maxSlots) { _imageSlots.add(null) }
+        _selectedSlot.value = 0
         _pickUpDeliveryItem.value = null
         _pickUpToggleState.value = false
         _pickUpFloor.value = null

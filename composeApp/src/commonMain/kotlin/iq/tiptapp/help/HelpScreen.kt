@@ -28,16 +28,18 @@ import tiptapp.composeapp.generated.resources.storage_permission_denied
 fun HelpScreen(
     onBackClicked: () -> Unit,
     onContinueClick: () -> Unit,
+    helpViewModel: HelpViewModel,
     viewModel: CameraPermissionViewModel = koinViewModel<CameraPermissionViewModel>()
 ) {
     val permissions: Permissions = providePermissions()
-    CameraPermissionContent(permissions, viewModel, onBackClicked, onContinueClick)
+    CameraPermissionContent(permissions, viewModel, helpViewModel, onBackClicked, onContinueClick)
 }
 
 @Composable
 private fun CameraPermissionContent(
     permissions: Permissions,
     viewModel: CameraPermissionViewModel,
+    helpViewModel: HelpViewModel,
     onBackClicked: () -> Unit,
     onContinueClick: () -> Unit
 ) {
@@ -55,9 +57,15 @@ private fun CameraPermissionContent(
 
         is CameraPermissionViewModel.PermissionState.Granted -> {
             if (isTiramisuOrHigher()) {
-                CameraScreen(onBackClicked, onContinueClick)
+                CameraScreen(onBackClicked, onContinueClick, helpViewModel)
             } else {
-                StoragePermissionContent(permissions, viewModel, onBackClicked, onContinueClick)
+                StoragePermissionContent(
+                    permissions,
+                    viewModel,
+                    helpViewModel,
+                    onBackClicked,
+                    onContinueClick
+                )
             }
 
         }
@@ -72,6 +80,7 @@ private fun CameraPermissionContent(
 private fun StoragePermissionContent(
     permissions: Permissions,
     viewModel: CameraPermissionViewModel,
+    helpViewModel: HelpViewModel,
     onBackClicked: () -> Unit,
     onContinueClick: () -> Unit
 ) {
@@ -88,7 +97,7 @@ private fun StoragePermissionContent(
         }
 
         is CameraPermissionViewModel.PermissionState.Granted -> {
-            CameraScreen(onBackClicked, onContinueClick)
+            CameraScreen(onBackClicked, onContinueClick, helpViewModel)
         }
 
         is CameraPermissionViewModel.PermissionState.Denied -> {

@@ -28,11 +28,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +53,7 @@ import com.kashif.imagesaverplugin.ImageSaverPlugin
 import com.kashif.imagesaverplugin.rememberImageSaverPlugin
 import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
+import iq.tiptapp.help.HelpViewModel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
@@ -65,7 +64,8 @@ import kotlin.uuid.Uuid
 @Composable
 fun CameraScreen(
     onBackClicked: () -> Unit,
-    onContinueClick: () -> Unit
+    onContinueClick: () -> Unit,
+    viewModel: HelpViewModel
 ) {
     val cameraController = remember { mutableStateOf<CameraController?>(null) }
     val imageSaverPlugin = rememberImageSaverPlugin(
@@ -77,8 +77,8 @@ fun CameraScreen(
         )
     )
 
-    val imageSlots = remember { mutableStateListOf<ImageBitmap?>(null, null, null, null) }
-    var selectedSlot by remember { mutableStateOf(0) }
+    val imageSlots = viewModel.imageSlots
+    val selectedSlot by viewModel.selectedSlot
     val scope = rememberCoroutineScope()
 
     Box(
@@ -86,14 +86,12 @@ fun CameraScreen(
             .fillMaxSize()
             .padding(bottom = 16.dp)
     ) {
-        // Main content
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 80.dp), // Space for button
+                .padding(bottom = 80.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Camera Preview
             Box(
                 Modifier
                     .height(425.dp)
@@ -107,9 +105,7 @@ fun CameraScreen(
                     )
 
                     IconButton(
-                        onClick = {
-                            imageSlots[selectedSlot] = null
-                        },
+                        onClick = { viewModel.deleteImageAtSelectedSlot() },
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .padding(bottom = 16.dp)
@@ -136,7 +132,6 @@ fun CameraScreen(
                 }
             }
 
-            // Image Slots
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -152,7 +147,7 @@ fun CameraScreen(
                                 color = if (i == selectedSlot) Turquoise else Color.Gray,
                                 shape = RoundedCornerShape(12.dp)
                             )
-                            .clickable { selectedSlot = i },
+                            .clickable { viewModel.selectSlot(i) },
                         contentAlignment = Alignment.Center
                     ) {
                         val bmp = imageSlots[i]
@@ -173,26 +168,22 @@ fun CameraScreen(
                 }
             }
 
-            // Capture Button
-            cameraController.value?.let { controller ->
-                BottomControls(
-                    modifier = Modifier
-                        .padding(top = 48.dp)
-                        .align(Alignment.CenterHorizontally),
-                    onCapture = {
+            BottomControls(
+                modifier = Modifier
+                    .padding(top = 48.dp)
+                    .align(Alignment.CenterHorizontally),
+                onCapture = {
+                    cameraController.value?.let { controller ->
                         scope.launch {
-                            imageSlots[selectedSlot] = handleImageCapture(
-                                controller,
-                                imageSaverPlugin
-                            )
+                            val bitmap = handleImageCapture(controller, imageSaverPlugin)
+                            viewModel.setImageAtSelectedSlot(bitmap)
                         }
-                    },
-                    enabled = imageSlots[selectedSlot] == null,
-                )
-            }
+                    }
+                },
+                enabled = cameraController.value != null && imageSlots[selectedSlot] == null
+            )
         }
 
-        // Continue button anchored to bottom
         Button(
             onClick = { onContinueClick.invoke() },
             //enabled = imageSlots[selectedSlot] != null,
@@ -294,4 +285,4 @@ fun CircleBackIcon(
     }
 }
 
-private const val maxSlots = 4
+const val maxSlots = 4
