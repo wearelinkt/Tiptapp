@@ -48,9 +48,6 @@ import com.kashif.cameraK.enums.QualityPrioritization
 import com.kashif.cameraK.enums.TorchMode
 import com.kashif.cameraK.result.ImageCaptureResult
 import com.kashif.cameraK.ui.CameraPreview
-import com.kashif.imagesaverplugin.ImageSaverConfig
-import com.kashif.imagesaverplugin.ImageSaverPlugin
-import com.kashif.imagesaverplugin.rememberImageSaverPlugin
 import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
 import iq.tiptapp.help.HelpViewModel
@@ -58,8 +55,6 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import tiptapp.composeapp.generated.resources.Res
 import tiptapp.composeapp.generated.resources.continue_text
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Composable
 fun CameraScreen(
@@ -68,14 +63,6 @@ fun CameraScreen(
     viewModel: HelpViewModel
 ) {
     val cameraController = remember { mutableStateOf<CameraController?>(null) }
-    val imageSaverPlugin = rememberImageSaverPlugin(
-        config = ImageSaverConfig(
-            isAutoSave = false,
-            prefix = "MyApp",
-            directory = Directory.PICTURES,
-            customFolderName = "Tiptapp"
-        )
-    )
 
     val imageSlots = viewModel.imageSlots
     val selectedSlot by viewModel.selectedSlot
@@ -123,7 +110,6 @@ fun CameraScreen(
                             setDirectory(Directory.PICTURES)
                             setTorchMode(TorchMode.OFF)
                             setQualityPrioritization(QualityPrioritization.NONE)
-                            addPlugin(imageSaverPlugin)
                         },
                         onCameraControllerReady = {
                             cameraController.value = it
@@ -175,7 +161,7 @@ fun CameraScreen(
                 onCapture = {
                     cameraController.value?.let { controller ->
                         scope.launch {
-                            val bitmap = handleImageCapture(controller, imageSaverPlugin)
+                            val bitmap = handleImageCapture(controller)
                             viewModel.setImageAtSelectedSlot(bitmap)
                         }
                     }
@@ -233,24 +219,12 @@ private fun BottomControls(
     }
 }
 
-@OptIn(ExperimentalUuidApi::class)
 private suspend fun handleImageCapture(
-    cameraController: CameraController,
-    imageSaverPlugin: ImageSaverPlugin,
+    cameraController: CameraController
 ): ImageBitmap? {
     when (val result = cameraController.takePicture()) {
         is ImageCaptureResult.Success -> {
             val bitmap = result.byteArray.decodeToImageBitmap()
-
-            if (!imageSaverPlugin.config.isAutoSave) {
-                val customName = "Manual_${Uuid.random().toHexString()}"
-                imageSaverPlugin.saveImage(
-                    byteArray = result.byteArray,
-                    imageName = customName
-                )?.let { path ->
-                    Napier.d("Image saved at: $path")
-                }
-            }
             return bitmap
         }
 

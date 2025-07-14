@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.googleSecret)
     alias(libs.plugins.buildKonfig)
-    //alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -23,19 +22,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-
-    /*cocoapods {
-        summary = "Compose Multiplatform shared module"
-        homepage = "https://example.com"
-        version = "1.0"
-
-        ios.deploymentTarget = "13.0"
-
-        framework {
-            baseName = "composeApp"
-            isStatic = true // or false, depending on your preference
-        }
-    }*/
 
     listOf(
         iosX64(),
@@ -89,7 +75,6 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.url.encoder)
             implementation("io.github.kashif-mehmood-km:camerak:+")
-            implementation(libs.camera.k.image.saver)
             implementation(libs.moko.geo)
             implementation(libs.moko.geo.compose)
             implementation(libs.moko.permissions)
@@ -110,6 +95,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+    }
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
@@ -140,6 +128,9 @@ android {
     }
     lint {
         disable += "NullSafeMutableLiveData"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

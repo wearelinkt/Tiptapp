@@ -33,7 +33,6 @@ map-compose ="6.1.0"
 moko-permissions = "0.18.0"
 moko-geo = "0.8.0"
 compass = "1.2.2"
-camera-k = "0.0.7"
 datastore = "1.1.1"
 google-secret = "2.0.1"
 connectivity = "1.2.0"
@@ -84,7 +83,6 @@ androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime
 moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko-permissions" }
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
 
-camera-k-image-saver = { module = "io.github.kashif-mehmood-km:image_saver_plugin", version.ref = "camera-k" }
 moko-geo = { module = "dev.icerock.moko:geo", version.ref = "moko-geo" }
 moko-geo-compose = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
 compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
