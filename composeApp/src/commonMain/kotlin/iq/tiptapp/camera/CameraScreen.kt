@@ -35,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -86,7 +85,7 @@ fun CameraScreen(
             ) {
                 imageSlots[selectedSlot]?.let { imageSlot ->
                     Image(
-                        bitmap = imageSlot,
+                        bitmap = imageSlot.decodeToImageBitmap(),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize()
                     )
@@ -139,7 +138,7 @@ fun CameraScreen(
                         val bmp = imageSlots[i]
                         bmp?.let {
                             Image(
-                                bitmap = bmp,
+                                bitmap = bmp.decodeToImageBitmap(),
                                 contentDescription = "Image $i",
                                 modifier = Modifier.fillMaxSize()
                             )
@@ -161,8 +160,8 @@ fun CameraScreen(
                 onCapture = {
                     cameraController.value?.let { controller ->
                         scope.launch {
-                            val bitmap = handleImageCapture(controller)
-                            viewModel.setImageAtSelectedSlot(bitmap)
+                            val imageByteArray = handleImageCapture(controller)
+                            viewModel.setImageAtSelectedSlot(imageByteArray)
                         }
                     }
                 },
@@ -221,11 +220,11 @@ private fun BottomControls(
 
 private suspend fun handleImageCapture(
     cameraController: CameraController
-): ImageBitmap? {
+): ByteArray? {
     when (val result = cameraController.takePicture()) {
         is ImageCaptureResult.Success -> {
-            val bitmap = result.byteArray.decodeToImageBitmap()
-            return bitmap
+            val imageByteArray = result.byteArray
+            return imageByteArray
         }
 
         is ImageCaptureResult.Error -> {

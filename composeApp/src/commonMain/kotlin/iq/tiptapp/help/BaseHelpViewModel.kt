@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import iq.tiptapp.camera.maxSlots
 import iq.tiptapp.domain.model.DeliveryNavItem
@@ -13,8 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 open class BaseHelpViewModel : ViewModel() {
 
-    private val _imageSlots = mutableStateListOf<ImageBitmap?>(null, null, null, null)
-    val imageSlots: SnapshotStateList<ImageBitmap?> = _imageSlots
+    private val _imageSlots = mutableStateListOf<ByteArray?>(null, null, null, null)
+    val imageSlots: SnapshotStateList<ByteArray?> = _imageSlots
 
     private val _selectedSlot = mutableStateOf(0)
     val selectedSlot: State<Int> get() = _selectedSlot
@@ -59,8 +58,8 @@ open class BaseHelpViewModel : ViewModel() {
         _selectedSlot.value = index
     }
 
-    fun setImageAtSelectedSlot(bitmap: ImageBitmap?) {
-        _imageSlots[_selectedSlot.value] = bitmap
+    fun setImageAtSelectedSlot(imageByteArray: ByteArray?) {
+        _imageSlots[_selectedSlot.value] = imageByteArray
     }
 
     fun deleteImageAtSelectedSlot() {
