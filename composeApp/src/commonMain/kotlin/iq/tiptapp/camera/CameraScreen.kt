@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -66,6 +68,8 @@ fun CameraScreen(
     val imageSlots = viewModel.imageSlots
     val selectedSlot by viewModel.selectedSlot
     val scope = rememberCoroutineScope()
+
+    var isLoading by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -159,9 +163,11 @@ fun CameraScreen(
                     .align(Alignment.CenterHorizontally),
                 onCapture = {
                     cameraController.value?.let { controller ->
+                        isLoading = true
                         scope.launch {
                             val imageByteArray = handleImageCapture(controller)
                             viewModel.setImageAtSelectedSlot(imageByteArray)
+                            isLoading = false
                         }
                     }
                 },
@@ -185,6 +191,12 @@ fun CameraScreen(
                 .align(Alignment.TopStart)
                 .padding(start = 16.dp, top = 8.dp), onBackClicked
         )
+        if (isLoading) {
+            CircularProgressIndicator(
+                color = Turquoise,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
@@ -219,7 +231,7 @@ private fun BottomControls(
 }
 
 private suspend fun handleImageCapture(
-    cameraController: CameraController
+    cameraController: CameraController,
 ): ByteArray? {
     when (val result = cameraController.takePicture()) {
         is ImageCaptureResult.Success -> {
