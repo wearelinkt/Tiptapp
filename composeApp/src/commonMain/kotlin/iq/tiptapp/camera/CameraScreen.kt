@@ -177,7 +177,7 @@ fun CameraScreen(
 
         Button(
             onClick = { onContinueClick.invoke() },
-            //enabled = imageSlots[selectedSlot] != null,
+            //enabled = imageSlots.filterNotNull().isNotEmpty(),
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
