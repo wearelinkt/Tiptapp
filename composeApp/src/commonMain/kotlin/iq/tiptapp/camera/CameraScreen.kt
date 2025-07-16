@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,9 +46,7 @@ import com.kashif.cameraK.enums.FlashMode
 import com.kashif.cameraK.enums.ImageFormat
 import com.kashif.cameraK.enums.QualityPrioritization
 import com.kashif.cameraK.enums.TorchMode
-import com.kashif.cameraK.result.ImageCaptureResult
 import com.kashif.cameraK.ui.CameraPreview
-import io.github.aakira.napier.Napier
 import iq.tiptapp.Turquoise
 import iq.tiptapp.help.HelpViewModel
 import kotlinx.coroutines.launch
@@ -68,8 +65,6 @@ fun CameraScreen(
     val imageSlots = viewModel.imageSlots
     val selectedSlot by viewModel.selectedSlot
     val scope = rememberCoroutineScope()
-
-    var isLoading by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -136,7 +131,11 @@ fun CameraScreen(
                                 color = if (i == selectedSlot) Turquoise else Color.Gray,
                                 shape = RoundedCornerShape(12.dp)
                             )
-                            .clickable { viewModel.selectSlot(i) },
+                            .clickable {
+                                if (!viewModel.isLoading) {
+                                    viewModel.selectSlot(i)
+                                }
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                         val bmp = imageSlots[i]
@@ -163,15 +162,14 @@ fun CameraScreen(
                     .align(Alignment.CenterHorizontally),
                 onCapture = {
                     cameraController.value?.let { controller ->
-                        isLoading = true
                         scope.launch {
-                            val imageByteArray = handleImageCapture(controller)
+                            val imageByteArray = viewModel.handleImageCapture(controller)
                             viewModel.setImageAtSelectedSlot(imageByteArray)
-                            isLoading = false
                         }
                     }
                 },
-                enabled = cameraController.value != null && imageSlots[selectedSlot] == null
+                enabled = cameraController.value != null && imageSlots[selectedSlot] == null &&
+                        !viewModel.isLoading
             )
         }
 
@@ -191,7 +189,7 @@ fun CameraScreen(
                 .align(Alignment.TopStart)
                 .padding(start = 16.dp, top = 8.dp), onBackClicked
         )
-        if (isLoading) {
+        if (viewModel.isLoading) {
             CircularProgressIndicator(
                 color = Turquoise,
                 modifier = Modifier.align(Alignment.Center)
@@ -226,22 +224,6 @@ private fun BottomControls(
                 contentDescription = "Capture",
                 tint = Color.White
             )
-        }
-    }
-}
-
-private suspend fun handleImageCapture(
-    cameraController: CameraController,
-): ByteArray? {
-    when (val result = cameraController.takePicture()) {
-        is ImageCaptureResult.Success -> {
-            val imageByteArray = result.byteArray
-            return imageByteArray
-        }
-
-        is ImageCaptureResult.Error -> {
-            Napier.d("Image Capture Error: ${result.exception.message}")
-            return null
         }
     }
 }

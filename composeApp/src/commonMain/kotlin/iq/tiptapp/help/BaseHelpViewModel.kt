@@ -1,16 +1,23 @@
 package iq.tiptapp.help
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import com.kashif.cameraK.controller.CameraController
+import com.kashif.cameraK.result.ImageCaptureResult
+import io.github.aakira.napier.Napier
 import iq.tiptapp.camera.maxSlots
 import iq.tiptapp.domain.model.DeliveryNavItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 open class BaseHelpViewModel : ViewModel() {
+
+    var isLoading by mutableStateOf(false)
 
     private val _imageSlots = mutableStateListOf<ByteArray?>(null, null, null, null)
     val imageSlots: SnapshotStateList<ByteArray?> = _imageSlots
@@ -64,6 +71,25 @@ open class BaseHelpViewModel : ViewModel() {
 
     fun deleteImageAtSelectedSlot() {
         _imageSlots[_selectedSlot.value] = null
+    }
+
+    suspend fun handleImageCapture(
+        cameraController: CameraController,
+    ): ByteArray? {
+        isLoading = true
+        when (val result = cameraController.takePicture()) {
+            is ImageCaptureResult.Success -> {
+                val imageByteArray = result.byteArray
+                isLoading = false
+                return imageByteArray
+            }
+
+            is ImageCaptureResult.Error -> {
+                Napier.d("Image Capture Error: ${result.exception.message}")
+                isLoading = false
+                return null
+            }
+        }
     }
 
     fun setPickUpDeliveryItem(item: DeliveryNavItem) {
