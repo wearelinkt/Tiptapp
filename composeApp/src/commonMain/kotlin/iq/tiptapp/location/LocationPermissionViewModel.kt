@@ -14,11 +14,7 @@ import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import dev.icerock.moko.permissions.location.LOCATION
-import dev.jordond.compass.Place
-import dev.jordond.compass.geocoder.Geocoder
-import dev.jordond.compass.geocoder.GeocoderResult
-import dev.jordond.compass.geocoder.mobile.MobilePlatformGeocoder
-import io.github.aakira.napier.Napier
+import iq.tiptapp.utils.getAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -65,14 +61,8 @@ class LocationPermissionViewModel(
                 .distinctUntilChanged()
                 .collect {
                     _latLng.tryEmit(it)
-                    lookupCoordinates(it.latitude, it.longitude)?.let { ads ->
-                        _address.tryEmit(buildString {
-                            listOfNotNull(
-                                ads.street,
-                                ads.country,
-                                ads.postalCode
-                            ).joinTo(this, separator = ", ")
-                        })
+                    getAddress(it.latitude, it.longitude)?.let { address ->
+                        _address.tryEmit(address)
                     }
                 }
         }
@@ -84,16 +74,6 @@ class LocationPermissionViewModel(
 
     private fun onStopTracking() {
         locationTracker.stopTracking()
-    }
-
-    private suspend fun lookupCoordinates(latitude: Double, longitude: Double): Place? {
-        val geocoder = Geocoder(MobilePlatformGeocoder())
-        val result: GeocoderResult<Place> = geocoder.reverse(latitude, longitude)
-        when (result) {
-            is GeocoderResult.Error -> Napier.w("Error: $result")
-            is GeocoderResult.Success -> Napier.d("Success: ${result.getFirstOrNull()}")
-        }
-        return result.getFirstOrNull()
     }
 
     override fun onCleared() {
