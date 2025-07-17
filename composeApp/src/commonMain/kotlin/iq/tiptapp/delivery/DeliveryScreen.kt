@@ -140,7 +140,7 @@ fun DeliveryScreen(
                 when (selectedItem?.destination) {
                     is Destination.DetailScreen -> onDetailScreen.invoke()
                     is Destination.NextScreen -> onNextScreen.invoke()
-                    null -> Napier.w("invalid destination")
+                    null -> throw RuntimeException("invalid destination")
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),

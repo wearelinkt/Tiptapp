@@ -61,6 +61,13 @@ open class BaseHelpViewModel : ViewModel() {
     private val _dropOffInfo = MutableStateFlow<String?>(null)
     val dropOffInfo: StateFlow<String?> = _dropOffInfo
 
+    var title by mutableStateOf("")
+
+    var description by mutableStateOf("")
+
+    var selectedSize by mutableStateOf<String?>(null)
+
+
     fun selectSlot(index: Int) {
         _selectedSlot.value = index
     }
@@ -140,6 +147,18 @@ open class BaseHelpViewModel : ViewModel() {
         _dropOffInfo.value = info
     }
 
+    fun setAddTitle(title: String) {
+        this.title = title
+    }
+
+    fun setAddDescription(description: String) {
+        this.description = description
+    }
+
+    fun setSize(size: String) {
+        this.selectedSize = size
+    }
+
     fun reset() {
         _imageSlots.clear()
         repeat(maxSlots) { _imageSlots.add(null) }
@@ -156,5 +175,8 @@ open class BaseHelpViewModel : ViewModel() {
         _dropOffDoorCode.value = null
         _dropOffFitElevator.value = false
         _dropOffInfo.value = null
+        title = ""
+        description = ""
+        selectedSize = null
     }
 }

@@ -40,7 +40,7 @@ import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
 import iq.tiptapp.delivery.DeliveryDetailScreen
 import iq.tiptapp.delivery.DeliveryScreen
-import iq.tiptapp.help.DetailScreen
+import iq.tiptapp.detail.DetailScreen
 import iq.tiptapp.help.HelpScreen
 import iq.tiptapp.location.LocationScreen
 import iq.tiptapp.map.MapScreen
@@ -268,7 +268,7 @@ private fun NavGraphBuilder.createAdScreens(
             { navController.navigate(DETAIL_ROUTE) })
     }
     composable(route = DETAIL_ROUTE) {
-        DetailScreen()
+        DetailScreen(viewModel, navController::navigateUp)
     }
 }
 

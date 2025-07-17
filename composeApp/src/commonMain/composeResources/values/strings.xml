@@ -41,4 +41,14 @@
     <string name="elevator">Fits in the elevator</string>
     <string name="other_info">Other info</string>
     <string name="info">Info</string>
+    <string name="title_description">Title &amp; Description</string>
+    <string name="title">What do you need help with?</string>
+    <string name="enter_title">Enter title</string>
+    <string name="description">Description</string>
+    <string name="enter_description">Enter description</string>
+    <string name="size">How big is the collection?</string>
+    <string name="small_size">It's quite small, just some lightweight things that easily fits into a smaller hatchback car. (Note: This is not a selection of a vehicle, it is an estimation for any person that want to help)</string>
+    <string name="medium_size">It's not that big, but there are quite a few things, that most likely require an estate car to be moved. (Note: This is not a selection of a vehicle, it is an estimation for any person that want to help)</string>
+    <string name="large_size">It's big. There are several big and clunky things that most likely need a van to be moved. (Note: This is not a selection of a vehicle, it is an estimation for any person that want to help)</string>
+    <string name="xlarge_size">It's very big. There are a lot of big and bulky things that most likely require a large van or truck to be moved. (Note: This is not a selection of a vehicle, it is an estimation for any person that want to help)</string>
 </resources>
