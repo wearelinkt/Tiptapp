@@ -85,7 +85,8 @@ fun DetailScreen(
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent
+                        unfocusedContainerColor = Color.Transparent,
+                        cursorColor = Turquoise
                     )
                 )
 
@@ -114,7 +115,8 @@ fun DetailScreen(
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                         focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent
+                        unfocusedContainerColor = Color.Transparent,
+                        cursorColor = Turquoise
                     )
                 )
 
