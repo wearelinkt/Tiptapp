@@ -49,6 +49,9 @@ fun DetailScreen(
     onBackClicked: () -> Unit
 ) {
     val sizeOptions = listOf("S", "M", "L", "XL")
+    val title = viewModel.title
+    val description = viewModel.description
+    val selectedSize = viewModel.selectedSize
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
@@ -64,7 +67,7 @@ fun DetailScreen(
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
                 TextField(
-                    value = viewModel.title,
+                    value = title,
                     onValueChange = { viewModel.setAddTitle(it) },
                     singleLine = true,
                     placeholder = {
@@ -93,7 +96,7 @@ fun DetailScreen(
                     modifier = Modifier.padding(vertical = 12.dp)
                 )
                 TextField(
-                    value = viewModel.description,
+                    value = description,
                     onValueChange = { viewModel.setAddDescription(it) },
                     placeholder = {
                         Text(
@@ -115,7 +118,7 @@ fun DetailScreen(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(Res.string.size), fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 12.dp)
@@ -132,7 +135,7 @@ fun DetailScreen(
                                 .size(70.dp)
                                 .border(
                                     width = 2.dp,
-                                    color = if (viewModel.selectedSize == size) Turquoise else Color.Gray,
+                                    color = if (selectedSize == size) Turquoise else Color.Gray,
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .clickable { viewModel.setSize(size) },
@@ -145,7 +148,7 @@ fun DetailScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                viewModel.selectedSize?.let {
+                selectedSize?.let {
                     Text(
                         text = stringResource(
                             when (it) {
@@ -164,6 +167,7 @@ fun DetailScreen(
         Button(
             onClick = {},
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),
+            enabled = title.length > 2 && selectedSize != null,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
