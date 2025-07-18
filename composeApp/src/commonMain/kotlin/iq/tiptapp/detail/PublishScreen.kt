@@ -207,10 +207,10 @@ private fun InfoText(
 
 @Composable
 private fun DeliveryItemText(
-    text: StringResource?,
+    textResource: StringResource?,
     deliveryClicked: () -> Unit
 ) {
-    text?.let {
+    textResource?.let {
         InfoText(Res.string.placement, stringResource(it), deliveryClicked)
     } ?: run {
         InfoText(Res.string.placement, "", deliveryClicked)
@@ -238,7 +238,7 @@ private fun CarryText(
 ) {
     InfoText(
         Res.string.carry,
-        if (canHelp) stringResource(Res.string.yes) else stringResource(Res.string.no),
+        stringResource(if (canHelp) Res.string.yes else Res.string.no),
         deliveryClicked
     )
 }
