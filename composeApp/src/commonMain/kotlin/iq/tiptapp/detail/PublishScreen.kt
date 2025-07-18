@@ -79,46 +79,40 @@ fun PublishScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .verticalScroll(state = scrollState)
-                .padding(bottom = 80.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             CustomTopAppBar(Res.string.publish_ad, onBackClicked)
-            ImagesCarousel(viewModel.imageSlots, imageCaptureClicked)
-            HorizontalDivider()
-            InfoText(Res.string.title_text, viewModel.title, titleClicked)
-            HorizontalDivider()
-            InfoText(Res.string.description, viewModel.description, titleClicked)
-            HorizontalDivider()
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(Res.string.pick_up),
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(12.dp)
-            )
-            val pickUpLocation by viewModel.pickUpClickedLocation.collectAsState()
-            HorizontalDivider()
-            AddressText(pickUpLocation, pickUpLocationClicked)
-            HorizontalDivider()
-            DeliveryItemText(viewModel.pickUpDeliveryItem.value?.label, pickUpDeliveryClicked)
-            HorizontalDivider()
-            CarryText(viewModel.pickUpToggleState.value, pickUpDeliveryClicked)
-            HorizontalDivider()
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = stringResource(Res.string.drop_off),
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(12.dp)
-            )
-            val dropOffLocation by viewModel.dropOffClickedLocation.collectAsState()
-            HorizontalDivider()
-            AddressText(dropOffLocation, dropOffLocationClicked)
-            HorizontalDivider()
-            DeliveryItemText(viewModel.dropOffDeliveryItem.value?.label, dropOffDeliveryClicked)
-            HorizontalDivider()
-            CarryText(viewModel.dropOffToggleState.value, dropOffDeliveryClicked)
-            HorizontalDivider()
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .verticalScroll(state = scrollState)
+                    .padding(bottom = 80.dp)
+            ) {
+                ImagesCarousel(viewModel.imageSlots, imageCaptureClicked)
+                HorizontalDivider()
+                InfoText(Res.string.title_text, viewModel.title, titleClicked)
+                HorizontalDivider()
+                InfoText(Res.string.description, viewModel.description, titleClicked)
+                HorizontalDivider()
+                Spacer(Modifier.height(16.dp))
+                TitleText(Res.string.pick_up)
+                val pickUpLocation by viewModel.pickUpClickedLocation.collectAsState()
+                HorizontalDivider()
+                AddressText(pickUpLocation, pickUpLocationClicked)
+                HorizontalDivider()
+                DeliveryItemText(viewModel.pickUpDeliveryItem.value?.label, pickUpDeliveryClicked)
+                HorizontalDivider()
+                CarryText(viewModel.pickUpToggleState.value, pickUpDeliveryClicked)
+                HorizontalDivider()
+                Spacer(Modifier.height(16.dp))
+                TitleText(Res.string.drop_off)
+                val dropOffLocation by viewModel.dropOffClickedLocation.collectAsState()
+                HorizontalDivider()
+                AddressText(dropOffLocation, dropOffLocationClicked)
+                HorizontalDivider()
+                DeliveryItemText(viewModel.dropOffDeliveryItem.value?.label, dropOffDeliveryClicked)
+                HorizontalDivider()
+                CarryText(viewModel.dropOffToggleState.value, dropOffDeliveryClicked)
+                HorizontalDivider()
+            }
         }
         Button(
             onClick = {},
@@ -135,6 +129,15 @@ fun PublishScreen(
             )
         }
     }
+}
+
+@Composable
+private fun TitleText(title: StringResource) {
+    Text(
+        text = stringResource(title),
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(12.dp)
+    )
 }
 
 @Composable
@@ -167,20 +170,24 @@ private fun ImagesCarousel(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(Res.string.change_image),
-            color = Color.Blue,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().clickable { imageCaptureClicked.invoke() },
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Spacer(modifier = Modifier.height(16.dp))
     }
+    Spacer(modifier = Modifier.height(16.dp))
+    Text(
+        text = stringResource(Res.string.change_image),
+        color = Color.Blue,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.fillMaxWidth().clickable { imageCaptureClicked.invoke() },
+        style = MaterialTheme.typography.bodyMedium
+    )
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-private fun InfoText(title: StringResource, info: String, onClick: () -> Unit) {
+private fun InfoText(
+    title: StringResource,
+    info: String,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth().clickable {
             onClick.invoke()
@@ -199,7 +206,10 @@ private fun InfoText(title: StringResource, info: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun DeliveryItemText(text: StringResource?, deliveryClicked: () -> Unit) {
+private fun DeliveryItemText(
+    text: StringResource?,
+    deliveryClicked: () -> Unit
+) {
     text?.let {
         InfoText(Res.string.placement, stringResource(it), deliveryClicked)
     } ?: run {
@@ -208,18 +218,24 @@ private fun DeliveryItemText(text: StringResource?, deliveryClicked: () -> Unit)
 }
 
 @Composable
-private fun AddressText(location: Pair<Double, Double>?, locationClicked: () -> Unit) {
+private fun AddressText(
+    location: Pair<Double, Double>?,
+    locationClicked: () -> Unit
+) {
     var address: String? by remember { mutableStateOf(null) }
     location?.let {
         LaunchedEffect(Unit) {
             address = getAddress(it.first, it.second)
         }
-        InfoText(Res.string.address, address ?: "", locationClicked)
     }
+    InfoText(Res.string.address, address ?: "", locationClicked)
 }
 
 @Composable
-private fun CarryText(canHelp: Boolean, deliveryClicked: () -> Unit) {
+private fun CarryText(
+    canHelp: Boolean,
+    deliveryClicked: () -> Unit
+) {
     InfoText(
         Res.string.carry,
         if (canHelp) stringResource(Res.string.yes) else stringResource(Res.string.no),
