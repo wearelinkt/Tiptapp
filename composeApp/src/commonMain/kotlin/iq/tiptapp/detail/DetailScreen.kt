@@ -46,7 +46,8 @@ import tiptapp.composeapp.generated.resources.xlarge_size
 @Composable
 fun DetailScreen(
     viewModel: HelpViewModel,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    onContinueClicked: () -> Unit
 ) {
     val sizeOptions = listOf("S", "M", "L", "XL")
     val title = viewModel.title
@@ -167,7 +168,7 @@ fun DetailScreen(
             }
         }
         Button(
-            onClick = {},
+            onClick = onContinueClicked,
             colors = ButtonDefaults.buttonColors(containerColor = Turquoise),
             enabled = title.length > 2 && selectedSize != null,
             modifier = Modifier

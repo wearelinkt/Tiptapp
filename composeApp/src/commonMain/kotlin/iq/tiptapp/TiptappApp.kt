@@ -32,18 +32,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import iq.tiptapp.delivery.DeliveryDetailScreen
+import iq.tiptapp.delivery.DeliveryScreen
+import iq.tiptapp.detail.DetailScreen
+import iq.tiptapp.detail.PublishScreen
+import iq.tiptapp.help.HelpScreen
 import iq.tiptapp.help.HelpViewModel
+import iq.tiptapp.location.LocationScreen
+import iq.tiptapp.map.MapScreen
 import iq.tiptapp.search.SearchComponent
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
-import iq.tiptapp.delivery.DeliveryDetailScreen
-import iq.tiptapp.delivery.DeliveryScreen
-import iq.tiptapp.detail.DetailScreen
-import iq.tiptapp.help.HelpScreen
-import iq.tiptapp.location.LocationScreen
-import iq.tiptapp.map.MapScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -268,7 +269,17 @@ private fun NavGraphBuilder.createAdScreens(
             { navController.navigate(DETAIL_ROUTE) })
     }
     composable(route = DETAIL_ROUTE) {
-        DetailScreen(viewModel, navController::navigateUp)
+        DetailScreen(
+            viewModel, navController::navigateUp
+        ) { navController.navigate(PUBLISH_ROUTE) }
+    }
+    composable(route = PUBLISH_ROUTE) {
+        PublishScreen(viewModel, navController::navigateUp,
+            { navController.navigate(DETAIL_ROUTE) },
+            { navController.navigate(PICK_UP_LOCATION) },
+            { navController.navigate(PICK_UP_DELIVERY_ROUTE) },
+            { navController.navigate(DROP_OFF_LOCATION) },
+            { navController.navigate(DROP_OFF_DELIVERY_ROUTE) })
     }
 }
 
@@ -308,3 +319,4 @@ private const val DROP_OFF_ADDRESS_SEARCH_ROUTE = "drop_off_address"
 private const val DROP_OFF_DELIVERY_ROUTE = "drop_off_delivery"
 private const val DROP_OFF_DELIVERY_DETAIL_ROUTE = "drop_off_delivery_detail"
 private const val DETAIL_ROUTE = "detail_route"
+private const val PUBLISH_ROUTE = "publish_route"
