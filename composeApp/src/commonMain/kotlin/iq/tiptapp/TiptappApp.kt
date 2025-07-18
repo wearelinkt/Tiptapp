@@ -275,6 +275,7 @@ private fun NavGraphBuilder.createAdScreens(
     }
     composable(route = PUBLISH_ROUTE) {
         PublishScreen(viewModel, navController::navigateUp,
+            { navController.navigate(CREATE_ADD_ROUTE) },
             { navController.navigate(DETAIL_ROUTE) },
             { navController.navigate(PICK_UP_LOCATION) },
             { navController.navigate(PICK_UP_DELIVERY_ROUTE) },
