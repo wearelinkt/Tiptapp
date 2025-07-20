@@ -17,11 +17,14 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 actual fun MapComponent(
     location: Pair<Double, Double>?,
-    markerSnippet: String,
-    onMarkerTapped: (Double, Double) -> Unit) {
+    markerSnippet: String, onMarkerTapped: (Double, Double) -> Unit
+) {
 
-    val initialPosition = LatLng(location!!.first, location.second)
-
+    val initialPosition = location?.let {
+        LatLng(it.first, it.second)
+    } ?: run {
+        LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+    }
 
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(initialPosition, 15f)
@@ -61,4 +64,7 @@ actual fun MapComponent(
         )
     }
 }
+
+private const val DEFAULT_LATITUDE = 35.6997
+private const val DEFAULT_LONGITUDE = 51.3380
 
