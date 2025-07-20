@@ -65,6 +65,6 @@ actual fun MapComponent(
     }
 }
 
-private const val DEFAULT_LATITUDE = 35.6997
-private const val DEFAULT_LONGITUDE = 51.3380
+private const val DEFAULT_LATITUDE = 33.2232
+private const val DEFAULT_LONGITUDE = 43.6793
 
