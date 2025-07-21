@@ -8,6 +8,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.URLProtocol
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -33,7 +34,8 @@ val ktorModule = module {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host = "logistics-app-backend-2ay0.onrender.com/api"
+                    host = "logistics-app-backend-2ay0.onrender.com"
+                    encodedPath = "/api"
                 }
             }
             install(Logging) {
