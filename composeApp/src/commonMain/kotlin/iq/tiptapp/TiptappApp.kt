@@ -27,14 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import iq.tiptapp.delivery.DeliveryDetailScreen
 import iq.tiptapp.delivery.DeliveryScreen
@@ -43,14 +39,12 @@ import iq.tiptapp.detail.PublishScreen
 import iq.tiptapp.help.HelpScreen
 import iq.tiptapp.help.HelpViewModel
 import iq.tiptapp.location.LocationScreen
-import iq.tiptapp.login.Login
 import iq.tiptapp.map.MapScreen
 import iq.tiptapp.search.SearchComponent
 import iq.tiptapp.ui.AccountScreen
 import iq.tiptapp.ui.AdsScreen
 import iq.tiptapp.ui.HomeScreen
 import iq.tiptapp.ui.MyAdsScreen
-import iq.tiptapp.ui.splash.SplashScreen
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -64,32 +58,6 @@ import tiptapp.composeapp.generated.resources.home
 import tiptapp.composeapp.generated.resources.my_ads
 import tiptapp.composeapp.generated.resources.pick_up
 import tiptapp.composeapp.generated.resources.pick_up_location
-
-@Composable
-fun StartScreen(prefs: DataStore<Preferences>) {
-    val navController: NavHostController = rememberNavController()
-    MaterialTheme {
-        NavHost(
-            navController = navController,
-            startDestination = SPLASH_ROUTE,
-        ) {
-            composable(route = SPLASH_ROUTE) {
-                SplashScreen(prefs) {
-                    navController.navigate(if (it) HOME_ROUTE else INPUT_PHONE_NUMBER_ROUTE) {
-                        popUpTo(0)
-                        launchSingleTop = true
-                    }
-                }
-            }
-            composable(route = INPUT_PHONE_NUMBER_ROUTE) {
-                Login(prefs)
-            }
-            composable(route = HOME_ROUTE) {
-                TiptappApp()
-            }
-        }
-    }
-}
 
 @Composable
 fun TiptappApp() {
@@ -339,9 +307,7 @@ enum class HomeSections(
     ACCOUNT_SECTION("account", Res.string.account, Icons.Outlined.Person, Icons.Filled.Person),
 }
 
-const val INPUT_PHONE_NUMBER_ROUTE = "input_phone_number"
-const val HOME_ROUTE = "home_route"
-private const val SPLASH_ROUTE = "splash"
+private const val HOME_ROUTE = "home_route"
 private const val CREATE_ADD_ROUTE = "create_ad_route"
 private const val PICK_UP_LOCATION = "pick_up_location_route"
 private const val PICK_UP_ROUTE = "pick_up_route"
