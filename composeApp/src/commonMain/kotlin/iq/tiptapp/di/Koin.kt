@@ -1,8 +1,10 @@
 package iq.tiptapp.di
 
+import iq.tiptapp.camera.CameraPermissionViewModel
 import iq.tiptapp.data.network.jsonModule
 import iq.tiptapp.data.network.ktorModule
-import iq.tiptapp.camera.CameraPermissionViewModel
+import iq.tiptapp.data.repository.UserRepositoryImpl
+import iq.tiptapp.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.context.startKoin
@@ -20,7 +22,8 @@ fun initKoin(config: KoinAppDeclaration? = null, modules: List<Module> = emptyLi
                 ktorModule,
                 jsonModule,
                 dispatcherModule,
-                viewModelModule
+                viewModelModule,
+                repositoryModule
             ) + modules
         )
     }
@@ -28,6 +31,10 @@ fun initKoin(config: KoinAppDeclaration? = null, modules: List<Module> = emptyLi
 
 val viewModelModule = module {
     viewModelOf(::CameraPermissionViewModel)
+}
+
+val repositoryModule = module {
+    single<UserRepository> { UserRepositoryImpl(get()) }
 }
 
 val dispatcherModule = module {
